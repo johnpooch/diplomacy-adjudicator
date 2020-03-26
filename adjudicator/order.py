@@ -68,24 +68,19 @@ class Move(Order):
         self._move_support_commands_cached = False
         self.legal_decision = decisions.MoveLegal(self)
         self.move_decision = decisions.Move(self)
-        self.attack_strength_decision = decisions.Move(self)
+        self.attack_strength_decision = decisions.AttackStrength(self)
+        self.prevent_strength_decision = decisions.PreventStrength(self)
         self.path_decision = decisions.Path(self)
-
-    @property
-    def prevent_strength(self):
-        return decisions.PreventStrength(self)()
 
     # TODO test
     # TODO DRY
     def move_support(self, *args):
-        if not self._move_support_commands_cached:
-            for order in state.all_orders:
-                if order.is_support and order.aux == self.source and \
-                        order.target == self.target:
-                    self._move_support_commands.append(order)
-            self._move_support_commands_cached = True
-        return [s for s in self._move_support_commands
-                if s.support_decision() in args]
+        move_support_orders = []
+        all_support_orders = [o for o in state.all_orders if o.is_support]
+        for order in all_support_orders:
+            if order.aux == self.source and order.target == self.target:
+                move_support_orders.append(order)
+        return [s for s in move_support_orders if s.support_decision() in args]
 
 
     def is_head_to_head(self):

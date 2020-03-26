@@ -34,12 +34,12 @@ class AttackStrength(Decision):
             return 0
 
         if not self.order.target.piece or self.order.target.piece.moves:
-            return 1 + len(self.order.move_support([Outcomes.SUCCEEDS]))
+            return 1 + len(self.order.move_support(Outcomes.GIVEN))
 
         if self.order.is_head_to_head() or not self.order.target.piece.moves:
             if self.order.target.piece.nation == self.order.nation:
                 return 0
-            return 1 + len([c for c in self.order.move_support([Outcomes.SUCCEEDS])
+            return 1 + len([c for c in self.order.move_support(Outcomes.GIVEN)
                             if c.nation != self.order.target.piece.nation])
 
         return 1 + len(self.order.successful_support)
@@ -52,12 +52,12 @@ class AttackStrength(Decision):
 
 
         if not self.order.target.piece or self.order.target.piece.moves:
-            return 1 + len(self.order.move_support([Outcomes.SUCCEEDS, Outcomes.UNRESOLVED]))
+            return 1 + len(self.order.move_support(Outcomes.GIVEN, Outcomes.UNRESOLVED))
 
         if self.order.is_head_to_head() or self.order.target.piece.stays:
             if self.order.target.piece.nation == self.order.nation:
                 return 0
-            return 1 + len([c for c in self.order.move_support([Outcomes.SUCCEEDS, Outcomes.UNRESOLVED])
+            return 1 + len([c for c in self.order.move_support(Outcomes.GIVEN, Outcomes.UNRESOLVED)
                             if c.nation != self.order.target.piece.nation])
 
-        return 1 + len(self.order.move_support([Outcomes.SUCCEEDS, Outcomes.UNRESOLVED]))
+        return 1 + len(self.order.move_support(Outcomes.GIVEN, Outcomes.UNRESOLVED))

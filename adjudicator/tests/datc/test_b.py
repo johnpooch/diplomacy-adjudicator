@@ -1,6 +1,6 @@
 import unittest
 
-from adjudicator import illegal_messages
+from adjudicator import illegal_messages, state
 from adjudicator.decisions import Outcomes
 from adjudicator.order import Convoy, Hold, Move, Support
 from adjudicator.piece import Army, Fleet
@@ -91,55 +91,40 @@ class TestCoastalIssues(unittest.TestCase):
         fleet_marseilles_support = Support(Nations.FRANCE, Territories.MARSEILLES, Territories.GASCONY, Territories.SPAIN)
         fleet_western_med_move = Move(Nations.ITALY, Territories.WESTERN_MEDITERRANEAN, Territories.SPAIN, NamedCoasts.SPAIN_SC)
 
-        self.assertEqual(fleet_gascony_move.move_decision(), Outcomes.SUCCEEDS)
+        self.assertEqual(fleet_gascony_move.move_decision(), Outcomes.MOVES)
         self.assertEqual(fleet_western_med_move.move_decision(), Outcomes.FAILS)
         self.assertEqual(fleet_marseilles_support.support_decision(), Outcomes.GIVEN)
 
-    #
-    # def test_support_from_unreachable_coast_not_allowed(self):
-    #     """
-    #     A fleet can not give support to an area that can not be reached from
-    #     the current coast of the fleet.
-    #
-    #     France:
-    #     F Marseilles - Gulf of Lyon
-    #     F Spain(nc) Supports F Marseilles - Gulf of Lyon
-    #
-    #     Italy:
-    #     F Gulf of Lyon Hold
-    #
-    #     The Gulf of Lyon can not be reached from the North Coast of Spain.
-    #     Therefore, the support of Spain is invalid and the fleet in the Gulf of
-    #     Lyon is not dislodged.
-    #     """
-    #     fleet_marseilles = fleet(self.turn, self.france, self.marseilles)
-    #     fleet_spain_nc = fleet(self.turn, self.france, self.spain, self.spain_nc)
-    #     fleet_gol = fleet(self.turn, self.italy, self.gulf_of_lyon)
-    #
-    #     fleet_marseilles_move = move(
-    #         self.france_order, fleet_marseilles, self.marseilles,
-    #         self.gulf_of_lyon,
-    #     )
-    #     fleet_spain_nc_support = support(
-    #         self.france_order, fleet_spain_nc, self.spain, self.marseilles,
-    #         self.gulf_of_lyon
-    #     )
-    #     fleet_gol_hold = hold(
-    #         self.italy_order, fleet_gol, self.gulf_of_lyon,
-    #     )
-    #
-    #     models.Command.objects.process()
-    #     [c.refresh_from_db() for c in (fleet_marseilles_move,
-    #                                    fleet_spain_nc_support, fleet_gol)]
-    #
-    #     self.assertTrue(fleet_spain_nc_support.illegal)
-    #     self.assertEqual(
-    #         fleet_spain_nc_support.illegal_message,
-    #         'Fleet Spain (nc) cannot reach Gulf Of Lyon.'
-    #     )
-    #     self.assertTrue(fleet_marseilles_move.fails)
-    #     self.assertFalse(fleet_gol.dislodged)
-    #
+
+    def test_support_from_unreachable_coast_not_allowed(self):
+        """
+        A fleet can not give support to an area that can not be reached from
+        the current coast of the fleet.
+
+        France:
+        F Marseilles - Gulf of Lyon
+        F Spain(nc) Supports F Marseilles - Gulf of Lyon
+
+        Italy:
+        F Gulf of Lyon Hold
+
+        The Gulf of Lyon can not be reached from the North Coast of Spain.
+        Therefore, the support of Spain is invalid and the fleet in the Gulf of
+        Lyon is not dislodged.
+        """
+        Fleet(Nations.FRANCE, Territories.MARSEILLES)
+        Fleet(Nations.FRANCE, Territories.SPAIN, NamedCoasts.SPAIN_NC)
+        Fleet(Nations.ITALY, Territories.GULF_OF_LYON)
+
+        fleet_marseilles_move = Move(Nations.FRANCE, Territories.MARSEILLES, Territories.GULF_OF_LYON)
+        fleet_spain_nc_support = Support(Nations.FRANCE, Territories.SPAIN, Territories.MARSEILLES, Territories.GULF_OF_LYON)
+        fleet_gol_hold = Hold(Nations.ITALY, Territories.GULF_OF_LYON)
+
+        self.assertEqual(fleet_spain_nc_support.legal_decision(), Outcomes.ILLEGAL)
+        self.assertEqual(fleet_spain_nc_support.legal_decision.illegal_message, illegal_messages.S002)
+        self.assertEqual(fleet_marseilles_move.move_decision(), Outcomes.FAILS)
+        # TODO assert gol not dislodged.
+
     # def test_support_can_be_cut_with_other_coast(self):
     #     """
     #     Support can be cut from the other coast.

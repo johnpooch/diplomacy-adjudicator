@@ -17,8 +17,15 @@ class Move(Decision):
         target_max_hold = self.order.target.hold_strength[1]
 
         other_attacking_pieces = self.order.target.other_attacking_pieces(piece)
-        other_pieces_max_prevent = max([p.order.prevent_strength[1] for p in other_attacking_pieces], default=0)
-        other_pieces_min_prevent = min([p.order.prevent_strength[0] for p in other_attacking_pieces], default=0)
+        other_pieces_max_prevent = max([p.order.prevent_strength_decision()[1] for p in other_attacking_pieces], default=0)
+        other_pieces_min_prevent = min([p.order.prevent_strength_decision()[0] for p in other_attacking_pieces], default=0)
+
+        print(self.order.source)
+        l = [p.order.prevent_strength_decision()[1] for p in other_attacking_pieces]
+        print(other_attacking_pieces)
+        print(l)
+        # print(other_pieces_max_prevent)
+        # print(other_pieces_min_prevent)
 
         # succeeds if...
         if head_to_head:
@@ -27,9 +34,9 @@ class Move(Decision):
             if min_attack_strength > opposing_max_defend:
                 if other_attacking_pieces:
                     if min_attack_strength > other_pieces_max_prevent:
-                        return Outcomes.SUCCEEDS
+                        return Outcomes.MOVES
                 else:
-                    return Outcomes.SUCCEEDS
+                    return Outcomes.MOVES
 
         else:
             if other_attacking_pieces:
@@ -54,3 +61,5 @@ class Move(Decision):
         if other_attacking_pieces:
             if max_attack_strength <= other_pieces_min_prevent:
                 return Outcomes.FAILS
+
+        return Outcomes.UNRESOLVED

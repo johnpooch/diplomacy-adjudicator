@@ -10,10 +10,6 @@ class PreventStrength(Decision):
     min_strength = 0
     max_strength = 50
 
-    def __init__(self, move):
-        self.move = move
-        self.result = Outcomes.UNRESOLVED
-
     def __call__(self):
         """
         Return the result of the min and max strength if resolved (if both
@@ -32,19 +28,19 @@ class PreventStrength(Decision):
         return self._minimum(), self._maximum()
 
     def _minimum(self):
-        if self.move.path_decision() in [Outcomes.NO_PATH, Outcomes.UNRESOLVED]:
+        if self.order.path_decision() in [Outcomes.NO_PATH, Outcomes.UNRESOLVED]:
             return 0
-        if self.move.is_head_to_head():
-            opposing_move = self.move.target.piece.move
-            if opposing_move.move_decision() in [Outcomes.MOVES, Outcomes.UNRESOLVED]:
+        if self.order.is_head_to_head():
+            opposing_order = self.order.target.piece.order
+            if opposing_order.order_decision() in [Outcomes.MOVES, Outcomes.UNRESOLVED]:
                 return 0
-        return 1 + len(self.move.move_support(Outcomes.GIVEN))
+        return 1 + len(self.order.move_support(Outcomes.GIVEN))
 
     def _maximum(self):
-        if self.move.path_decision() == Outcomes.NO_PATH:
+        if self.order.path_decision() == Outcomes.NO_PATH:
             return 0
-        if self.move.is_head_to_head():
-            opposing_move = self.move.target.piece.move
-            if opposing_move.move_decision() == Outcomes.MOVES:
+        if self.order.is_head_to_head():
+            opposing_order = self.order.target.piece.order
+            if opposing_order.order_decision() == Outcomes.MOVES:
                 return 0
-        return 1 + len(self.move.move_support(Outcomes.GIVEN, Outcomes.UNRESOLVED))
+        return 1 + len(self.order.move_support(Outcomes.GIVEN, Outcomes.UNRESOLVED))
