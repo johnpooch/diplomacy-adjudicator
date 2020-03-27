@@ -1,10 +1,10 @@
 import unittest
 
-from adjudicator import illegal_messages, state
+from adjudicator import illegal_messages
 from adjudicator.decisions import Outcomes
-from adjudicator.order import Convoy, Hold, Move, Support
-from adjudicator.piece import Army, Fleet
-from adjudicator.tests.datc.test_data import NamedCoasts, Nations, Territories
+from adjudicator.order import Hold, Move, Support
+from adjudicator.piece import Fleet
+from adjudicator.tests.data import NamedCoasts, Nations, Territories
 
 
 class TestCoastalIssues(unittest.TestCase):

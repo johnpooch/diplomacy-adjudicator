@@ -1,15 +1,9 @@
-from .state import state
-from .order import Hold
-
-
 class Piece:
-    all_pieces = []
 
     def __init__(self, nation, territory):
-        state.all_pieces.append(self)
         self.nation = nation
         self.territory = territory
-        self._order = None
+        self.order = None
 
     # TODO test
     def __str__(self):
@@ -19,33 +13,22 @@ class Piece:
     def __repr__(self):
         return f'{self.__class__.__name__} {self.territory}'
 
-    @property
-    def order(self):
-        """
-        Gets the `Order` which is assigned to this piece.
-        Returns:
-            * `Order`
-        """
-        if not self._order:
-            for o in state.all_orders:
-                if o.source == self.territory:
-                    self._order = o
-            if not self._order:
-                self._order = Hold(self.nation, self.territory)
-        return self._order
-
     def moves(self):
         pass
 
 
 class Army(Piece):
 
-    def can_reach(self, target):
+    def can_reach(self, target, *args):
         """
-        Determines whether the army can reach the given territory, regardless of whether the necessary conoying fleets exist or not.
+        Determines whether the army can reach the given territory, regardless
+        of whether the necessary conoying fleets exist or not.
 
-        * Args `target` - `territory`
-        Returns Bool
+        * Args:
+            * `target` - `territory`
+
+        Returns:
+            * `bool`
         """
 
         if self.territory.is_coastal and target.is_coastal:

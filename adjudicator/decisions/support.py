@@ -1,6 +1,5 @@
 from .base import Decision, Outcomes
 from .attack_strength import AttackStrength
-from adjudicator.order import Convoy, Move
 
 
 class Support(Decision):
@@ -27,7 +26,7 @@ class Support(Decision):
         # if piece.sustains:
         if target_piece and aux_piece:
             # If the aux piece is moving to the right target.
-            if isinstance(aux_piece.order, Move) and aux_target == self.order.target:
+            if aux_piece.order.is_move() and aux_target == self.order.target:
                 # If no pieces (other than the target piece) have strength
                 if all([p.order.attack_strength_decision.max_strength == 0 for p in source_attacking_pieces]):
                     return Outcomes.GIVEN
@@ -47,7 +46,7 @@ class Support(Decision):
         # fails if...
         # If aux piece is not going to target of order
         if aux_piece:
-            if isinstance(aux_piece.order, Move) \
+            if aux_piece.order.is_move() \
                     and aux_piece.order.target != self.order.target \
                     and aux_piece.order.legal_decision == Outcomes.LEGAL:
                 return Outcomes.CUT
@@ -60,8 +59,8 @@ class Support(Decision):
             return Outcomes.CUT
 
         if target_piece and aux_piece:
-            if isinstance(aux_piece.order, Move) and aux_piece == self.order.target:
-                if isinstance(target_piece.order, Convoy):
+            if aux_piece.order.is_move() and aux_piece == self.order.target:
+                if target_piece.order.is_convoy:
                     convoying_order = target_piece.order
                     if convoying_order.aux.piece:
                         if any([p.order.min_attack_strength >= 1

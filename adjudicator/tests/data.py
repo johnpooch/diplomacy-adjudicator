@@ -1,7 +1,8 @@
+import inspect
+
 from adjudicator.territory import CoastalTerritory, InlandTerritory, \
-    SeaTerritory
+    SeaTerritory, Territory
 from adjudicator.named_coast import NamedCoast
-from adjudicator.tests.datc.workfile import data
 
 
 class Nations:
@@ -119,10 +120,10 @@ class Territories:
     WARSAW = InlandTerritory(72, 'warsaw', 6, [62, 37, 63, 68, 48, 70])
     BULGARIA = CoastalTerritory(73, 'bulgaria', None, [2, 5, 28, 33, 47, 67],
                                 [47, 33, 28])
-    SPAIN = CoastalTerritory(74, 'spain', None, [32, 39, 45, 9, 19, 13],
-                             [13, 32, 45, 39, 9])
+    SPAIN = CoastalTerritory(74, 'spain', None, [32, 39, 45, 9, 19, 13], [32, 45, 39])
     ST_PETERSBURG = CoastalTerritory(75, 'st. petersburg', 6,
                                       [31, 37, 63, 42], [37, 31, 42])
+
 
 class NamedCoasts:
     SPAIN_SC = NamedCoast(1, 'spain sc', Territories.SPAIN, [
@@ -132,3 +133,11 @@ class NamedCoasts:
     SPAIN_NC = NamedCoast(1, 'spain sc', Territories.SPAIN, [
         Territories.PORTUGAL, Territories.MID_ATLANTIC, Territories.GASCONY
     ])
+
+
+def register_all(state):
+    attributes = inspect.getmembers(Territories, lambda a:not(inspect.isroutine(a)))
+    for item in [a[1] for a in attributes]:
+        if isinstance(item, (Territory, NamedCoast)):
+            state.register(item)
+    return state

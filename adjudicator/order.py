@@ -1,15 +1,12 @@
-from .state import state
 from . import decisions
 
 
 class Order:
 
     def __init__(self, nation, source):
-        state.all_orders.append(self)
         self.nation = nation
         self.source = source
-        self._piece = None
-        self._piece_cached = False
+        self.piece = None
         self._hold_support_commands = []
         self._hold_support_commands_cached = False
 
@@ -26,32 +23,16 @@ class Order:
             f'{self.__class__.__name__} has no attribute \'{name}\'.'
         )
 
-    @property
-    def piece(self):
-        """
-        Gets the `Piece` instance which exists in `self.source` or `None` if
-        there is no piece in the territory.
-
-        Returns:
-            * `Piece` or `None`
-        """
-        if not self._piece_cached:
-            for p in state.all_pieces:
-                if p.territory == self.source:
-                    self._piece = p
-            self._piece_cached = True
-        return self._piece
-
-    # TODO test
-    def hold_support(self, *args):
-        if not self._hold_support_commands_cached:
-            for order in state.all_orders:
-                if order.is_support and order.aux == self.source and \
-                        order.target == self.source:
-                    self._hold_support_commands.append(order)
-            self._hold_support_commands_cached = True
-        return [s for s in self._hold_support_commands
-                if s.support_decision() in args]
+    # # TODO test
+    # def hold_support(self, *args):
+    #     if not self._hold_support_commands_cached:
+    #         for order in state.all_orders:
+    #             if order.is_support and order.aux == self.source and \
+    #                     order.target == self.source:
+    #                 self._hold_support_commands.append(order)
+    #         self._hold_support_commands_cached = True
+    #     return [s for s in self._hold_support_commands
+    #             if s.support_decision() in args]
 
 
 class Hold(Order):
@@ -74,13 +55,13 @@ class Move(Order):
 
     # TODO test
     # TODO DRY
-    def move_support(self, *args):
-        move_support_orders = []
-        all_support_orders = [o for o in state.all_orders if o.is_support]
-        for order in all_support_orders:
-            if order.aux == self.source and order.target == self.target:
-                move_support_orders.append(order)
-        return [s for s in move_support_orders if s.support_decision() in args]
+    # def move_support(self, *args):
+    #     move_support_orders = []
+    #     all_support_orders = [o for o in state.all_orders if o.is_support]
+    #     for order in all_support_orders:
+    #         if order.aux == self.source and order.target == self.target:
+    #             move_support_orders.append(order)
+    #     return [s for s in move_support_orders if s.support_decision() in args]
 
 
     def is_head_to_head(self):
