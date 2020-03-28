@@ -260,7 +260,8 @@ class TestBasicChecks(unittest.TestCase):
         army_vienna_move = Move(Nations.AUSTRIA, Territories.VIENNA, Territories.TYROLIA)
         army_venice_move = Move(Nations.ITALY, Territories.VENICE, Territories.TYROLIA)
 
-        self.state.register(army_venice_move, army_vienna_move, *pieces)
+        self.state.register(*pieces, army_venice_move, army_vienna_move)
+        self.state.post_register_updates()
 
         self.assertEqual(army_venice_move.legal_decision(), Outcomes.LEGAL)
         self.assertEqual(army_vienna_move.legal_decision(), Outcomes.LEGAL)
@@ -299,7 +300,7 @@ class TestBasicChecks(unittest.TestCase):
         army_venice_move = Move(Nations.ITALY, Territories.VENICE, Territories.TYROLIA)
         army_munich_move = Move(Nations.GERMANY, Territories.MUNICH, Territories.TYROLIA)
 
-        self.state.register(army_venice_move, army_vienna_move, army_munich_move,  *pieces)
+        self.state.register(*pieces, army_venice_move, army_vienna_move, army_munich_move)
 
         self.assertEqual(army_venice_move.legal_decision(), Outcomes.LEGAL)
         self.assertEqual(army_vienna_move.legal_decision(), Outcomes.LEGAL)

@@ -26,7 +26,7 @@ class Support(Decision):
         # if piece.sustains:
         if target_piece and aux_piece:
             # If the aux piece is moving to the right target.
-            if aux_piece.order.is_move() and aux_target == self.order.target:
+            if aux_piece.order.is_move and aux_target == self.order.target:
                 # If no pieces (other than the target piece) have strength
                 if all([p.order.attack_strength_decision.max_strength == 0 for p in source_attacking_pieces]):
                     return Outcomes.GIVEN
@@ -46,7 +46,7 @@ class Support(Decision):
         # fails if...
         # If aux piece is not going to target of order
         if aux_piece:
-            if aux_piece.order.is_move() \
+            if aux_piece.order.is_move \
                     and aux_piece.order.target != self.order.target \
                     and aux_piece.order.legal_decision == Outcomes.LEGAL:
                 return Outcomes.CUT

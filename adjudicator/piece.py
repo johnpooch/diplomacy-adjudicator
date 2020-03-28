@@ -22,7 +22,7 @@ class Army(Piece):
     def can_reach(self, target, *args):
         """
         Determines whether the army can reach the given territory, regardless
-        of whether the necessary conoying fleets exist or not.
+        of whether the necessary convoying fleets exist or not.
 
         * Args:
             * `target` - `territory`
@@ -36,6 +36,20 @@ class Army(Piece):
 
         return self.territory.adjacent_to(target) and \
             target.accessible_by_piece_type(self)
+
+    def can_reach_support(self, target):
+        """
+        Determines whether the army can reach the given territory in the
+        context of providing support. Cannot provide support through a convoy.
+
+        * Args:
+            * `target` - `territory`
+
+        Returns:
+            * `bool`
+        """
+        return self.territory.adjacent_to(target) and \
+               target.accessible_by_piece_type(self)
 
     # TODO move to decisions
 
@@ -74,4 +88,24 @@ class Fleet(Piece):
         return self.territory.adjacent_to(target) and \
             target.accessible_by_piece_type(self)
 
-    # TODO move to decisions
+    def can_reach_support(self, target):
+        """
+        Determines whether the fleet can reach the given territory in the
+        context of providing support. In this context the fleet does not need
+        to be able to reach the target named coast.
+
+        * Args:
+            * `target` - `territory`
+
+        Returns:
+            * `bool`
+        """
+        if self.territory.is_complex:
+            return target in self.named_coast.neighbours
+
+        if self.territory.is_coastal and target.is_coastal:
+            return target in self.territory.shared_coasts
+
+        return self.territory.adjacent_to(target) and \
+            target.accessible_by_piece_type(self)
+

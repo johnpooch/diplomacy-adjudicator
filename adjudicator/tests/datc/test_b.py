@@ -4,10 +4,15 @@ from adjudicator import illegal_messages
 from adjudicator.decisions import Outcomes
 from adjudicator.order import Hold, Move, Support
 from adjudicator.piece import Fleet
-from adjudicator.tests.data import NamedCoasts, Nations, Territories
+from adjudicator.state import State
+from adjudicator.tests.data import NamedCoasts, Nations, Territories, register_all
 
 
 class TestCoastalIssues(unittest.TestCase):
+
+    def setUp(self):
+        self.state = State()
+        self.state = register_all(self.state)
 
     def test_moving_with_unspecified_coast_when_coast_necessary(self):
         """
@@ -20,12 +25,12 @@ class TestCoastalIssues(unittest.TestCase):
 
         I prefer that the move fails.
         """
-        Fleet(Nations.FRANCE, Territories.PORTUGAL)
+        fleet = Fleet(Nations.FRANCE, Territories.PORTUGAL)
+        order = Move(Nations.FRANCE, Territories.PORTUGAL, Territories.SPAIN)
+        self.state.register(fleet, order)
 
         with self.assertRaises(ValueError):
-            order = Move(Nations.FRANCE, Territories.PORTUGAL, Territories.SPAIN)
             order.legal_decision()
-
 
     def test_moving_with_unspecified_coast_when_coast_unnecessary(self):
         """
@@ -43,10 +48,11 @@ class TestCoastalIssues(unittest.TestCase):
         I prefer that an attempt is made to the only possible coast, the north
         coast of Spain.
         """
-        Fleet(Nations.FRANCE, Territories.GASCONY)
+        fleet = Fleet(Nations.FRANCE, Territories.GASCONY)
+        order = Move(Nations.FRANCE, Territories.GASCONY, Territories.SPAIN)
+        self.state.register(fleet, order)
 
         with self.assertRaises(ValueError):
-            order = Move(Nations.FRANCE, Territories.GASCONY, Territories.SPAIN)
             order.legal_decision()
 
     def test_moving_with_wrong_coast_when_coast_is_not_necessary(self):
@@ -62,8 +68,10 @@ class TestCoastalIssues(unittest.TestCase):
 
         I prefer that the move fails.
         """
-        Fleet(Nations.FRANCE, Territories.GASCONY)
+        fleet = Fleet(Nations.FRANCE, Territories.GASCONY)
         order = Move(Nations.FRANCE, Territories.GASCONY, Territories.SPAIN, NamedCoasts.SPAIN_SC)
+        self.state.register(fleet, order)
+
         self.assertEqual(order.legal_decision(), Outcomes.ILLEGAL)
         self.assertEqual(order.legal_decision.illegal_message, illegal_messages.M007)
 
@@ -83,18 +91,21 @@ class TestCoastalIssues(unittest.TestCase):
         the move of the fleet in Gascony succeeds and the move of the Italian
         fleet fails.
         """
-        Fleet(Nations.FRANCE, Territories.GASCONY)
-        Fleet(Nations.FRANCE, Territories.MARSEILLES)
-        Fleet(Nations.ITALY, Territories.WESTERN_MEDITERRANEAN)
+        pieces = [
+            Fleet(Nations.FRANCE, Territories.GASCONY),
+            Fleet(Nations.FRANCE, Territories.MARSEILLES),
+            Fleet(Nations.ITALY, Territories.WESTERN_MEDITERRANEAN)
+        ]
 
         fleet_gascony_move = Move(Nations.FRANCE, Territories.GASCONY, Territories.SPAIN, NamedCoasts.SPAIN_NC)
         fleet_marseilles_support = Support(Nations.FRANCE, Territories.MARSEILLES, Territories.GASCONY, Territories.SPAIN)
         fleet_western_med_move = Move(Nations.ITALY, Territories.WESTERN_MEDITERRANEAN, Territories.SPAIN, NamedCoasts.SPAIN_SC)
+        self.state.register(*pieces, fleet_gascony_move, fleet_marseilles_support, fleet_western_med_move)
+        self.state.post_register_updates()
 
         self.assertEqual(fleet_gascony_move.move_decision(), Outcomes.MOVES)
         self.assertEqual(fleet_western_med_move.move_decision(), Outcomes.FAILS)
         self.assertEqual(fleet_marseilles_support.support_decision(), Outcomes.GIVEN)
-
 
     def test_support_from_unreachable_coast_not_allowed(self):
         """
@@ -112,13 +123,17 @@ class TestCoastalIssues(unittest.TestCase):
         Therefore, the support of Spain is invalid and the fleet in the Gulf of
         Lyon is not dislodged.
         """
-        Fleet(Nations.FRANCE, Territories.MARSEILLES)
-        Fleet(Nations.FRANCE, Territories.SPAIN, NamedCoasts.SPAIN_NC)
-        Fleet(Nations.ITALY, Territories.GULF_OF_LYON)
+        pieces = [
+            Fleet(Nations.FRANCE, Territories.MARSEILLES),
+            Fleet(Nations.FRANCE, Territories.SPAIN, NamedCoasts.SPAIN_NC),
+            Fleet(Nations.ITALY, Territories.GULF_OF_LYON)
+        ]
 
         fleet_marseilles_move = Move(Nations.FRANCE, Territories.MARSEILLES, Territories.GULF_OF_LYON)
         fleet_spain_nc_support = Support(Nations.FRANCE, Territories.SPAIN, Territories.MARSEILLES, Territories.GULF_OF_LYON)
         fleet_gol_hold = Hold(Nations.ITALY, Territories.GULF_OF_LYON)
+        self.state.register(*pieces, fleet_marseilles_move, fleet_spain_nc_support, fleet_gol_hold)
+        self.state.post_register_updates()
 
         self.assertEqual(fleet_spain_nc_support.legal_decision(), Outcomes.ILLEGAL)
         self.assertEqual(fleet_spain_nc_support.legal_decision.illegal_message, illegal_messages.S002)

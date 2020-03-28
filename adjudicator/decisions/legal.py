@@ -51,9 +51,6 @@ class MoveLegal(BasicLegalDecision):
             if self.order.source.adjacent_to(self.order.target) and self.order.target not in self.order.source.shared_coasts:
                 self.illegal_message = illegal_messages.M007
                 return Outcomes.ILLEGAL
-            if self.order.target.is_complex and not self.order.target_coast:
-                self.illegal_message = illegal_messages.M007
-                return Outcomes.ILLEGAL
         return Outcomes.LEGAL
 
 
@@ -105,7 +102,7 @@ class SupportLegal(BasicLegalDecision):
             self.illegal_message = illegal_messages.S001
             return Outcomes.ILLEGAL
 
-        if not (piece.can_reach(self.order.target) and self.order.source.adjacent_to(self.order.target)):
+        if not piece.can_reach_support(self.order.target):
             self.illegal_message = illegal_messages.S002
             return Outcomes.ILLEGAL
         return Outcomes.LEGAL

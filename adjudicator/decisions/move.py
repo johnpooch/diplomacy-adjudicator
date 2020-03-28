@@ -20,13 +20,6 @@ class Move(Decision):
         other_pieces_max_prevent = max([p.order.prevent_strength_decision()[1] for p in other_attacking_pieces], default=0)
         other_pieces_min_prevent = min([p.order.prevent_strength_decision()[0] for p in other_attacking_pieces], default=0)
 
-        print(self.order.source)
-        l = [p.order.prevent_strength_decision()[1] for p in other_attacking_pieces]
-        print(other_attacking_pieces)
-        print(l)
-        # print(other_pieces_max_prevent)
-        # print(other_pieces_min_prevent)
-
         # succeeds if...
         if head_to_head:
             opposing_unit = self.order.target.piece

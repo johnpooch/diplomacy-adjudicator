@@ -1,5 +1,5 @@
 from adjudicator.named_coast import NamedCoast
-from adjudicator.order import Order, Move
+from adjudicator.order import Order, Move, Support
 from adjudicator.piece import Piece
 from adjudicator.territory import CoastalTerritory, Territory
 
@@ -10,14 +10,34 @@ class State:
         self.subscribers = set()
 
     def register(self, *observers):
+        """
+        Objects need to registered in the following order:
+        `Territory`, `NamedCoast`, `Piece`, `Order`.
+        """
         for observer in observers:
             self.subscribers.add(observer)
-            self._update_territory_piece(observer)
-            self._update_neighbours(observer)
-            self._update_shared_coasts(observer)
-            self._update_piece_order(observer)
-            self._update_territory_named_coasts(observer)
-            self._update_territory_attacking_pieces(observer)
+
+            if isinstance(observer, Territory):
+                self._update_neighbours(observer)
+
+            if isinstance(observer, CoastalTerritory):
+                self._update_shared_coasts(observer)
+
+            if isinstance(observer, NamedCoast):
+                self._update_territory_named_coasts(observer)
+
+            if isinstance(observer, Piece):
+                self._update_territory_piece(observer)
+
+            if isinstance(observer, Order):
+                self._update_piece_order(observer)
+
+            if isinstance(observer, Move):
+                self._update_territory_attacking_pieces(observer)
+
+    def post_register_updates(self):
+        self._update_order_move_support()
+        self._update_order_hold_support()
 
     @property
     def pieces(self):
@@ -31,59 +51,77 @@ class State:
     def named_coasts(self):
         return [s for s in self.subscribers if isinstance(s, NamedCoast)]
 
+    @property
+    def orders(self):
+        return [s for s in self.subscribers if isinstance(s, Order)]
+
+    @property
+    def moves(self):
+        return [s for s in self.subscribers if isinstance(s, Move)]
+
+    @property
+    def supports(self):
+        return [s for s in self.subscribers if isinstance(s, Support)]
+
     def _update_territory_piece(self, observer):
         """
         Update the piece attribute of all territories.
         """
-        if isinstance(observer, Piece):
-            for t in self.territories:
-                if observer.territory == t:
-                    t.piece = observer
+        for t in self.territories:
+            if observer.territory == t:
+                t.piece = observer
 
     def _update_neighbours(self, observer):
         """
         Update the neighbours of all territories in the state .
         """
-        if isinstance(observer, Territory):
-            for t in self.territories:
-                if t.id in observer.neighbour_ids:
-                    observer.neighbours.add(t)
-                    t.neighbours.add(observer)
+        for t in self.territories:
+            if t.id in observer.neighbour_ids:
+                observer.neighbours.add(t)
+                t.neighbours.add(observer)
 
     def _update_shared_coasts(self, observer):
         """
         Update the shared coasts of all coastal territories in the state.
         """
-        if isinstance(observer, CoastalTerritory):
-            for t in self.territories:
-                if t.id in observer.shared_coast_ids:
-                    observer.shared_coasts.add(t)
-                    t.shared_coasts.add(observer)
+        for t in self.territories:
+            if t.id in observer.shared_coast_ids:
+                observer.shared_coasts.add(t)
+                t.shared_coasts.add(observer)
 
     def _update_piece_order(self, observer):
         """
         Update the `order` attribute of the piece associated with the order.
         """
-        if isinstance(observer, Order):
-            for p in self.pieces:
-                if p.territory == observer.source:
-                    observer.piece = p
-                    p.order = observer
+        for p in self.pieces:
+            if p.territory == observer.source:
+                observer.piece = p
+                p.order = observer
 
     def _update_territory_named_coasts(self, observer):
         """
         Update the named coasts of all territories.
         """
-        if isinstance(observer, NamedCoast):
-            for t in self.territories:
-                if observer.parent == t:
-                    t.named_coasts.add(observer)
+        for t in self.territories:
+            if observer.parent == t:
+                t.named_coasts.add(observer)
 
     def _update_territory_attacking_pieces(self, observer):
         """
         Update the attacking_pieces of the target the move order.
         """
-        if isinstance(observer, Move) and observer.piece:
-            for t in self.territories:
-                if t == observer.target:
-                    t.attacking_pieces.add(observer.piece)
+        for t in self.territories:
+            if t == observer.target:
+                t.attacking_pieces.add(observer.piece)
+
+    def _update_order_move_support(self):
+        for s in self.supports:
+            for m in self.moves:
+                if m.target == s.target and m.source == s.aux:
+                    m.move_support_orders.add(s)
+
+    def _update_order_hold_support(self):
+        for s in self.supports:
+            for o in self.orders:
+                if o.source == s.target and o.source == s.aux:
+                    o.hold_support_orders.add(s)

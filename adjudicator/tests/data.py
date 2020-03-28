@@ -138,6 +138,10 @@ class NamedCoasts:
 def register_all(state):
     attributes = inspect.getmembers(Territories, lambda a:not(inspect.isroutine(a)))
     for item in [a[1] for a in attributes]:
-        if isinstance(item, (Territory, NamedCoast)):
+        if isinstance(item, Territory):
+            state.register(item)
+    attributes = inspect.getmembers(NamedCoasts, lambda a:not(inspect.isroutine(a)))
+    for item in [a[1] for a in attributes]:
+        if isinstance(item, NamedCoast):
             state.register(item)
     return state
