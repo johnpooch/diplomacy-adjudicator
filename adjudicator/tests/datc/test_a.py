@@ -4,6 +4,7 @@ from adjudicator import illegal_messages
 from adjudicator.decisions import Outcomes
 from adjudicator.order import Convoy, Hold, Move, Support
 from adjudicator.piece import Army, Fleet
+from adjudicator.processor import process_orders
 from adjudicator.state import State
 from adjudicator.tests.data import Nations, Territories, register_all
 
@@ -12,7 +13,8 @@ class TestBasicChecks(unittest.TestCase):
 
     def setUp(self):
         self.state = State()
-        self.state = register_all(self.state)
+        self.territories = Territories()
+        self.state = register_all(self.state, self.territories, [])
 
     def test_moving_to_an_area_that_is_not_a_neighbour(self):
         """
@@ -23,12 +25,14 @@ class TestBasicChecks(unittest.TestCase):
 
         Order should fail.
         """
-        fleet = Fleet(Nations.ENGLAND, Territories.NORTH_SEA)
-        order = Move(Nations.ENGLAND, Territories.NORTH_SEA, Territories.PICARDY)
-        self.state.register(fleet, order)
+        fleet = Fleet(Nations.ENGLAND, self.territories.NORTH_SEA)
+        order = Move(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.PICARDY)
 
-        self.assertEqual(order.legal_decision(), Outcomes.ILLEGAL)
-        self.assertEqual(order.legal_decision.illegal_message, illegal_messages.M004)
+        self.state.register(fleet, order)
+        process_orders(self.state.orders)
+
+        self.assertEqual(order.legal_decision, Outcomes.ILLEGAL)
+        self.assertEqual(order.illegal_message, illegal_messages.M004)
 
     def test_move_army_to_sea(self):
         """
@@ -39,12 +43,14 @@ class TestBasicChecks(unittest.TestCase):
 
         Order should fail.
         """
-        army = Army(Nations.ENGLAND, Territories.LIVERPOOL)
-        order = Move(Nations.ENGLAND, Territories.LIVERPOOL, Territories.IRISH_SEA)
-        self.state.register(army, order)
+        army = Army(Nations.ENGLAND, self.territories.LIVERPOOL)
+        order = Move(Nations.ENGLAND, self.territories.LIVERPOOL, self.territories.IRISH_SEA)
 
-        self.assertEqual(order.legal_decision(), Outcomes.ILLEGAL)
-        self.assertEqual(order.legal_decision.illegal_message, illegal_messages.M005)
+        self.state.register(army, order)
+        process_orders(self.state.orders)
+
+        self.assertEqual(order.legal_decision, Outcomes.ILLEGAL)
+        self.assertEqual(order.illegal_message, illegal_messages.M005)
 
     def test_move_fleet_to_land(self):
         """
@@ -55,12 +61,14 @@ class TestBasicChecks(unittest.TestCase):
 
         Order should fail.
         """
-        fleet = Fleet(Nations.GERMANY, Territories.KIEL)
-        order = Move(Nations.GERMANY, Territories.KIEL, Territories.MUNICH)
-        self.state.register(fleet, order)
+        fleet = Fleet(Nations.GERMANY, self.territories.KIEL)
+        order = Move(Nations.GERMANY, self.territories.KIEL, self.territories.MUNICH)
 
-        self.assertEqual(order.legal_decision(), Outcomes.ILLEGAL)
-        self.assertEqual(order.legal_decision.illegal_message, illegal_messages.M006)
+        self.state.register(fleet, order)
+        process_orders(self.state.orders)
+
+        self.assertEqual(order.legal_decision, Outcomes.ILLEGAL)
+        self.assertEqual(order.illegal_message, illegal_messages.M006)
 
     def test_move_to_own_sector(self):
         """
@@ -73,12 +81,14 @@ class TestBasicChecks(unittest.TestCase):
 
         Program should not crash.
         """
-        army = Army(Nations.GERMANY, Territories.KIEL)
-        order = Move(Nations.GERMANY, Territories.KIEL, Territories.KIEL)
-        self.state.register(army, order)
+        army = Army(Nations.GERMANY, self.territories.KIEL)
+        order = Move(Nations.GERMANY, self.territories.KIEL, self.territories.KIEL)
 
-        self.assertEqual(order.legal_decision(), Outcomes.ILLEGAL)
-        self.assertEqual(order.legal_decision.illegal_message, illegal_messages.M002)
+        self.state.register(army, order)
+        process_orders(self.state.orders)
+
+        self.assertEqual(order.legal_decision, Outcomes.ILLEGAL)
+        self.assertEqual(order.illegal_message, illegal_messages.M002)
 
     # TODO more checks here
     def test_move_to_own_sector_with_convoy(self):
@@ -101,24 +111,27 @@ class TestBasicChecks(unittest.TestCase):
         stronger force. The fleet in London dislodges the army in Yorkshire.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, Territories.NORTH_SEA),
-            Army(Nations.ENGLAND, Territories.YORKSHIRE),
-            Army(Nations.ENGLAND, Territories.LIVERPOOL),
-            Fleet(Nations.ENGLAND, Territories.LONDON),
-            Army(Nations.ENGLAND, Territories.WALES),
+            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
+            Army(Nations.ENGLAND, self.territories.YORKSHIRE),
+            Army(Nations.ENGLAND, self.territories.LIVERPOOL),
+            Fleet(Nations.ENGLAND, self.territories.LONDON),
+            Army(Nations.ENGLAND, self.territories.WALES),
         ]
 
-        fleet_north_sea_convoy = Convoy(Nations.ENGLAND, Territories.NORTH_SEA, Territories.YORKSHIRE, Territories.YORKSHIRE)
-        army_yorkshire_move = Move(Nations.ENGLAND, Territories.YORKSHIRE, Territories.YORKSHIRE)
-        army_liverpool_support = Support(Nations.ENGLAND, Territories.LIVERPOOL, Territories.YORKSHIRE, Territories.YORKSHIRE)
-        fleet_london_move = Move(Nations.GERMANY, Territories.LONDON, Territories.YORKSHIRE)
-        army_wales_support = Support(Nations.GERMANY, Territories.WALES, Territories.LONDON, Territories.YORKSHIRE)
+        fleet_north_sea_convoy = Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.YORKSHIRE, self.territories.YORKSHIRE)
+        army_yorkshire_move = Move(Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.YORKSHIRE)
+        army_liverpool_support = Support(Nations.ENGLAND, self.territories.LIVERPOOL, self.territories.YORKSHIRE, self.territories.YORKSHIRE)
+        fleet_london_move = Move(Nations.GERMANY, self.territories.LONDON, self.territories.YORKSHIRE)
+        army_wales_support = Support(Nations.GERMANY, self.territories.WALES, self.territories.LONDON, self.territories.YORKSHIRE)
+
         self.state.register(
             fleet_north_sea_convoy, army_yorkshire_move, army_liverpool_support,
             fleet_london_move, army_wales_support, *pieces)
+        self.state.post_register_updates()
+        process_orders(self.state.orders)
 
-        self.assertEqual(army_yorkshire_move.legal_decision(), Outcomes.ILLEGAL)
-        self.assertEqual(army_yorkshire_move.legal_decision.illegal_message, illegal_messages.M002)
+        self.assertEqual(army_yorkshire_move.legal_decision, Outcomes.ILLEGAL)
+        self.assertEqual(army_yorkshire_move.illegal_message, illegal_messages.M002)
 
     def test_ordering_a_unit_of_another_country(self):
         """
@@ -131,12 +144,14 @@ class TestBasicChecks(unittest.TestCase):
 
         Order should fail.
         """
-        fleet = Fleet(Nations.ENGLAND, Territories.LONDON)
-        order = Move(Nations.GERMANY, Territories.LONDON, Territories.NORTH_SEA)
-        self.state.register(fleet, order)
+        fleet = Fleet(Nations.ENGLAND, self.territories.LONDON)
+        order = Move(Nations.GERMANY, self.territories.LONDON, self.territories.NORTH_SEA)
 
-        self.assertEqual(order.legal_decision(), Outcomes.ILLEGAL)
-        self.assertEqual(order.legal_decision.illegal_message, illegal_messages.B001)
+        self.state.register(fleet, order)
+        process_orders(self.state.orders)
+
+        self.assertEqual(order.legal_decision, Outcomes.ILLEGAL)
+        self.assertEqual(order.illegal_message, illegal_messages.A001)
 
     def test_only_armies_can_be_convoyed(self):
         """
@@ -149,19 +164,20 @@ class TestBasicChecks(unittest.TestCase):
         Move from London to Belgium should fail.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, Territories.LONDON),
-            Fleet(Nations.ENGLAND, Territories.NORTH_SEA),
+            Fleet(Nations.ENGLAND, self.territories.LONDON),
+            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
         ]
+        fleet_london_move = Move(Nations.ENGLAND, self.territories.LONDON, self.territories.BELGIUM, via_convoy=True)
+        fleet_north_sea_convoy = Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.BELGIUM)
 
-        fleet_london_move = Move(Nations.ENGLAND, Territories.LONDON, Territories.BELGIUM, via_convoy=True)
-        fleet_north_sea_convoy = Convoy(Nations.ENGLAND, Territories.NORTH_SEA, Territories.LONDON, Territories.BELGIUM)
         self.state.register(fleet_london_move, fleet_north_sea_convoy, *pieces)
+        process_orders(self.state.orders)
 
-        self.assertEqual(fleet_london_move.legal_decision(), Outcomes.ILLEGAL)
-        self.assertEqual(fleet_london_move.legal_decision.illegal_message, illegal_messages.M004)
+        self.assertEqual(fleet_london_move.legal_decision, Outcomes.ILLEGAL)
+        self.assertEqual(fleet_london_move.illegal_message, illegal_messages.M004)
 
-        self.assertEqual(fleet_north_sea_convoy.legal_decision(), Outcomes.ILLEGAL)
-        self.assertEqual(fleet_north_sea_convoy.legal_decision.illegal_message, illegal_messages.C001)
+        self.assertEqual(fleet_north_sea_convoy.legal_decision, Outcomes.ILLEGAL)
+        self.assertEqual(fleet_north_sea_convoy.illegal_message, illegal_messages.C001)
 
     def test_support_to_hold_yourself_not_possible(self):
         """
@@ -177,19 +193,21 @@ class TestBasicChecks(unittest.TestCase):
         The fleet in Trieste should be dislodged.
         """
         pieces = [
-            Army(Nations.ITALY, Territories.VENICE),
-            Army(Nations.ITALY, Territories.TYROLIA),
-            Fleet(Nations.AUSTRIA, Territories.TRIESTE)
+            Army(Nations.ITALY, self.territories.VENICE),
+            Army(Nations.ITALY, self.territories.TYROLIA),
+            Fleet(Nations.AUSTRIA, self.territories.TRIESTE)
         ]
 
         # TODO finish
-        army_venice_move = Move(Nations.ITALY, Territories.VENICE, Territories.TRIESTE)
-        army_tyrolia_support = Support(Nations.ITALY, Territories.TYROLIA, Territories.VENICE, Territories.TRIESTE)
-        fleet_trieste_support = Support(Nations.AUSTRIA, Territories.TRIESTE, Territories.TRIESTE, Territories.TRIESTE)
-        self.state.register(army_venice_move, army_tyrolia_support, fleet_trieste_support, *pieces)
+        army_venice_move = Move(Nations.ITALY, self.territories.VENICE, self.territories.TRIESTE)
+        army_tyrolia_support = Support(Nations.ITALY, self.territories.TYROLIA, self.territories.VENICE, self.territories.TRIESTE)
+        fleet_trieste_support = Support(Nations.AUSTRIA, self.territories.TRIESTE, self.territories.TRIESTE, self.territories.TRIESTE)
 
-        self.assertEqual(fleet_trieste_support.legal_decision(), Outcomes.ILLEGAL)
-        self.assertEqual(fleet_trieste_support.legal_decision.illegal_message, illegal_messages.S001)
+        self.state.register(*pieces, army_venice_move, army_tyrolia_support, fleet_trieste_support)
+        process_orders(self.state.orders)
+
+        self.assertEqual(fleet_trieste_support.legal_decision, Outcomes.ILLEGAL)
+        self.assertEqual(fleet_trieste_support.illegal_message, illegal_messages.S001)
 
     def test_fleet_must_follow_coast_if_not_on_sea(self):
         """
@@ -202,12 +220,14 @@ class TestBasicChecks(unittest.TestCase):
 
         Move fails. An army can go from Rome to Venice, but a fleet can not.
         """
-        fleet = Fleet(Nations.ITALY, Territories.ROME, Territories.VENICE)
-        order = Move(Nations.ITALY, Territories.ROME, Territories.VENICE)
-        self.state.register(order, fleet)
+        fleet = Fleet(Nations.ITALY, self.territories.ROME, self.territories.VENICE)
+        order = Move(Nations.ITALY, self.territories.ROME, self.territories.VENICE)
 
-        self.assertEqual(order.legal_decision(), Outcomes.ILLEGAL)
-        self.assertEqual(order.legal_decision.illegal_message, illegal_messages.M007)
+        self.state.register(order, fleet)
+        process_orders(self.state.orders)
+
+        self.assertEqual(order.legal_decision, Outcomes.ILLEGAL)
+        self.assertEqual(order.illegal_message, illegal_messages.M007)
 
     def test_support_on_unreachable_destination_not_possible(self):
         """
@@ -225,20 +245,22 @@ class TestBasicChecks(unittest.TestCase):
         Rome by a fleet. Venice is not dislodged.
         """
         pieces = [
-            Army(Nations.AUSTRIA, Territories.VENICE),
-            Fleet(Nations.ITALY, Territories.ROME),
-            Army(Nations.ITALY, Territories.APULIA)
+            Army(Nations.AUSTRIA, self.territories.VENICE),
+            Fleet(Nations.ITALY, self.territories.ROME),
+            Army(Nations.ITALY, self.territories.APULIA)
         ]
 
         # TODO finish
-        army_austria_hold = Hold(Nations.AUSTRIA, Territories.VENICE)
-        fleet_rome_support = Support(Nations.ITALY, Territories.ROME, Territories.APULIA, Territories.VENICE)
-        army_apulia_move = Move(Nations.ITALY, Territories.APULIA, Territories.VENICE)
+        army_austria_hold = Hold(Nations.AUSTRIA, self.territories.VENICE)
+        fleet_rome_support = Support(Nations.ITALY, self.territories.ROME, self.territories.APULIA, self.territories.VENICE)
+        army_apulia_move = Move(Nations.ITALY, self.territories.APULIA, self.territories.VENICE)
 
-        self.state.register(army_austria_hold, fleet_rome_support, army_apulia_move, *pieces)
+        self.state.register(*pieces, army_austria_hold, fleet_rome_support, army_apulia_move)
+        self.state.post_register_updates()
+        process_orders(self.state.orders)
 
-        self.assertEqual(fleet_rome_support.legal_decision(), Outcomes.ILLEGAL)
-        self.assertEqual(fleet_rome_support.legal_decision.illegal_message, illegal_messages.S002)
+        self.assertEqual(fleet_rome_support.legal_decision, Outcomes.ILLEGAL)
+        self.assertEqual(fleet_rome_support.illegal_message, illegal_messages.S002)
 
     def test_simple_bounce(self):
         """
@@ -253,21 +275,22 @@ class TestBasicChecks(unittest.TestCase):
         The two units bounce.
         """
         pieces = [
-            Army(Nations.AUSTRIA, Territories.VIENNA),
-            Army(Nations.ITALY, Territories.VENICE),
+            Army(Nations.AUSTRIA, self.territories.VIENNA),
+            Army(Nations.ITALY, self.territories.VENICE),
         ]
 
-        army_vienna_move = Move(Nations.AUSTRIA, Territories.VIENNA, Territories.TYROLIA)
-        army_venice_move = Move(Nations.ITALY, Territories.VENICE, Territories.TYROLIA)
+        army_vienna_move = Move(Nations.AUSTRIA, self.territories.VIENNA, self.territories.TYROLIA)
+        army_venice_move = Move(Nations.ITALY, self.territories.VENICE, self.territories.TYROLIA)
 
         self.state.register(*pieces, army_venice_move, army_vienna_move)
         self.state.post_register_updates()
+        process_orders(self.state.orders)
 
-        self.assertEqual(army_venice_move.legal_decision(), Outcomes.LEGAL)
-        self.assertEqual(army_vienna_move.legal_decision(), Outcomes.LEGAL)
+        self.assertEqual(army_venice_move.legal_decision, Outcomes.LEGAL)
+        self.assertEqual(army_vienna_move.legal_decision, Outcomes.LEGAL)
 
-        self.assertEqual(army_vienna_move.move_decision(), Outcomes.FAILS)
-        self.assertEqual(army_venice_move.move_decision(), Outcomes.FAILS)
+        self.assertEqual(army_vienna_move.move_decision, Outcomes.FAILS)
+        self.assertEqual(army_venice_move.move_decision, Outcomes.FAILS)
 
         # TODO
         # self.assertFalse(army_vienna.dislodged)
@@ -291,21 +314,22 @@ class TestBasicChecks(unittest.TestCase):
         The three units bounce.
         """
         pieces = [
-            Army(Nations.AUSTRIA, Territories.VIENNA),
-            Army(Nations.ITALY, Territories.VENICE),
-            Army(Nations.GERMANY, Territories.MUNICH)
+            Army(Nations.AUSTRIA, self.territories.VIENNA),
+            Army(Nations.ITALY, self.territories.VENICE),
+            Army(Nations.GERMANY, self.territories.MUNICH)
         ]
 
-        army_vienna_move = Move(Nations.AUSTRIA, Territories.VIENNA, Territories.TYROLIA)
-        army_venice_move = Move(Nations.ITALY, Territories.VENICE, Territories.TYROLIA)
-        army_munich_move = Move(Nations.GERMANY, Territories.MUNICH, Territories.TYROLIA)
+        army_vienna_move = Move(Nations.AUSTRIA, self.territories.VIENNA, self.territories.TYROLIA)
+        army_venice_move = Move(Nations.ITALY, self.territories.VENICE, self.territories.TYROLIA)
+        army_munich_move = Move(Nations.GERMANY, self.territories.MUNICH, self.territories.TYROLIA)
 
         self.state.register(*pieces, army_venice_move, army_vienna_move, army_munich_move)
+        process_orders(self.state.orders)
 
-        self.assertEqual(army_venice_move.legal_decision(), Outcomes.LEGAL)
-        self.assertEqual(army_vienna_move.legal_decision(), Outcomes.LEGAL)
-        self.assertEqual(army_munich_move.legal_decision(), Outcomes.LEGAL)
+        self.assertEqual(army_venice_move.legal_decision, Outcomes.LEGAL)
+        self.assertEqual(army_vienna_move.legal_decision, Outcomes.LEGAL)
+        self.assertEqual(army_munich_move.legal_decision, Outcomes.LEGAL)
 
-        self.assertEqual(army_vienna_move.move_decision(), Outcomes.FAILS)
-        self.assertEqual(army_venice_move.move_decision(), Outcomes.FAILS)
-        self.assertEqual(army_munich_move.move_decision(), Outcomes.FAILS)
+        self.assertEqual(army_vienna_move.move_decision, Outcomes.FAILS)
+        self.assertEqual(army_venice_move.move_decision, Outcomes.FAILS)
+        self.assertEqual(army_munich_move.move_decision, Outcomes.FAILS)

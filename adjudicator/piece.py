@@ -1,5 +1,8 @@
 class Piece:
 
+    is_army = False
+    is_fleet = False
+
     def __init__(self, nation, territory):
         self.nation = nation
         self.territory = territory
@@ -18,6 +21,8 @@ class Piece:
 
 
 class Army(Piece):
+
+    is_army = True
 
     def can_reach(self, target, *args):
         """
@@ -55,6 +60,8 @@ class Army(Piece):
 
 
 class Fleet(Piece):
+
+    is_fleet = True
 
     def __init__(self, nation, territory, named_coast=None):
         super().__init__(nation, territory)  # DRY - do not repeat yourself

@@ -5,7 +5,7 @@ from adjudicator.order import Hold
 from adjudicator.piece import Army
 from adjudicator.state import State
 from adjudicator.territory import CoastalTerritory, InlandTerritory
-from .data import Nations
+from adjudicator.tests.data import Nations
 
 
 class TestState(unittest.TestCase):

@@ -1,5 +1,7 @@
 from . import decisions
 from .decisions import Outcomes
+from . import illegal_messages
+from .decisions.attack_strength import AttackStrength
 
 
 class Order:
@@ -9,6 +11,8 @@ class Order:
         self.source = source
         self.piece = None
         self.hold_support_orders = set()
+        self.legal_decision = None
+        self.illegal_message = None
 
     def __getattr__(self, name):
         """
@@ -23,11 +27,20 @@ class Order:
             f'{self.__class__.__name__} has no attribute \'{name}\'.'
         )
 
-    # TODO test
+    def set_illegal(self, illegal_message):
+        self.illegal_message = illegal_message
+        self.legal_decision = Outcomes.ILLEGAL
+        return self.legal_decision
+
+    def update_legal_decision(self):
+        piece = self.source.piece
+        if piece.nation != self.nation:
+            return self.set_illegal(illegal_messages.A001)
+
     def hold_support(self, *args):
         legal_decisions = [Outcomes.LEGAL]
         return [s for s in self.hold_support_orders if
-                s.support_decision() in args and s.legal_decision() in legal_decisions]
+                s.support_decision in args and s.legal_decision in legal_decisions]
 
 
 class Hold(Order):
@@ -41,18 +54,106 @@ class Move(Order):
         self.target_coast = target_coast
         self.via_convoy = via_convoy
         self.move_support_orders = set()
-        self.legal_decision = decisions.MoveLegal(self)
-        self.move_decision = decisions.Move(self)
+
+        self.move_decision = Outcomes.UNRESOLVED
         self.attack_strength_decision = decisions.AttackStrength(self)
         self.prevent_strength_decision = decisions.PreventStrength(self)
+        self.defend_strength_decision = decisions.DefendStrength(self)
         self.path_decision = decisions.Path(self)
+
+    def update_legal_decision(self):
+        if super().update_legal_decision() == Outcomes.ILLEGAL:
+            return Outcomes.ILLEGAL
+
+        piece = self.source.piece
+
+        if self.target == self.source:
+            return self.set_illegal(illegal_messages.M002)
+
+        if not self.source.adjacent_to(self.target):
+            if piece.is_fleet:
+                return self.set_illegal(illegal_messages.M004)
+            if not self.via_convoy:
+                return self.set_illegal(illegal_messages.M003)
+
+        if not piece.can_reach(self.target, self.target_coast):
+            if piece.is_army:
+                return self.set_illegal(illegal_messages.M005)
+            else:
+                if self.target.is_coastal:
+                    return self.set_illegal(illegal_messages.M007)
+                else:
+                    return self.set_illegal(illegal_messages.M006)
+
+        if piece.is_fleet:
+            if self.source.is_coastal:
+                if self.source.adjacent_to(self.target) and self.target not in self.source.shared_coasts:
+                    return self.set_illegal(illegal_messages.M007)
+
+        self.legal_decision = Outcomes.LEGAL
+
+    def set_move_decision(self, outcome):
+        self.move_decision = outcome
+        return self.move_decision
+
+    def update_move_decision(self):
+        if self.is_head_to_head():
+            return self._resolve_head_to_head()
+
+        piece = self.piece
+        min_attack_strength, max_attack_strength = AttackStrength(self)()
+
+        target_min_hold = self.target.hold_strength[0]
+        target_max_hold = self.target.hold_strength[1]
+
+        other_attacking_pieces = self.target.other_attacking_pieces(piece)
+        other_pieces_max_prevent = max([p.order.prevent_strength_decision()[1] for p in other_attacking_pieces], default=0)
+        other_pieces_min_prevent = min([p.order.prevent_strength_decision()[0] for p in other_attacking_pieces], default=0)
+
+        # succeeds if...
+        if other_attacking_pieces:
+            if min_attack_strength > target_max_hold:
+                if min_attack_strength > other_pieces_max_prevent:
+                    return self.set_move_decision(Outcomes.MOVES)
+        else:
+            if min_attack_strength > target_min_hold:
+                return self.set_move_decision(Outcomes.MOVES)
+
+        # fails if...
+        if max_attack_strength <= target_min_hold:
+            return self.set_move_decision(Outcomes.FAILS)
+
+        if other_attacking_pieces:
+            if max_attack_strength <= other_pieces_min_prevent:
+                return self.set_move_decision(Outcomes.FAILS)
+
+    def _resolve_head_to_head(self):
+
+        piece = self.piece
+        opposing_unit = self.target.piece
+        opposing_min_defend, opposing_max_defend = opposing_unit.order.defend_strength_decision()
+        min_attack_strength, max_attack_strength = AttackStrength(self)()
+        other_attacking_pieces = self.target.other_attacking_pieces(piece)
+        other_pieces_max_prevent = max([p.order.prevent_strength_decision()[1] for p in other_attacking_pieces], default=0)
+
+        # succeeds if...
+        if min_attack_strength > opposing_max_defend:
+            if other_attacking_pieces:
+                if min_attack_strength > other_pieces_max_prevent:
+                    return Outcomes.MOVES
+            else:
+                return Outcomes.MOVES
+
+        # fails if...
+        if max_attack_strength <= opposing_min_defend:
+            return Outcomes.FAILS
 
     # TODO test
     # TODO DRY
     def move_support(self, *args):
         legal_decisions = [Outcomes.LEGAL]
         return [s for s in self.move_support_orders if
-                s.support_decision() in args and s.legal_decision() in legal_decisions]
+                s.support_decision in args and s.legal_decision in legal_decisions]
 
     def is_head_to_head(self):
         """
@@ -65,7 +166,7 @@ class Move(Order):
         opposing_piece = self.target.piece
         if opposing_piece:
             if opposing_piece.order.is_move:
-                return opposing_piece.order.target == self
+                return opposing_piece.order.target == self.source
         return False
 
 
@@ -74,8 +175,92 @@ class Support(Order):
         super().__init__(nation, source)
         self.aux = aux
         self.target = target
-        self.legal_decision = decisions.SupportLegal(self)
-        self.support_decision = decisions.Support(self)
+        self.support_decision = Outcomes.UNRESOLVED
+
+    def update_legal_decision(self):
+        if super().update_legal_decision() == Outcomes.ILLEGAL:
+            return Outcomes.ILLEGAL
+
+        piece = self.source.piece
+
+        if self.target == self.source:
+            return self.set_illegal(illegal_messages.S001)
+
+        if not piece.can_reach_support(self.target):
+            return self.set_illegal(illegal_messages.S002)
+        self.legal_decision = Outcomes.LEGAL
+
+    def set_support_decision(self, outcome):
+        self.support_decision = outcome
+        return self.support_decision
+
+    def update_support_decision(self):
+        piece = self.piece
+
+        target_piece = self.target.piece
+        aux_piece = self.aux.piece
+        aux_target = getattr(self.aux.piece.order, 'target', None)
+
+        source_attacking_pieces = self.source.other_attacking_pieces(target_piece)
+
+        # succeeds if...
+        if not self.source.attacking_pieces:
+            return self.set_support_decision(Outcomes.GIVEN)
+
+        # TODO clear this up!
+        # if piece.sustains:
+        if target_piece and aux_piece:
+            # If the aux piece is moving to the right target.
+            if aux_piece.order.is_move and aux_target == self.target:
+                # If no pieces (other than the target piece) have strength
+                if all([p.order.attack_strength_decision.max_strength == 0 for p in source_attacking_pieces]):
+                    return self.set_support_decision(Outcomes.GIVEN)
+
+                # # NOTE not sure what this block is for.
+                # if isinstance(target_piece.order, Convoy):
+                #     convoying_order = target_piece.order
+                #     if convoying_order.aux.piece:
+                #         if all([p.order.attack_strength == 0
+                #                 for p in self.source.other_attacking_pieces(convoying_order.aux.piece)]):
+                #             return Outcomes.GIVEN
+
+
+        if all([p.order.attack_strength_decision.max_strength == 0 for p in self.source.attacking_pieces]):
+            return self.set_support_decision(Outcomes.GIVEN)
+
+        # fails if...
+        # If aux piece is not going to target of order
+        if aux_piece:
+            if aux_piece.order.is_move \
+                    and aux_piece.order.target != self.target \
+                    and aux_piece.order.legal_decision == Outcomes.LEGAL:
+                return self.set_support_decision(Outcomes.CUT)
+            # If aux piece holds and support target is not same as aux
+            else:
+                if self.target != self.aux:
+                    return self.set_support_decision(Outcomes.CUT)
+
+        # if self.source.piece.dislodged:
+        #     return Outcomes.CUT
+
+        if target_piece and aux_piece:
+            if aux_piece.order.is_move and aux_piece == self.target:
+                if target_piece.order.is_convoy:
+                    convoying_order = target_piece.order
+                    if convoying_order.aux.piece:
+                        if any([p.order.min_attack_strength >= 1
+                                for p in self.source.other_attacking_pieces(convoying_order.aux.piece)]):
+                            return self.set_support_decision(Outcomes.CUT)
+                else:
+                    if any([p.order.attack_strength_decision.min_strength >= 1
+                            for p in self.source.other_attacking_pieces(self.target.piece)]):
+                        return self.set_support_decision(Outcomes.CUT)
+
+        if self.source.attacking_pieces and \
+                any([p.order.attack_strength_decision()[0] >= 1
+                     for p in self.source.attacking_pieces
+                     if p.territory != aux_target]):
+            return self.set_support_decision(Outcomes.CUT)
 
 
 class Convoy(Order):
@@ -83,4 +268,34 @@ class Convoy(Order):
         super().__init__(nation, source)
         self.aux = aux
         self.target = target
-        self.legal_decision = decisions.ConvoyLegal(self)
+
+    def update_legal_decision(self):
+        if super().update_legal_decision() == Outcomes.ILLEGAL:
+            return Outcomes.ILLEGAL
+
+        if self.aux.piece.is_fleet:
+            return self.set_illegal(illegal_messages.C001)
+        return Outcomes.LEGAL
+
+
+class Build(Order):
+    def __init__(self, nation, source, piece_type, named_coast=None):
+        super().__init__(nation, source)
+        self.piece_type = piece_type
+        self.named_coast = named_coast
+
+    def update_legal_decision(self):
+        if self.source.piece:
+            return self.set_illegal(illegal_messages.B001)
+        if not self.source.supply_center:
+            return self.set_illegal(illegal_messages.B002)
+        if not self.source.nationality == self.nation:
+            return self.set_illegal(illegal_messages.B003)
+        if not self.source.controlled_by == self.nation:
+            return self.set_illegal(illegal_messages.B004)
+        if self.source.is_inland and self.piece_type == 'FLEET':
+            return self.set_illegal(illegal_messages.B005)
+        if self.source.is_complex and self.piece_type == 'FLEET' and not self.named_coast:
+            return self.set_illegal(illegal_messages.B006)
+        self.legal_decision = Outcomes.LEGAL
+

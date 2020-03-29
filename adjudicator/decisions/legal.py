@@ -1,7 +1,7 @@
 from adjudicator import illegal_messages
 from .base import Decision, Outcomes
 from adjudicator.piece import Army, Fleet
-from adjudicator.territory import CoastalTerritory
+from adjudicator.territory import CoastalTerritory, InlandTerritory
 
 
 class BasicLegalDecision(Decision):
@@ -12,7 +12,7 @@ class BasicLegalDecision(Decision):
     def _resolve(self):
         piece = self.order.source.piece
         if piece.nation != self.order.nation:
-            self.illegal_message = illegal_messages.B001
+            self.illegal_message = illegal_messages.A001
             return Outcomes.ILLEGAL
 
 
@@ -70,23 +70,6 @@ class ConvoyLegal(BasicLegalDecision):
         return Outcomes.LEGAL
 
 
-        # if not self.order.source.adjacent_to(self.order.target):
-        #     if isinstance(self.order.source.piece, Fleet):
-        #         self.illegal_message = illegal_messages.M004
-        #         return ILLEGAL
-        #     if not self.order.via_order:
-        #         self.illegal_message = illegal_messages.M003
-        #         return ILLEGAL
-        #
-        # if not self.order.source.piece.can_reach(self.order.target):
-        #     if isinstance(self.order.source.piece, Army):
-        #         self.illegal_message = illegal_messages.M004
-        #     else:
-        #         self.illegal_message = illegal_messages.M005
-        #     return ILLEGAL
-        # return LEGAL
-
-
 class SupportLegal(BasicLegalDecision):
     """
     For each piece ordered to support, the decision whether the support is
@@ -106,3 +89,29 @@ class SupportLegal(BasicLegalDecision):
             self.illegal_message = illegal_messages.S002
             return Outcomes.ILLEGAL
         return Outcomes.LEGAL
+
+
+class BuildLegal(Decision):
+
+    def _resolve(self):
+        if self.order.source.piece:
+            self.illegal_message = illegal_messages.B001
+            return Outcomes.ILLEGAL
+        if not self.order.source.supply_center:
+            self.illegal_message = illegal_messages.B002
+            return Outcomes.ILLEGAL
+        if not self.order.source.nationality == self.order.nation:
+            self.illegal_message = illegal_messages.B003
+            return Outcomes.ILLEGAL
+        if not self.order.source.controlled_by == self.order.nation:
+            self.illegal_message = illegal_messages.B004
+            return Outcomes.ILLEGAL
+        if isinstance(self.order.source, InlandTerritory) and \
+                self.order.piece_type == 'FLEET':
+            self.illegal_message = illegal_messages.B005
+            return Outcomes.ILLEGAL
+        if self.order.source.is_complex and \
+                self.order.piece_type == 'FLEET' and \
+                not self.order.named_coast:
+            self.illegal_message = illegal_messages.B006
+            return Outcomes.ILLEGAL

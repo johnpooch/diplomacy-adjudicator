@@ -4,6 +4,7 @@ from . import decisions
 class Territory:
     is_complex = False
     is_coastal = False
+    is_inland = False
 
     def __init__(self, id, name, neighbour_ids):
         self.id = id
@@ -97,19 +98,19 @@ class Territory:
 
 class LandTerritory(Territory):
 
-    def __init__(self, id, name, nationality, neighbour_ids,
-                 supply_center=False):
+    def __init__(self, id, name, nationality, neighbour_ids, supply_center=False, controlled_by=None):
         super().__init__(id, name, neighbour_ids)
         self.nationality = nationality
         self.supply_center = supply_center
+        self.controlled_by = controlled_by
 
 
 class CoastalTerritory(LandTerritory):
 
     is_coastal = True
 
-    def __init__(self, id, name, nationality, neighbour_ids, shared_coast_ids):
-        super().__init__(id, name, nationality, neighbour_ids)
+    def __init__(self, id, name, nationality, neighbour_ids, shared_coast_ids, supply_center=False, controlled_by=None):
+        super().__init__(id, name, nationality, neighbour_ids, supply_center, controlled_by)
         self.shared_coast_ids = shared_coast_ids
         self.shared_coasts = set()
 
@@ -123,6 +124,8 @@ class CoastalTerritory(LandTerritory):
 
 
 class InlandTerritory(LandTerritory):
+
+    is_inland = True
 
     @staticmethod
     def accessible_by_piece_type(piece):
