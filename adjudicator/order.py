@@ -116,7 +116,7 @@ class Move(Order):
                 if min_attack_strength > other_pieces_max_prevent:
                     return self.set_move_decision(Outcomes.MOVES)
         else:
-            if min_attack_strength > target_min_hold:
+            if min_attack_strength > target_max_hold:
                 return self.set_move_decision(Outcomes.MOVES)
 
         # fails if...
@@ -148,8 +148,6 @@ class Move(Order):
         if max_attack_strength <= opposing_min_defend:
             return Outcomes.FAILS
 
-    # TODO test
-    # TODO DRY
     def move_support(self, *args):
         legal_decisions = [Outcomes.LEGAL]
         return [s for s in self.move_support_orders if

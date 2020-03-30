@@ -40,96 +40,80 @@ class TestCircularMovement(unittest.TestCase):
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
+        process_orders(self.state.orders)
 
-        process_orders(self.state)
+        self.assertEqual(orders[0].move_decision, Outcomes.MOVES)
+        self.assertEqual(orders[1].move_decision, Outcomes.MOVES)
+        self.assertEqual(orders[2].move_decision, Outcomes.MOVES)
 
-        self.assertEqual(orders[0].move_decision(), Outcomes.MOVES)
-        self.assertEqual(orders[1].move_decision(), Outcomes.MOVES)
-        self.assertEqual(orders[2].move_decision(), Outcomes.MOVES)
+    def test_three_army_circular_movement_with_support(self):
+        """
+        Three units can change place, even when one gets support.
 
-    # @unittest.skip
-    # def test_three_army_circular_movement_with_support(self):
-    #     """
-    #     Three units can change place, even when one gets support.
-    #
-    #     Turkey:
-    #     F Ankara - Constantinople
-    #     A Constantinople - Smyrna
-    #     A Smyrna - Ankara
-    #     A Bulgaria Supports F Ankara - Constantinople
-    #
-    #     Of course the three units will move, but knowing how programs are
-    #     written, this can confuse the adjudicator.
-    #     """
-    #     fleet_ankara = fleet(self.turn, self.turkey, self.ankara)
-    #     army_bulgaria = army(self.turn, self.turkey, self.bulgaria)
-    #     army_constantinople = army(self.turn, self.turkey, self.constantinople)
-    #     army_smyrna = army(self.turn, self.turkey, self.smyrna)
-    #
-    #     fleet_ankara_move = move(
-    #         self.turkey_order, fleet_ankara, self.ankara, self.constantinople
-    #     )
-    #     army_bulgaria_support = support(
-    #         self.turkey_order, army_bulgaria, self.bulgaria, self.ankara,
-    #         self.constantinople,
-    #     )
-    #     army_constantinople_move = move(
-    #         self.turkey_order, army_constantinople, self.constantinople,
-    #         self.smyrna
-    #     )
-    #     army_smyrna_move = move(
-    #         self.turkey_order, army_smyrna, self.smyrna, self.ankara
-    #     )
-    #     commands = [fleet_ankara_move, army_constantinople_move,
-    #                 army_smyrna_move, army_bulgaria_support]
-    #     models.Command.objects.process()
-    #     [c.refresh_from_db() for c in commands]
-    #
-    #     self.assertTrue(army_bulgaria_support.succeeds)
-    #     self.assertTrue(fleet_ankara_move.succeeds)
-    #     self.assertTrue(army_constantinople_move.succeeds)
-    #     self.assertTrue(army_smyrna_move.succeeds)
-    #
-    # def test_disrupted_three_army_circular_movement(self):
-    #     """
-    #     When one of the units bounces, the whole circular movement will hold.
-    #
-    #     Turkey:
-    #     F Ankara - Constantinople
-    #     A Constantinople - Smyrna
-    #     A Smyrna - Ankara
-    #     A Bulgaria - Constantinople
-    #
-    #     Every unit will keep its place.
-    #     """
-    #     fleet_ankara = fleet(self.turn, self.turkey, self.ankara)
-    #     army_bulgaria = army(self.turn, self.turkey, self.bulgaria)
-    #     army_constantinople = army(self.turn, self.turkey, self.constantinople)
-    #     army_smyrna = army(self.turn, self.turkey, self.smyrna)
-    #
-    #     fleet_ankara_move = move(
-    #         self.turkey_order, fleet_ankara, self.ankara, self.constantinople
-    #     )
-    #     army_bulgaria_move = move(
-    #         self.turkey_order, army_bulgaria, self.bulgaria,
-    #         self.constantinople,
-    #     )
-    #     army_constantinople_move = move(
-    #         self.turkey_order, army_constantinople, self.constantinople,
-    #         self.smyrna
-    #     )
-    #     army_smyrna_move = move(
-    #         self.turkey_order, army_smyrna, self.smyrna, self.ankara
-    #     )
-    #     commands = [fleet_ankara_move, army_constantinople_move,
-    #                 army_smyrna_move, army_bulgaria_move]
-    #     models.Command.objects.process()
-    #     [c.refresh_from_db() for c in commands]
-    #
-    #     self.assertTrue(army_bulgaria_move.fails)
-    #     self.assertTrue(fleet_ankara_move.fails)
-    #     self.assertTrue(army_constantinople_move.fails)
-    #     self.assertTrue(army_smyrna_move.fails)
+        Turkey:
+        F Ankara - Constantinople
+        A Constantinople - Smyrna
+        A Smyrna - Ankara
+        A Bulgaria Supports F Ankara - Constantinople
+
+        Of course the three units will move, but knowing how programs are
+        written, this can confuse the adjudicator.
+        """
+        pieces = [
+            Fleet(Nations.TURKEY, self.territories.ANKARA),
+            Army(Nations.TURKEY, self.territories.BULGARIA),
+            Army(Nations.TURKEY, self.territories.CONSTANTINOPLE),
+            Army(Nations.TURKEY, self.territories.SMYRNA)
+        ]
+        orders = [
+            Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
+            Move(Nations.TURKEY, self.territories.CONSTANTINOPLE, self.territories.SMYRNA),
+            Move(Nations.TURKEY, self.territories.SMYRNA, self.territories.ANKARA),
+            Support(Nations.TURKEY, self.territories.BULGARIA, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
+        ]
+        self.state.register(*pieces, *orders)
+        self.state.post_register_updates()
+        process_orders(self.state.orders)
+
+        self.assertEqual(orders[0].move_decision, Outcomes.MOVES)
+        self.assertEqual(orders[1].move_decision, Outcomes.MOVES)
+        self.assertEqual(orders[2].move_decision, Outcomes.MOVES)
+        self.assertEqual(orders[3].support_decision, Outcomes.GIVEN)
+
+    def test_disrupted_three_army_circular_movement(self):
+        """
+        When one of the units bounces, the whole circular movement will hold.
+
+        Turkey:
+        F Ankara - Constantinople
+        A Constantinople - Smyrna
+        A Smyrna - Ankara
+        A Bulgaria - Constantinople
+
+        Every unit will keep its place.
+        """
+        pieces = [
+            Fleet(Nations.TURKEY, self.territories.ANKARA),
+            Army(Nations.TURKEY, self.territories.BULGARIA),
+            Army(Nations.TURKEY, self.territories.CONSTANTINOPLE),
+            Army(Nations.TURKEY, self.territories.SMYRNA)
+        ]
+        orders = [
+            Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
+            Move(Nations.TURKEY, self.territories.CONSTANTINOPLE, self.territories.SMYRNA),
+            Move(Nations.TURKEY, self.territories.SMYRNA, self.territories.ANKARA),
+            Move(Nations.TURKEY, self.territories.BULGARIA, self.territories.CONSTANTINOPLE),
+        ]
+
+        self.state.register(*pieces, *orders)
+        self.state.post_register_updates()
+        process_orders(self.state.orders)
+
+        self.assertEqual(orders[0].move_decision, Outcomes.FAILS)
+        self.assertEqual(orders[1].move_decision, Outcomes.FAILS)
+        self.assertEqual(orders[2].move_decision, Outcomes.FAILS)
+        self.assertEqual(orders[3].move_decision, Outcomes.FAILS)
+
     #
     # @unittest.skip
     # def test_circular_movement_with_attacked_convoy(self):

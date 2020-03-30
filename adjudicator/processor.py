@@ -1,4 +1,5 @@
 from adjudicator.decisions import Outcomes
+from adjudicator.paradoxes import find_circular_movements
 
 
 def process_orders(orders):
@@ -18,7 +19,14 @@ def process_orders(orders):
 
     unresolved_moves = [m for m in moves if m.move_decision == Outcomes.UNRESOLVED]
 
+    depth = 0
     while unresolved_moves:
+        if depth == 5:
+            circular_movements = find_circular_movements(moves)
+            for l in circular_movements:
+                for move in l:
+                    move.move_decision = Outcomes.MOVES
+
         for move in unresolved_moves:
             move.update_move_decision()
 
@@ -27,24 +35,5 @@ def process_orders(orders):
             support.update_support_decision()
 
         unresolved_moves = [m for m in moves if m.move_decision == Outcomes.UNRESOLVED]
-
+        depth += 1
     return orders
-    #
-    # for order in orders:
-    #     move_decision(order)
-
-
-    # # resolve convoy orders first
-    # unresolved_fleet_orders = [c for c in all_orders if c.piece.is_fleet]
-    # self.__resolve_orders(unresolved_fleet_orders, convoys_only=True)
-    #
-    # # resolve all other orders
-    # unresolved_orders = [c for c in all_orders if c.unresolved]
-    # self.__resolve_orders(unresolved_orders)
-    #
-    # # TODO improve
-    # # check all pieces dislodged decision
-    # [c.piece.dislodged_decision() for c in all_orders if c.piece.unresolved]
-    #
-    # [c.save() for c in all_orders]
-    # pass

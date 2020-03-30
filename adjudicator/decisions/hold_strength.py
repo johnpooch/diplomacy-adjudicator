@@ -38,7 +38,7 @@ class HoldStrength(Decision):
             return 0
 
         if piece.order.is_move:
-            if piece.order.move_decision() == Outcomes.FAILS:
+            if piece.order.move_decision == Outcomes.FAILS:
                 return 1
             return 0
 
@@ -51,7 +51,7 @@ class HoldStrength(Decision):
             return 0
 
         if piece.order.is_move:
-            if piece.order.move_decision() == Outcomes.MOVES:
+            if piece.order.move_decision == Outcomes.MOVES:
                 return 0
             return 1
 
