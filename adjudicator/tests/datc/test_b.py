@@ -4,7 +4,7 @@ from adjudicator import illegal_messages
 from adjudicator.decisions import Outcomes
 from adjudicator.order import Build, Hold, Move, Support
 from adjudicator.piece import Army, Fleet
-from adjudicator.processor import process_orders
+from adjudicator.processor import process
 from adjudicator.state import State
 from adjudicator.tests.data import NamedCoasts, Nations, Territories, register_all
 
@@ -34,7 +34,7 @@ class TestCoastalIssues(unittest.TestCase):
         self.state.register(fleet, order)
 
         with self.assertRaises(ValueError):
-            process_orders(self.state.orders)
+            process(self.state)
 
     def test_moving_with_unspecified_coast_when_coast_unnecessary(self):
         """
@@ -57,7 +57,7 @@ class TestCoastalIssues(unittest.TestCase):
         self.state.register(fleet, order)
 
         with self.assertRaises(ValueError):
-            process_orders(self.state.orders)
+            process(self.state)
 
     def test_moving_with_wrong_coast_when_coast_is_not_necessary(self):
         """
@@ -76,7 +76,7 @@ class TestCoastalIssues(unittest.TestCase):
         order = Move(Nations.FRANCE, self.territories.GASCONY, self.territories.SPAIN, self.named_coasts.SPAIN_SC)
 
         self.state.register(fleet, order)
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(order.legal_decision, Outcomes.ILLEGAL)
         self.assertEqual(order.illegal_message, illegal_messages.M007)
@@ -109,7 +109,7 @@ class TestCoastalIssues(unittest.TestCase):
 
         self.state.register(*pieces, fleet_gascony_move, fleet_marseilles_support, fleet_western_med_move)
         self.state.post_register_updates()
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(fleet_gascony_move.move_decision, Outcomes.MOVES)
         self.assertEqual(fleet_western_med_move.move_decision, Outcomes.FAILS)
@@ -143,12 +143,12 @@ class TestCoastalIssues(unittest.TestCase):
 
         self.state.register(*pieces, fleet_marseilles_move, fleet_spain_nc_support, fleet_gol_hold)
         self.state.post_register_updates()
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(fleet_spain_nc_support.legal_decision, Outcomes.ILLEGAL)
         self.assertEqual(fleet_spain_nc_support.illegal_message, illegal_messages.S002)
         self.assertEqual(fleet_marseilles_move.move_decision, Outcomes.FAILS)
-        # TODO assert gol not dislodged.
+        self.assertEqual(pieces[2].dislodged_decision, Outcomes.SUSTAINS)
 
     def test_support_can_be_cut_with_other_coast(self):
         """
@@ -186,7 +186,7 @@ class TestCoastalIssues(unittest.TestCase):
 
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(orders[0].move_decision, Outcomes.MOVES)
         self.assertEqual(orders[1].support_decision, Outcomes.GIVEN)
@@ -233,7 +233,7 @@ class TestCoastalIssues(unittest.TestCase):
 
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(orders[0].support_decision, Outcomes.GIVEN)
         self.assertEqual(orders[1].move_decision, Outcomes.FAILS)
@@ -281,7 +281,7 @@ class TestCoastalIssues(unittest.TestCase):
 
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(orders[0].support_decision, Outcomes.GIVEN)
         self.assertEqual(orders[1].move_decision, Outcomes.FAILS)
@@ -305,7 +305,7 @@ class TestCoastalIssues(unittest.TestCase):
 
         self.state.register(fleet, move)
         self.state.post_register_updates()
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(move.legal_decision, Outcomes.ILLEGAL)
         self.assertEqual(move.illegal_message, illegal_messages.M002)
@@ -328,7 +328,7 @@ class TestCoastalIssues(unittest.TestCase):
 
         self.state.register(army, move)
         self.state.post_register_updates()
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(move.move_decision, Outcomes.MOVES)
         self.assertEqual(move.legal_decision, Outcomes.LEGAL)
@@ -357,7 +357,7 @@ class TestCoastalIssues(unittest.TestCase):
 
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(orders[0].move_decision, Outcomes.FAILS)
         self.assertEqual(orders[1].move_decision, Outcomes.FAILS)
@@ -375,7 +375,7 @@ class TestCoastalIssues(unittest.TestCase):
         order = Build(Nations.RUSSIA, self.territories.ST_PETERSBURG, 'FLEET')
 
         self.state.register(order)
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(order.legal_decision, Outcomes.ILLEGAL)
         self.assertEqual(order.illegal_message, illegal_messages.B006)

@@ -9,6 +9,8 @@ class Outcomes:
     CUT = 'cut'
     LEGAL = 'legal'
     ILLEGAL = 'illegal'
+    DISLODGED = 'dislodged'
+    SUSTAINS = 'sustains'
 
 
 class Decision:

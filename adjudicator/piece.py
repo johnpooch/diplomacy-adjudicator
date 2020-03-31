@@ -1,3 +1,6 @@
+from adjudicator.decisions import Outcomes
+
+
 class Piece:
 
     is_army = False
@@ -7,6 +10,8 @@ class Piece:
         self.nation = nation
         self.territory = territory
         self.order = None
+        self.dislodged_decision = Outcomes.UNRESOLVED
+        self.dislodged_by = None
 
     # TODO test
     def __str__(self):
@@ -18,6 +23,38 @@ class Piece:
 
     def moves(self):
         pass
+
+    def set_dislodged_decision(self, outcome, dislodged_by=None):
+        self.dislodged_decision = outcome
+        self.dislodged_by = dislodged_by
+        return self.dislodged_decision
+
+    def update_dislodged_decision(self):
+        attacking_pieces = list(self.territory.attacking_pieces)
+
+        # sustains if...
+        if not attacking_pieces:
+            return self.set_dislodged_decision(Outcomes.SUSTAINS)
+        if self.order.is_move:
+            # cannot be dislodged if successfully moved
+            if self.order.move_decision == Outcomes.MOVES:
+                return self.set_dislodged_decision(Outcomes.SUSTAINS)
+        # TODO this is messy
+        if [p for p in attacking_pieces if p.order.move_decision == Outcomes.FAILS] \
+                and all([p.order.move_decision == Outcomes.FAILS for p in attacking_pieces]):
+            return self.set_dislodged_decision(Outcomes.SUSTAINS)
+
+        # dislodged if...
+        if self.order.is_move:
+            if self.order.move_decision == Outcomes.FAILS and \
+                    any([p for p in attacking_pieces if p.order.move_decision == Outcomes.MOVES]):
+                piece = [p for p in attacking_pieces if p.order.move_decision == Outcomes.MOVES][0]
+                return self.set_dislodged_decision(Outcomes.DISLODGED, piece)
+        else:
+            if any([p.order.move_decision == Outcomes.MOVES for p in attacking_pieces]):
+                piece = [p for p in attacking_pieces
+                         if p.order.move_decision == Outcomes.MOVES][0]
+                return self.set_dislodged_decision(Outcomes.DISLODGED, piece)
 
 
 class Army(Piece):
@@ -115,4 +152,3 @@ class Fleet(Piece):
 
         return self.territory.adjacent_to(target) and \
             target.accessible_by_piece_type(self)
-

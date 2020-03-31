@@ -2,10 +2,12 @@ from adjudicator.decisions import Outcomes
 from adjudicator.paradoxes import find_circular_movements
 
 
-def process_orders(orders):
+def process(state):
     """
     Processes all orders in a turn.
     """
+    orders = state.orders
+    pieces = state.pieces
     for order in orders:
         order.update_legal_decision()
 
@@ -18,9 +20,10 @@ def process_orders(orders):
         m.move_decision = Outcomes.FAILS
 
     unresolved_moves = [m for m in moves if m.move_decision == Outcomes.UNRESOLVED]
+    unresolved_pieces = [p for p in pieces if p.dislodged_decision == Outcomes.UNRESOLVED]
 
     depth = 0
-    while unresolved_moves:
+    while unresolved_moves or unresolved_pieces:
         if depth == 5:
             circular_movements = find_circular_movements(moves)
             for l in circular_movements:
@@ -34,6 +37,10 @@ def process_orders(orders):
         for support in unresolved_supports:
             support.update_support_decision()
 
+        for piece in unresolved_pieces:
+            piece.update_dislodged_decision()
+
         unresolved_moves = [m for m in moves if m.move_decision == Outcomes.UNRESOLVED]
+        unresolved_pieces = [p for p in pieces if p.dislodged_decision == Outcomes.UNRESOLVED]
         depth += 1
     return orders

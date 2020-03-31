@@ -1,10 +1,9 @@
 import unittest
 
-from adjudicator import illegal_messages
 from adjudicator.decisions import Outcomes
 from adjudicator.order import Build, Hold, Move, Support
 from adjudicator.piece import Army, Fleet
-from adjudicator.processor import process_orders
+from adjudicator.processor import process
 from adjudicator.state import State
 from adjudicator.tests.data import NamedCoasts, Nations, Territories, register_all
 
@@ -40,7 +39,7 @@ class TestCircularMovement(unittest.TestCase):
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(orders[0].move_decision, Outcomes.MOVES)
         self.assertEqual(orders[1].move_decision, Outcomes.MOVES)
@@ -73,7 +72,7 @@ class TestCircularMovement(unittest.TestCase):
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(orders[0].move_decision, Outcomes.MOVES)
         self.assertEqual(orders[1].move_decision, Outcomes.MOVES)
@@ -107,7 +106,7 @@ class TestCircularMovement(unittest.TestCase):
 
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(orders[0].move_decision, Outcomes.FAILS)
         self.assertEqual(orders[1].move_decision, Outcomes.FAILS)

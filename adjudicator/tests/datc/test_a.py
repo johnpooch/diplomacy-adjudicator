@@ -4,7 +4,7 @@ from adjudicator import illegal_messages
 from adjudicator.decisions import Outcomes
 from adjudicator.order import Convoy, Hold, Move, Support
 from adjudicator.piece import Army, Fleet
-from adjudicator.processor import process_orders
+from adjudicator.processor import process
 from adjudicator.state import State
 from adjudicator.tests.data import Nations, Territories, register_all
 
@@ -29,7 +29,7 @@ class TestBasicChecks(unittest.TestCase):
         order = Move(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.PICARDY)
 
         self.state.register(fleet, order)
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(order.legal_decision, Outcomes.ILLEGAL)
         self.assertEqual(order.illegal_message, illegal_messages.M004)
@@ -47,7 +47,7 @@ class TestBasicChecks(unittest.TestCase):
         order = Move(Nations.ENGLAND, self.territories.LIVERPOOL, self.territories.IRISH_SEA)
 
         self.state.register(army, order)
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(order.legal_decision, Outcomes.ILLEGAL)
         self.assertEqual(order.illegal_message, illegal_messages.M005)
@@ -65,7 +65,7 @@ class TestBasicChecks(unittest.TestCase):
         order = Move(Nations.GERMANY, self.territories.KIEL, self.territories.MUNICH)
 
         self.state.register(fleet, order)
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(order.legal_decision, Outcomes.ILLEGAL)
         self.assertEqual(order.illegal_message, illegal_messages.M006)
@@ -85,7 +85,7 @@ class TestBasicChecks(unittest.TestCase):
         order = Move(Nations.GERMANY, self.territories.KIEL, self.territories.KIEL)
 
         self.state.register(army, order)
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(order.legal_decision, Outcomes.ILLEGAL)
         self.assertEqual(order.illegal_message, illegal_messages.M002)
@@ -125,10 +125,10 @@ class TestBasicChecks(unittest.TestCase):
         army_wales_support = Support(Nations.GERMANY, self.territories.WALES, self.territories.LONDON, self.territories.YORKSHIRE)
 
         self.state.register(
-            fleet_north_sea_convoy, army_yorkshire_move, army_liverpool_support,
-            fleet_london_move, army_wales_support, *pieces)
+            *pieces, fleet_north_sea_convoy, army_yorkshire_move, army_liverpool_support,
+            fleet_london_move, army_wales_support)
         self.state.post_register_updates()
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(army_yorkshire_move.legal_decision, Outcomes.ILLEGAL)
         self.assertEqual(army_yorkshire_move.illegal_message, illegal_messages.M002)
@@ -148,7 +148,7 @@ class TestBasicChecks(unittest.TestCase):
         order = Move(Nations.GERMANY, self.territories.LONDON, self.territories.NORTH_SEA)
 
         self.state.register(fleet, order)
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(order.legal_decision, Outcomes.ILLEGAL)
         self.assertEqual(order.illegal_message, illegal_messages.A001)
@@ -171,7 +171,7 @@ class TestBasicChecks(unittest.TestCase):
         fleet_north_sea_convoy = Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.BELGIUM)
 
         self.state.register(fleet_london_move, fleet_north_sea_convoy, *pieces)
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(fleet_london_move.legal_decision, Outcomes.ILLEGAL)
         self.assertEqual(fleet_london_move.illegal_message, illegal_messages.M004)
@@ -204,7 +204,7 @@ class TestBasicChecks(unittest.TestCase):
         fleet_trieste_support = Support(Nations.AUSTRIA, self.territories.TRIESTE, self.territories.TRIESTE, self.territories.TRIESTE)
 
         self.state.register(*pieces, army_venice_move, army_tyrolia_support, fleet_trieste_support)
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(fleet_trieste_support.legal_decision, Outcomes.ILLEGAL)
         self.assertEqual(fleet_trieste_support.illegal_message, illegal_messages.S001)
@@ -224,7 +224,7 @@ class TestBasicChecks(unittest.TestCase):
         order = Move(Nations.ITALY, self.territories.ROME, self.territories.VENICE)
 
         self.state.register(order, fleet)
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(order.legal_decision, Outcomes.ILLEGAL)
         self.assertEqual(order.illegal_message, illegal_messages.M007)
@@ -257,7 +257,7 @@ class TestBasicChecks(unittest.TestCase):
 
         self.state.register(*pieces, army_austria_hold, fleet_rome_support, army_apulia_move)
         self.state.post_register_updates()
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(fleet_rome_support.legal_decision, Outcomes.ILLEGAL)
         self.assertEqual(fleet_rome_support.illegal_message, illegal_messages.S002)
@@ -284,7 +284,7 @@ class TestBasicChecks(unittest.TestCase):
 
         self.state.register(*pieces, army_venice_move, army_vienna_move)
         self.state.post_register_updates()
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(army_venice_move.legal_decision, Outcomes.LEGAL)
         self.assertEqual(army_vienna_move.legal_decision, Outcomes.LEGAL)
@@ -324,7 +324,7 @@ class TestBasicChecks(unittest.TestCase):
         army_munich_move = Move(Nations.GERMANY, self.territories.MUNICH, self.territories.TYROLIA)
 
         self.state.register(*pieces, army_venice_move, army_vienna_move, army_munich_move)
-        process_orders(self.state.orders)
+        process(self.state)
 
         self.assertEqual(army_venice_move.legal_decision, Outcomes.LEGAL)
         self.assertEqual(army_vienna_move.legal_decision, Outcomes.LEGAL)
