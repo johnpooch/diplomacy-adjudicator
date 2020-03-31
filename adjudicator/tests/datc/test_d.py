@@ -1,7 +1,7 @@
 import unittest
 
 from adjudicator.decisions import Outcomes
-from adjudicator.order import Build, Hold, Move, Support
+from adjudicator.order import Build, Convoy, Hold, Move, Support
 from adjudicator.piece import Army, Fleet
 from adjudicator.processor import process
 from adjudicator.state import State
@@ -92,211 +92,160 @@ class TestCircularMovement(unittest.TestCase):
         self.assertEqual(orders[2].move_decision, Outcomes.FAILS)
         self.assertEqual(orders[4].support_decision, Outcomes.CUT)
         self.assertEqual(pieces[3].dislodged_decision, Outcomes.DISLODGED)
-    #
-    # def test_move_cuts_support_on_move(self):
-    #     """
-    #     The most simple support on move cut.
-    #
-    #     Austria:
-    #     F Adriatic Sea Supports A Trieste - Venice
-    #     A Trieste - Venice
-    #
-    #     Italy:
-    #     A Venice Hold
-    #     F Ionian Sea - Adriatic Sea
-    #
-    #     The support of the fleet in the Adriatic Sea is cut. That means that
-    #     the army in Venice will not be dislodged and the army in Trieste stays
-    #     in Trieste.
-    #     """
-    #     fleet_adriatic = fleet(self.turn, self.austria, self.adriatic_sea)
-    #     army_trieste = army(self.turn, self.austria, self.trieste)
-    #
-    #     army_venice = army(self.turn, self.italy, self.venice)
-    #     fleet_ionian = fleet(self.turn, self.italy, self.ionian_sea)
-    #
-    #     fleet_adriatic_support = support(
-    #         self.austria_order, fleet_adriatic, self.adriatic_sea,
-    #         self.trieste, self.venice,
-    #     )
-    #     army_trieste_move = move(
-    #         self.austria_order, army_trieste, self.trieste, self.venice,
-    #     )
-    #     army_venice_hold = hold(
-    #         self.italy_order, army_venice, self.venice,
-    #     )
-    #     fleet_ionian_move = move(
-    #         self.italy_order, fleet_ionian, self.ionian_sea, self.adriatic_sea,
-    #     )
-    #     commands = [fleet_adriatic_support, army_trieste_move,
-    #                 army_venice_hold, fleet_ionian_move, army_venice]
-    #     models.Command.objects.process()
-    #     [c.refresh_from_db() for c in commands]
-    #
-    #     self.assertTrue(fleet_adriatic_support.fails)
-    #
-    #     self.assertTrue(army_trieste_move.fails)
-    #     self.assertTrue(fleet_ionian_move.fails)
-    #
-    #     self.assertTrue(army_venice_hold.succeeds)
-    #
-    # def test_support_to_hold_on_unit_supporting_a_hold_allowed(self):
-    #     """
-    #     A unit that is supporting a hold, can receive a hold support.
-    #
-    #     Germany:
-    #     A Berlin Supports F Kiel
-    #     F Kiel Supports A Berlin
-    #
-    #     Russia:
-    #     F Baltic Sea Supports A Prussia - Berlin
-    #     A Prussia - Berlin
-    #
-    #     The Russian move from Prussia to Berlin fails.
-    #     """
-    #     army_berlin = army(self.turn, self.germany, self.berlin)
-    #     army_kiel = army(self.turn, self.germany, self.kiel)
-    #
-    #     fleet_baltic = army(self.turn, self.russia, self.baltic_sea)
-    #     army_prussia = army(self.turn, self.russia, self.prussia)
-    #
-    #     army_berlin_support = support(
-    #         self.germany_order, army_berlin, self.berlin, self.kiel, self.kiel
-    #     )
-    #     army_kiel_support = support(
-    #         self.germany_order, army_kiel, self.kiel, self.berlin, self.berlin
-    #     )
-    #     fleet_baltic_support = support(
-    #         self.russia_order, fleet_baltic, self.baltic_sea, self.prussia,
-    #         self.berlin
-    #     )
-    #     army_prussia_move = move(
-    #         self.russia_order, army_prussia, self.prussia, self.berlin
-    #     )
-    #
-    #     commands = [army_berlin, army_berlin_support, army_kiel_support,
-    #                 fleet_baltic_support, army_prussia_move]
-    #
-    #     models.Command.objects.process()
-    #     [c.refresh_from_db() for c in commands]
-    #
-    #     self.assertTrue(army_berlin_support.fails)
-    #     self.assertTrue(army_berlin.sustains)
-    #
-    #     self.assertTrue(army_kiel_support.succeeds)
-    #
-    #     self.assertTrue(fleet_baltic_support.succeeds)
-    #     self.assertTrue(army_prussia_move.fails)
-    #
-    # def test_support_to_hold_on_unit_supporting_a_move_allowed(self):
-    #     """
-    #     A unit that is supporting a move, can receive a hold support.
-    #
-    #     Germany:
-    #     A Berlin Supports A Munich - Silesia
-    #     F Kiel Supports A Berlin
-    #     A Munich - Silesia
-    #
-    #     Russia:
-    #     F Baltic Sea Supports A Prussia - Berlin
-    #     A Prussia - Berlin
-    #
-    #     The Russian move from Prussia to Berlin fails.
-    #     """
-    #     army_berlin = army(self.turn, self.germany, self.berlin)
-    #     army_kiel = army(self.turn, self.germany, self.kiel)
-    #     army_munich = army(self.turn, self.germany, self.munich)
-    #
-    #     fleet_baltic = army(self.turn, self.russia, self.baltic_sea)
-    #     army_prussia = army(self.turn, self.russia, self.prussia)
-    #
-    #     army_berlin_support = support(
-    #         self.germany_order, army_berlin, self.berlin, self.munich,
-    #         self.silesia
-    #     )
-    #     army_kiel_support = support(
-    #         self.germany_order, army_kiel, self.kiel, self.berlin, self.berlin
-    #     )
-    #     army_munich_move = move(
-    #         self.germany_order, army_munich, self.munich, self.silesia
-    #     )
-    #     fleet_baltic_support = support(
-    #         self.russia_order, fleet_baltic, self.baltic_sea, self.prussia,
-    #         self.berlin
-    #     )
-    #     army_prussia_move = move(
-    #         self.russia_order, army_prussia, self.prussia, self.berlin
-    #     )
-    #
-    #     commands = [army_berlin, army_berlin_support, army_kiel_support,
-    #                 army_munich_move, fleet_baltic_support, army_prussia_move]
-    #
-    #     models.Command.objects.process()
-    #     [c.refresh_from_db() for c in commands]
-    #
-    #     self.assertTrue(army_berlin_support.fails)
-    #     self.assertTrue(army_berlin.sustains)
-    #
-    #     self.assertTrue(army_munich_move.succeeds)
-    #
-    #     self.assertTrue(army_kiel_support.succeeds)
-    #
-    #     self.assertTrue(fleet_baltic_support.succeeds)
-    #     self.assertTrue(army_prussia_move.fails)
-    #
-    # def test_support_to_hold_on_convoying_unit_allowed(self):
-    #     """
-    #     A unit that is convoying, can receive a hold support.
-    #
-    #     Germany:
-    #     A Berlin - Sweden
-    #     F Baltic Sea Convoys A Berlin - Sweden
-    #     F Prussia Supports F Baltic Sea
-    #
-    #     Russia:
-    #     F Livonia - Baltic Sea
-    #     F Gulf of Bothnia Supports F Livonia - Baltic Sea
-    #
-    #     The Russian move from Livonia to the Baltic Sea fails. The convoy from
-    #     Berlin to Sweden succeeds.
-    #     """
-    #     army_berlin = army(self.turn, self.germany, self.berlin)
-    #     fleet_baltic = fleet(self.turn, self.germany, self.baltic_sea)
-    #     fleet_prussia = fleet(self.turn, self.germany, self.prussia)
-    #
-    #     fleet_livonia = army(self.turn, self.russia, self.livonia)
-    #     fleet_gulf_of_bothnia = army(self.turn, self.russia, self.gulf_of_bothnia)
-    #
-    #     army_berlin_move = move(
-    #         self.germany_order, army_berlin, self.berlin, self.sweden,
-    #     )
-    #     fleet_baltic_convoy = convoy(
-    #         self.germany_order, fleet_baltic, self.baltic_sea, self.berlin,
-    #         self.sweden
-    #     )
-    #     fleet_prussia_support = support(
-    #         self.germany_order, fleet_prussia, self.prussia, self.baltic_sea,
-    #         self.baltic_sea
-    #     )
-    #     fleet_livonia_move = move(
-    #         self.russia_order, fleet_livonia, self.livonia, self.baltic_sea
-    #     )
-    #     fleet_gulf_of_bothnia_support = support(
-    #         self.russia_order, fleet_gulf_of_bothnia, self.gulf_of_bothnia,
-    #         self.livonia, self.baltic_sea
-    #     )
-    #
-    #     commands = [army_berlin_move, fleet_baltic_convoy,
-    #                 fleet_prussia_support, fleet_livonia_move,
-    #                 fleet_gulf_of_bothnia_support]
-    #
-    #     models.Command.objects.process()
-    #     [c.refresh_from_db() for c in commands]
-    #
-    #     self.assertTrue(fleet_livonia_move.fails)
-    #
-    #     self.assertTrue(fleet_baltic_convoy.piece.sustains)
-    #     self.assertTrue(fleet_baltic_convoy.succeeds)
+
+    def test_move_cuts_support_on_move(self):
+        """
+        The most simple support on move cut.
+
+        Austria:
+        F Adriatic Sea Supports A Trieste - Venice
+        A Trieste - Venice
+
+        Italy:
+        A Venice Hold
+        F Ionian Sea - Adriatic Sea
+
+        The support of the fleet in the Adriatic Sea is cut. That means that
+        the army in Venice will not be dislodged and the army in Trieste stays
+        in Trieste.
+        """
+        pieces = [
+            Fleet(Nations.AUSTRIA, self.territories.ADRIATIC_SEA),
+            Army(Nations.AUSTRIA, self.territories.TRIESTE),
+            Army(Nations.ITALY, self.territories.VENICE),
+            Fleet(Nations.AUSTRIA, self.territories.IONIAN_SEA),
+        ]
+        orders = [
+            Support(Nations.AUSTRIA, self.territories.ADRIATIC_SEA, self.territories.TRIESTE, self.territories.VENICE),
+            Move(Nations.AUSTRIA, self.territories.TRIESTE, self.territories.VENICE),
+            Hold(Nations.ITALY, self.territories.VENICE),
+            Move(Nations.ITALY, self.territories.IONIAN_SEA, self.territories.ADRIATIC_SEA),
+        ]
+        self.state.register(*pieces, *orders)
+        self.state.post_register_updates()
+        process(self.state)
+
+        self.assertEqual(orders[0].support_decision, Outcomes.CUT)
+        self.assertEqual(orders[1].move_decision, Outcomes.FAILS)
+        self.assertEqual(orders[3].move_decision, Outcomes.FAILS)
+        self.assertEqual(pieces[2].dislodged_decision, Outcomes.SUSTAINS)
+
+    def test_support_to_hold_on_unit_supporting_a_hold_allowed(self):
+        """
+        A unit that is supporting a hold, can receive a hold support.
+
+        Germany:
+        A Berlin Supports F Kiel
+        F Kiel Supports A Berlin
+
+        Russia:
+        F Baltic Sea Supports A Prussia - Berlin
+        A Prussia - Berlin
+
+        The Russian move from Prussia to Berlin fails.
+        """
+        pieces = [
+            Army(Nations.GERMANY, self.territories.BERLIN),
+            Fleet(Nations.GERMANY, self.territories.KIEL),
+            Fleet(Nations.RUSSIA, self.territories.BALTIC_SEA),
+            Army(Nations.RUSSIA, self.territories.PRUSSIA),
+        ]
+        orders = [
+            Support(Nations.GERMANY, self.territories.BERLIN, self.territories.KIEL, self.territories.KIEL),
+            Support(Nations.GERMANY, self.territories.KIEL, self.territories.BERLIN, self.territories.BERLIN),
+            Support(Nations.RUSSIA, self.territories.BALTIC_SEA, self.territories.PRUSSIA, self.territories.BERLIN),
+            Move(Nations.RUSSIA, self.territories.PRUSSIA, self.territories.BERLIN),
+        ]
+        self.state.register(*pieces, *orders)
+        self.state.post_register_updates()
+        process(self.state)
+
+        self.assertEqual(orders[0].support_decision, Outcomes.CUT)
+        self.assertEqual(orders[1].support_decision, Outcomes.GIVEN)
+        self.assertEqual(orders[2].support_decision, Outcomes.GIVEN)
+        self.assertEqual(orders[3].move_decision, Outcomes.FAILS)
+
+    def test_support_to_hold_on_unit_supporting_a_move_allowed(self):
+        """
+        A unit that is supporting a move, can receive a hold support.
+
+        Germany:
+        A Berlin Supports A Munich - Silesia
+        F Kiel Supports A Berlin
+        A Munich - Silesia
+
+        Russia:
+        F Baltic Sea Supports A Prussia - Berlin
+        A Prussia - Berlin
+
+        The Russian move from Prussia to Berlin fails.
+        """
+        pieces = [
+            Army(Nations.GERMANY, self.territories.BERLIN),
+            Army(Nations.GERMANY, self.territories.KIEL),
+            Army(Nations.GERMANY, self.territories.MUNICH),
+            Fleet(Nations.RUSSIA, self.territories.BALTIC_SEA),
+            Army(Nations.RUSSIA, self.territories.PRUSSIA),
+        ]
+        orders = [
+            Support(Nations.GERMANY, self.territories.BERLIN, self.territories.MUNICH, self.territories.SILESIA),
+            Support(Nations.GERMANY, self.territories.KIEL, self.territories.BERLIN, self.territories.BERLIN),
+            Move(Nations.GERMANY, self.territories.MUNICH, self.territories.SILESIA),
+            Support(Nations.RUSSIA, self.territories.BALTIC_SEA, self.territories.PRUSSIA, self.territories.BERLIN),
+            Move(Nations.RUSSIA, self.territories.PRUSSIA, self.territories.BERLIN),
+        ]
+        self.state.register(*pieces, *orders)
+        self.state.post_register_updates()
+        process(self.state)
+
+        self.assertEqual(orders[0].support_decision, Outcomes.CUT)
+        self.assertEqual(orders[1].support_decision, Outcomes.GIVEN)
+        self.assertEqual(orders[2].move_decision, Outcomes.MOVES)
+        self.assertEqual(orders[3].support_decision, Outcomes.GIVEN)
+        self.assertEqual(orders[4].move_decision, Outcomes.FAILS)
+
+    def test_support_to_hold_on_convoying_unit_allowed(self):
+        """
+        A unit that is convoying, can receive a hold support.
+
+        Germany:
+        A Berlin - Sweden
+        F Baltic Sea Convoys A Berlin - Sweden
+        F Prussia Supports F Baltic Sea
+
+        Russia:
+        F Livonia - Baltic Sea
+        F Gulf of Bothnia Supports F Livonia - Baltic Sea
+
+        The Russian move from Livonia to the Baltic Sea fails. The convoy from
+        Berlin to Sweden succeeds.
+        """
+        pieces = [
+            Army(Nations.GERMANY, self.territories.BERLIN),
+            Fleet(Nations.GERMANY, self.territories.BALTIC_SEA),
+            Fleet(Nations.GERMANY, self.territories.PRUSSIA),
+            Fleet(Nations.RUSSIA, self.territories.LIVONIA),
+            Fleet(Nations.RUSSIA, self.territories.GULF_OF_BOTHNIA),
+        ]
+        orders = [
+            Move(Nations.GERMANY, self.territories.BERLIN, self.territories.SWEDEN, via_convoy=True),
+            Convoy(Nations.GERMANY, self.territories.BALTIC_SEA, self.territories.BERLIN, self.territories.SWEDEN),
+            Support(Nations.GERMANY, self.territories.PRUSSIA, self.territories.BALTIC_SEA, self.territories.BALTIC_SEA),
+            Move(Nations.RUSSIA, self.territories.LIVONIA, self.territories.BALTIC_SEA),
+            Support(Nations.RUSSIA, self.territories.GULF_OF_BOTHNIA, self.territories.LIVONIA, self.territories.BALTIC_SEA),
+        ]
+        self.state.register(*pieces, *orders)
+        self.state.post_register_updates()
+        process(self.state)
+
+        self.assertEqual(orders[0].legal_decision, Outcomes.LEGAL)
+        self.assertEqual(orders[0].move_decision, Outcomes.MOVES)
+        self.assertEqual(pieces[1].dislodged_decision, Outcomes.SUSTAINS)
+        self.assertEqual(orders[2].support_decision, Outcomes.GIVEN)
+        self.assertEqual(orders[3].move_decision, Outcomes.FAILS)
+        self.assertEqual(orders[4].support_decision, Outcomes.GIVEN)
+
+
     #
     # def test_support_to_hold_on_moving_unit_not_allowed(self):
     #     """

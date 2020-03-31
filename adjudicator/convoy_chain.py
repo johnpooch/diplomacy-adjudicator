@@ -1,3 +1,6 @@
+from adjudicator.decisions import Outcomes
+
+
 class ConvoyChain:
     """
     Represents a chain of one or more fleet paths which are attempting to
