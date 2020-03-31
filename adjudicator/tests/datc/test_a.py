@@ -170,7 +170,8 @@ class TestBasicChecks(unittest.TestCase):
         fleet_london_move = Move(Nations.ENGLAND, self.territories.LONDON, self.territories.BELGIUM, via_convoy=True)
         fleet_north_sea_convoy = Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.BELGIUM)
 
-        self.state.register(fleet_london_move, fleet_north_sea_convoy, *pieces)
+        self.state.register(*pieces, fleet_london_move, fleet_north_sea_convoy)
+        self.state.post_register_updates()
         process(self.state)
 
         self.assertEqual(fleet_london_move.legal_decision, Outcomes.ILLEGAL)

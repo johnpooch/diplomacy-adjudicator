@@ -54,6 +54,7 @@ class Move(Order):
         self.target_coast = target_coast
         self.via_convoy = via_convoy
         self.move_support_orders = set()
+        self.convoy_chains = []
 
         self.move_decision = Outcomes.UNRESOLVED
         self.attack_strength_decision = decisions.AttackStrength(self)

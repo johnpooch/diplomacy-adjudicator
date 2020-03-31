@@ -10,7 +10,6 @@ class Path(Decision):
     """
 
     def _resolve(self):
-
         if not self.order.via_convoy:
             return Outcomes.PATH
 

@@ -1,5 +1,6 @@
+from adjudicator.convoy_chain import get_convoy_chains
 from adjudicator.named_coast import NamedCoast
-from adjudicator.order import Order, Move, Support
+from adjudicator.order import Convoy, Order, Move, Support
 from adjudicator.piece import Piece
 from adjudicator.territory import CoastalTerritory, Territory
 
@@ -38,6 +39,7 @@ class State:
     def post_register_updates(self):
         self._update_order_move_support()
         self._update_order_hold_support()
+        self._update_convoy_chains()
 
     @property
     def pieces(self):
@@ -62,6 +64,10 @@ class State:
     @property
     def supports(self):
         return [s for s in self.subscribers if isinstance(s, Support)]
+
+    @property
+    def convoys(self):
+        return [s for s in self.subscribers if isinstance(s, Convoy)]
 
     def _update_territory_piece(self, observer):
         """
@@ -125,3 +131,11 @@ class State:
             for o in self.orders:
                 if o.source == s.target and o.source == s.aux:
                     o.hold_support_orders.add(s)
+
+    def _update_convoy_chains(self):
+        for move in [m for m in self.moves if m.via_convoy]:
+            source = move.source
+            target = move.target
+            eligible_convoys = [c for c in self.convoys
+                                if c.aux == source and c.target == target]
+            move.convoy_chains = get_convoy_chains(source, target, eligible_convoys)

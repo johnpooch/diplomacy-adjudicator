@@ -13,14 +13,29 @@ def process(state):
 
     moves = [o for o in orders if o.is_move]
     supports = [o for o in orders if o.is_support]
+    convoys = [o for o in orders if o.is_convoy]
 
     illegal_moves = [m for m in moves if m.legal_decision == Outcomes.ILLEGAL]
     # set illegal moves to fail.
+    # NOTE set illegal convoys to fail?
     for m in illegal_moves:
         m.move_decision = Outcomes.FAILS
 
     unresolved_moves = [m for m in moves if m.move_decision == Outcomes.UNRESOLVED]
     unresolved_pieces = [p for p in pieces if p.dislodged_decision == Outcomes.UNRESOLVED]
+
+    unresolved_convoys = [c for c in convoys if c.piece.dislodged_decision == Outcomes.UNRESOLVED]
+    while unresolved_convoys:
+        unresolved_fleet_moves = [m for m in unresolved_moves if m.piece.is_fleet]
+        for c in unresolved_convoys:
+            for move in unresolved_fleet_moves:
+                move.update_move_decision()
+            c.piece.update_dislodged_decision()
+            # resolve fleet movements
+            unresolved_convoys = [c for c in convoys if c.piece.dislodged_decision == Outcomes.UNRESOLVED]
+
+    # refresh after convoys resolved
+    unresolved_moves = [m for m in moves if m.move_decision == Outcomes.UNRESOLVED]
 
     depth = 0
     while unresolved_moves or unresolved_pieces:
