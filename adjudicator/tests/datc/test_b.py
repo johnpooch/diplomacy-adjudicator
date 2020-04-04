@@ -191,9 +191,8 @@ class TestCoastalIssues(unittest.TestCase):
         self.assertEqual(orders[0].move_decision, Outcomes.MOVES)
         self.assertEqual(orders[1].support_decision, Outcomes.GIVEN)
         self.assertEqual(orders[2].support_decision, Outcomes.CUT)
-        # TODO hold decision
-        # self.assertEqual(orders[3].hold_decision(), Outcomes.FAILS)
         self.assertEqual(orders[4].move_decision, Outcomes.FAILS)
+        self.assertEqual(pieces[3].dislodged_decision, Outcomes.DISLODGED)
 
     def test_supporting_with_unspecified_coast(self):
         """

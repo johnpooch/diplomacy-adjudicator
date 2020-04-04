@@ -21,8 +21,17 @@ class Piece:
     def __repr__(self):
         return f'{self.__class__.__name__} {self.territory}'
 
+    @property
     def moves(self):
-        pass
+        if self.order.is_move:
+            return self.order.move_decision == Outcomes.MOVES
+        return False
+
+    @property
+    def stays(self):
+        if self.order.is_move:
+            return self.order.move_decision == Outcomes.FAILS
+        return True
 
     def set_dislodged_decision(self, outcome, dislodged_by=None):
         self.dislodged_decision = outcome

@@ -5,6 +5,7 @@ class Territory:
     is_complex = False
     is_coastal = False
     is_inland = False
+    is_sea = False
 
     def __init__(self, id, name, neighbour_ids):
         self.id = id
@@ -133,6 +134,8 @@ class InlandTerritory(LandTerritory):
 
 
 class SeaTerritory(Territory):
+
+    is_sea = True
 
     @staticmethod
     def accessible_by_piece_type(piece):

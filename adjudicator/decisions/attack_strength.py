@@ -42,14 +42,13 @@ class AttackStrength(Decision):
             return 1 + len([c for c in self.order.move_support(Outcomes.GIVEN)
                             if c.nation != self.order.target.piece.nation])
 
-        return 1 + len(self.order.successful_support)
+        return 1 + len(self.order.move_support(Outcomes.GIVEN))
 
     def _maximum(self):
         path = Path(self.order)()
 
         if path == Outcomes.NO_PATH:
             return 0
-
 
         if not self.order.target.piece or self.order.target.piece.moves:
             return 1 + len(self.order.move_support(Outcomes.GIVEN, Outcomes.UNRESOLVED))

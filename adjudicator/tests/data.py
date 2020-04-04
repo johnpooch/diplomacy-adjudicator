@@ -12,7 +12,7 @@ class Nations:
     ITALY = 'ITALY'
     AUSTRIA = 'AUSTRIA'
     TURKEY = 'TURKEY'
-    RUSSIA = 'TURKEY'
+    RUSSIA = 'RUSSIA'
 
 
 class Territories:
@@ -20,7 +20,7 @@ class Territories:
     def __init__(self):
         self.ADRIATIC_SEA = SeaTerritory(1, 'adriatic sea', [20, 22, 11, 53, 56])
         self.AEGEAN_SEA = SeaTerritory(2, 'aegean sea', [5, 73, 28, 7, 33, 11, 50])
-        self.BALTIC_SEA = SeaTerritory(3, 'baltic sea', [24, 6, 29, 35, 48, 51])
+        self.BALTIC_SEA = SeaTerritory(3, 'baltic sea', [24, 6, 29, 35, 48, 51, 37])
         self.BARRENTS_SEA = SeaTerritory(4, 'barrents sea', [15, 42, 75])
         self.BLACK_SEA = SeaTerritory(5, 'black sea', [21, 23, 73, 28, 47, 49])
         self.GULF_OF_BOTHNIA = SeaTerritory(6, 'gulf of bothnia',

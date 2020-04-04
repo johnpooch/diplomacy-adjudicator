@@ -16,6 +16,9 @@ class Path(Decision):
         if not self.order.convoy_chains:
             return Outcomes.NO_PATH
 
+        for chain in self.order.convoy_chains:
+            chain.resolve()
+
         if any([c.result == Outcomes.SUCCEEDS for c in self.order.convoy_chains]):
             return Outcomes.PATH
 

@@ -12,6 +12,7 @@ M007 = ('M007', 'Fleet cannot move from a coastal territory to another adjacent 
 
 # Convoy checks - applies to convoy orders.
 C001 = ('C001', 'Cannot convoy a fleet.')
+C002 = ('C002', 'Fleet can only convoy from a sea territory.')
 
 # Support checks - applies to support orders.
 S001 = ('S001', 'A piece cannot support itself.')

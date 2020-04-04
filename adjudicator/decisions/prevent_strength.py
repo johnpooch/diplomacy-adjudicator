@@ -32,7 +32,7 @@ class PreventStrength(Decision):
             return 0
         if self.order.is_head_to_head():
             opposing_order = self.order.target.piece.order
-            if opposing_order.order_decision() in [Outcomes.MOVES, Outcomes.UNRESOLVED]:
+            if opposing_order.move_decision in [Outcomes.MOVES, Outcomes.UNRESOLVED]:
                 return 0
         return 1 + len(self.order.move_support(Outcomes.GIVEN))
 
@@ -41,6 +41,6 @@ class PreventStrength(Decision):
             return 0
         if self.order.is_head_to_head():
             opposing_order = self.order.target.piece.order
-            if opposing_order.order_decision() == Outcomes.MOVES:
+            if opposing_order.move_decision == Outcomes.MOVES:
                 return 0
         return 1 + len(self.order.move_support(Outcomes.GIVEN, Outcomes.UNRESOLVED))

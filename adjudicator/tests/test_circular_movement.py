@@ -1,6 +1,6 @@
 import unittest
 
-from adjudicator.order import Build, Hold, Move, Support
+from adjudicator.order import Move, Support
 from adjudicator.piece import Army, Fleet
 from adjudicator.paradoxes import find_circular_movements
 from adjudicator.state import State
@@ -119,23 +119,6 @@ class TestCircularMovement(unittest.TestCase):
 
     def test_empty_input(self):
         orders = []
-        result = find_circular_movements(orders)
-        self.assertEqual(len(result), 0)
-
-
-    def test_support_not_circular_movement(self):
-        pieces = [
-            Fleet(Nations.TURKEY, self.territories.ANKARA),
-            Army(Nations.TURKEY, self.territories.CONSTANTINOPLE),
-            Army(Nations.TURKEY, self.territories.SMYRNA)
-        ]
-        orders = [
-            Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
-            Support(Nations.TURKEY, self.territories.CONSTANTINOPLE, self.territories.SMYRNA, self.territories.SMYRNA),
-            Move(Nations.TURKEY, self.territories.SMYRNA, self.territories.ANKARA),
-        ]
-        self.state.register(*pieces, *orders)
-        self.state.post_register_updates()
         result = find_circular_movements(orders)
         self.assertEqual(len(result), 0)
 
