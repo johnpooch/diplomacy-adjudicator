@@ -162,7 +162,6 @@ class Move(Order):
         if max_attack_strength <= other_pieces_min_prevent:
             return self.set_move_decision(Outcomes.FAILS)
 
-
     def _resolve_convoy_swap(self):
 
         piece = self.piece
@@ -183,7 +182,6 @@ class Move(Order):
         if other_attacking_pieces:
             if max_attack_strength <= other_pieces_min_prevent:
                 return self.set_move_decision(Outcomes.FAILS)
-
 
     def move_support(self, *args):
         legal_decisions = [Outcomes.LEGAL]
