@@ -587,19 +587,25 @@ class TestConvoyingToAdjacentPlaces(unittest.TestCase):
             Army(Nations.ENGLAND, self.territories.LIVERPOOL),
             Fleet(Nations.ENGLAND, self.territories.NORTH_ATLANTIC),
             Fleet(Nations.ENGLAND, self.territories.NORWEGIAN_SEA),
+            Army(Nations.GERMANY, self.territories.EDINBURGH),
+            Fleet(Nations.GERMANY, self.territories.NORTH_SEA),
+            Fleet(Nations.GERMANY, self.territories.ENGLISH_CHANNEL),
+            Fleet(Nations.GERMANY, self.territories.IRISH_SEA),
         ]
         orders = [
-            Support(Nations.ENGLAND, self.territories.NORWAY, self.territories.NORTH_SEA, self.territories.SKAGERRAK),
-            Move(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.SKAGERRAK),
-            Move(Nations.RUSSIA, self.territories.SWEDEN, self.territories.NORWAY),
-            Convoy(Nations.RUSSIA, self.territories.SKAGERRAK, self.territories.SWEDEN, self.territories.NORWAY),
-            Support(Nations.RUSSIA,self.territories.BARRENTS_SEA, self.territories.SWEDEN, self.territories.NORWAY),
+            Move(Nations.ENGLAND, self.territories.LIVERPOOL, self.territories.EDINBURGH, via_convoy=True),
+            Convoy(Nations.ENGLAND, self.territories.NORTH_ATLANTIC, self.territories.LIVERPOOL, self.territories.EDINBURGH),
+            Convoy(Nations.ENGLAND, self.territories.NORWEGIAN_SEA, self.territories.LIVERPOOL, self.territories.EDINBURGH),
+            Move(Nations.GERMANY, self.territories.EDINBURGH, self.territories.LIVERPOOL, via_convoy=True),
+            Convoy(Nations.GERMANY, self.territories.NORTH_SEA, self.territories.EDINBURGH, self.territories.LIVERPOOL),
+            Convoy(Nations.GERMANY, self.territories.ENGLISH_CHANNEL, self.territories.EDINBURGH, self.territories.LIVERPOOL),
+            Convoy(Nations.GERMANY, self.territories.IRISH_SEA, self.territories.EDINBURGH, self.territories.LIVERPOOL),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
         process(self.state)
 
-        self.assertEqual(orders[0].support_decision, Outcomes.GIVEN)
-        self.assertEqual(orders[1].move_decision, Outcomes.MOVES)
-        self.assertEqual(orders[2].move_decision, Outcomes.FAILS)
-        self.assertEqual(orders[4].support_decision, Outcomes.GIVEN)
+        self.assertEqual(orders[0].path_decision(), Outcomes.PATH)
+        self.assertEqual(orders[0].move_decision, Outcomes.MOVES)
+        self.assertEqual(orders[3].path_decision(), Outcomes.PATH)
+        self.assertEqual(orders[3].move_decision, Outcomes.MOVES)
