@@ -108,6 +108,9 @@ class Move(Order):
         if self.is_head_to_head():
             return self._resolve_head_to_head()
 
+        if self.is_convoy_swap():
+            return self._resolve_convoy_swap()
+
         piece = self.piece
         min_attack_strength, max_attack_strength = AttackStrength(self)()
 
@@ -118,7 +121,7 @@ class Move(Order):
         other_pieces_max_prevent = max([p.order.prevent_strength_decision()[1] for p in other_attacking_pieces], default=0)
         other_pieces_min_prevent = min([p.order.prevent_strength_decision()[0] for p in other_attacking_pieces], default=0)
 
-       # succeeds if...
+        # succeeds if...
         if other_attacking_pieces:
             if min_attack_strength > target_max_hold:
                 if min_attack_strength > other_pieces_max_prevent:
@@ -159,6 +162,29 @@ class Move(Order):
         if max_attack_strength <= other_pieces_min_prevent:
             return self.set_move_decision(Outcomes.FAILS)
 
+
+    def _resolve_convoy_swap(self):
+
+        piece = self.piece
+        min_attack_strength, max_attack_strength = AttackStrength(self)()
+
+        other_attacking_pieces = self.target.other_attacking_pieces(piece)
+        other_pieces_max_prevent = max([p.order.prevent_strength_decision()[1] for p in other_attacking_pieces], default=0)
+        other_pieces_min_prevent = min([p.order.prevent_strength_decision()[0] for p in other_attacking_pieces], default=0)
+
+        # succeeds if...
+        if other_attacking_pieces:
+            if min_attack_strength > other_pieces_max_prevent:
+                return self.set_move_decision(Outcomes.MOVES)
+        else:
+            return self.set_move_decision(Outcomes.MOVES)
+
+        # fails if...
+        if other_attacking_pieces:
+            if max_attack_strength <= other_pieces_min_prevent:
+                return self.set_move_decision(Outcomes.FAILS)
+
+
     def move_support(self, *args):
         legal_decisions = [Outcomes.LEGAL]
         return [s for s in self.move_support_orders if
@@ -180,6 +206,22 @@ class Move(Order):
                         return opposing_piece.order.target == self.source
         return False
 
+    def is_convoy_swap(self):
+        """
+        Determine whether the move is a convoy swap, i.e. the target
+        piece is trying to move to this territory via convoy.
+
+        Returns:
+            * `bool`
+        """
+        opposing_piece = self.target.piece
+        if opposing_piece:
+            if opposing_piece.order.is_move:
+                if opposing_piece.order.via_convoy:
+                    if opposing_piece.order.legal_decision == Outcomes.LEGAL:
+                        if opposing_piece.order.path_decision() == Outcomes.PATH:
+                            return opposing_piece.order.target == self.source
+        return False
 
 class Support(Order):
     def __init__(self, nation, source, aux, target):
