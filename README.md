@@ -1,3 +1,5 @@
+# Diplomacy Adjudicator
+
 ## Getting Started
 
 Clone the repo and create a `virtualenv` called `env`. Activate the `virtualenv`
