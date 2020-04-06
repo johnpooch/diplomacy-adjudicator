@@ -609,3 +609,326 @@ class TestConvoyingToAdjacentPlaces(unittest.TestCase):
         self.assertEqual(orders[0].move_decision, Outcomes.MOVES)
         self.assertEqual(orders[3].path_decision(), Outcomes.PATH)
         self.assertEqual(orders[3].move_decision, Outcomes.MOVES)
+
+    def test_support_cut_on_itself_via_convoy(self):
+        """
+        If a unit is attacked by a supported unit, it is not possible to
+        prevent dislodgement by trying to cut the support. But what, if a move
+        is attempted via a convoy?
+
+        Austria:
+        F Adriatic Sea Convoys A Trieste - Venice
+        A Trieste - Venice via Convoy
+
+        Italy:
+        A Venice Supports F Albania - Trieste
+        F Albania - Trieste
+
+        First it should be mentioned that if for issue 4.A.3 choice b or c is
+        taken, then the move from Trieste to Venice is just a move over land,
+        because the army in Venice is not moving in opposite direction. In that
+        case, the support of Venice will not be cut as normal.
+
+        In any other choice for issue 4.A.3, it should be decided whether the
+        Austrian attack is considered to be coming from Trieste or from the
+        Adriatic Sea. If it comes from Trieste, the support in Venice is not
+        cut and the army in Trieste is dislodged by the fleet in Albania. If
+        the Austrian attack is considered to be coming from the Adriatic Sea,
+        then the support is cut and the army in Trieste will not be dislodged.
+        See also issue 4.A.4.
+
+        First of all, I prefer the 1982/2000 rules for adjacent convoying. This
+        means that I prefer the move from Trieste uses the convoy. Furthermore,
+        I think that the two Italian units are still stronger than the army in
+        Trieste. Therefore, I prefer that the support in Venice is not cut and
+        that the army in Trieste is dislodged by the fleet in Albania.
+        """
+        pieces = [
+            Fleet(Nations.AUSTRIA, self.territories.ADRIATIC_SEA),
+            Army(Nations.AUSTRIA, self.territories.TRIESTE),
+            Army(Nations.ITALY, self.territories.VENICE),
+            Fleet(Nations.ITALY, self.territories.ALBANIA),
+        ]
+        orders = [
+            Convoy(Nations.AUSTRIA, self.territories.ADRIATIC_SEA, self.territories.TRIESTE, self.territories.VENICE),
+            Move(Nations.AUSTRIA, self.territories.TRIESTE, self.territories.VENICE, via_convoy=True),
+            Support(Nations.ITALY, self.territories.VENICE, self.territories.ALBANIA, self.territories.TRIESTE),
+            Move(Nations.ITALY, self.territories.ALBANIA, self.territories.TRIESTE),
+        ]
+        self.state.register(*pieces, *orders)
+        self.state.post_register_updates()
+        process(self.state)
+
+        self.assertEqual(pieces[1].dislodged_decision, Outcomes.DISLODGED)
+        self.assertEqual(orders[2].support_decision, Outcomes.GIVEN)
+        self.assertEqual(orders[3].move_decision, Outcomes.MOVES)
+
+    def test_bounce_by_convoy_to_adjacent_place(self):
+        """
+        Similar to test case 6.G.10, but now the other unit is taking the
+        convoy.
+
+        England:
+        A Norway - Sweden
+        F Denmark Supports A Norway - Sweden
+        F Finland Supports A Norway - Sweden
+
+        France:
+        F Norwegian Sea - Norway
+        F North Sea Supports F Norwegian Sea - Norway
+
+        Germany:
+        F Skagerrak Convoys A Sweden - Norway
+
+        Russia:
+        A Sweden - Norway via Convoy
+        F Barents Sea Supports A Sweden - Norway
+
+        Again the army in Sweden is bounced by the fleet in the Norwegian Sea.
+        The army in Norway will move to Sweden and dislodge the Russian army.
+
+        The final destination of the fleet in the Norwegian Sea depends on how
+        issue 4.A.7 is resolved. If choice a is taken, then the fleet advances
+        to Norway, but if choice b is taken (which I prefer) the fleet bounces
+        and stays in the Norwegian Sea.
+        """
+        pieces = [
+            Army(Nations.ENGLAND, self.territories.NORWAY),
+            Fleet(Nations.ENGLAND, self.territories.DENMARK),
+            Fleet(Nations.ENGLAND, self.territories.FINLAND),
+            Fleet(Nations.FRANCE, self.territories.NORWEGIAN_SEA),
+            Fleet(Nations.FRANCE, self.territories.NORTH_SEA),
+            Fleet(Nations.GERMANY, self.territories.SKAGERRAK),
+            Army(Nations.RUSSIA, self.territories.SWEDEN),
+            Fleet(Nations.RUSSIA, self.territories.BARRENTS_SEA),
+        ]
+        orders = [
+            Move(Nations.ENGLAND, self.territories.NORWAY, self.territories.SWEDEN),
+            Support(Nations.ENGLAND, self.territories.DENMARK, self.territories.NORWAY, self.territories.SWEDEN),
+            Support(Nations.ENGLAND, self.territories.FINLAND, self.territories.NORWAY, self.territories.SWEDEN),
+            Move(Nations.FRANCE, self.territories.NORWEGIAN_SEA, self.territories.NORWAY),
+            Support(Nations.FRANCE, self.territories.NORTH_SEA, self.territories.NORWEGIAN_SEA, self.territories.NORWAY),
+            Convoy(Nations.GERMANY, self.territories.SKAGERRAK, self.territories.SWEDEN, self.territories.NORWAY),
+            Move(Nations.RUSSIA, self.territories.SWEDEN, self.territories.NORWAY, via_convoy=True),
+            Support(Nations.RUSSIA, self.territories.BARRENTS_SEA, self.territories.SWEDEN, self.territories.NORWAY),
+        ]
+        self.state.register(*pieces, *orders)
+        self.state.post_register_updates()
+        process(self.state)
+
+
+        self.assertEqual(orders[0].move_decision, Outcomes.MOVES)
+        self.assertEqual(orders[1].support_decision, Outcomes.GIVEN)
+        self.assertEqual(orders[2].support_decision, Outcomes.GIVEN)
+        self.assertEqual(orders[3].move_decision, Outcomes.FAILS)
+        self.assertEqual(orders[4].support_decision, Outcomes.GIVEN)
+        self.assertEqual(orders[6].move_decision, Outcomes.FAILS)
+        self.assertEqual(pieces[6].dislodged_decision, Outcomes.DISLODGED)
+        self.assertEqual(orders[7].support_decision, Outcomes.GIVEN)
+
+    def test_bounce_and_dislodge_with_double_convoy(self):
+        """
+        Similar to test case 6.G.10, but now both units use a convoy and
+        without some support.
+
+        England:
+        F North Sea Convoys A London - Belgium
+        A Holland Supports A London - Belgium
+        A Yorkshire - London
+        A London - Belgium via Convoy
+
+        France:
+        F English Channel Convoys A Belgium - London
+        A Belgium - London via Convoy
+
+        The French army in Belgium is bounced by the army from Yorkshire. The
+        army in London move to Belgium, dislodging the unit there.
+
+        The final destination of the army in the Yorkshire depends on how issue
+        4.A.7 is resolved. If choice a is taken, then the army advances to
+        London, but if choice b is taken (which I prefer) the army bounces and
+        stays in Yorkshire.
+        """
+        pieces = [
+            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
+            Army(Nations.ENGLAND, self.territories.HOLLAND),
+            Army(Nations.ENGLAND, self.territories.YORKSHIRE),
+            Army(Nations.ENGLAND, self.territories.LONDON),
+            Fleet(Nations.FRANCE, self.territories.ENGLISH_CHANNEL),
+            Army(Nations.FRANCE, self.territories.BELGIUM),
+        ]
+        orders = [
+            Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.BELGIUM),
+            Support(Nations.ENGLAND, self.territories.HOLLAND, self.territories.LONDON, self.territories.BELGIUM),
+            Move(Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.LONDON),
+            Move(Nations.ENGLAND, self.territories.LONDON, self.territories.BELGIUM, via_convoy=True),
+            Convoy(Nations.FRANCE, self.territories.ENGLISH_CHANNEL, self.territories.BELGIUM, self.territories.LONDON),
+            Move(Nations.FRANCE, self.territories.BELGIUM, self.territories.LONDON, via_convoy=True),
+        ]
+        self.state.register(*pieces, *orders)
+        self.state.post_register_updates()
+        process(self.state)
+
+
+        self.assertEqual(orders[1].support_decision, Outcomes.GIVEN)
+        self.assertEqual(orders[2].move_decision, Outcomes.FAILS)
+        self.assertEqual(orders[3].move_decision, Outcomes.MOVES)
+        self.assertEqual(orders[5].move_decision, Outcomes.FAILS)
+        self.assertEqual(pieces[5].dislodged_decision, Outcomes.DISLODGED)
+
+    def test_two_unit_in_one_area_bug_moving_by_convoy(self):
+        """
+        If the adjudicator is not correctly implemented, this may lead to a
+        resolution where two units end up in the same area.
+
+        England:
+        A Norway - Sweden
+        A Denmark Supports A Norway - Sweden
+        F Baltic Sea Supports A Norway - Sweden
+        F North Sea - Norway
+
+        Russia:
+        A Sweden - Norway via Convoy
+        F Skagerrak Convoys A Sweden - Norway
+        F Norwegian Sea Supports A Sweden - Norway
+
+        See decision details 5.B.6. If the 'PREVENT STRENGTH' is incorrectly
+        implemented, due to the fact that it does not take into account that
+        the 'PREVENT STRENGTH' is only zero when the unit is engaged in a head
+        to head battle, then this goes wrong in this test case. The 'PREVENT
+        STRENGTH' of Sweden would be zero, because the opposing unit in Norway
+        successfully moves. Since, this strength would be zero, the fleet in
+        the North Sea would move to Norway. However, although the 'PREVENT
+        STRENGTH' is zero, the army in Sweden would also move to Norway. So,
+        the final result would contain two units that successfully moved to
+        Norway.
+
+        Of course, this is incorrect. Norway will indeed successfully move to
+        Sweden while the army in Sweden ends in Norway, because it is stronger
+        then the fleet in the North Sea. This fleet will stay in the North Sea.
+        """
+        pieces = [
+            Army(Nations.ENGLAND, self.territories.NORWAY),
+            Fleet(Nations.ENGLAND, self.territories.DENMARK),
+            Fleet(Nations.ENGLAND, self.territories.BALTIC_SEA),
+            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
+            Army(Nations.RUSSIA, self.territories.SWEDEN),
+            Fleet(Nations.RUSSIA, self.territories.SKAGERRAK),
+            Fleet(Nations.RUSSIA, self.territories.NORWEGIAN_SEA),
+        ]
+        orders = [
+            Move(Nations.ENGLAND, self.territories.NORWAY, self.territories.SWEDEN),
+            Support(Nations.ENGLAND, self.territories.DENMARK, self.territories.NORWAY, self.territories.SWEDEN),
+            Support(Nations.ENGLAND, self.territories.BALTIC_SEA, self.territories.NORWAY, self.territories.SWEDEN),
+            Move(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.NORWAY),
+            Move(Nations.RUSSIA, self.territories.SWEDEN, self.territories.NORWAY, via_convoy=True),
+            Convoy(Nations.RUSSIA, self.territories.SKAGERRAK, self.territories.SWEDEN, self.territories.NORWAY),
+            Support(Nations.RUSSIA, self.territories.NORWEGIAN_SEA, self.territories.SWEDEN, self.territories.NORWAY),
+        ]
+        self.state.register(*pieces, *orders)
+        self.state.post_register_updates()
+        process(self.state)
+
+        self.assertEqual(orders[0].move_decision, Outcomes.MOVES)
+        self.assertEqual(orders[1].support_decision, Outcomes.GIVEN)
+        self.assertEqual(orders[2].support_decision, Outcomes.GIVEN)
+        self.assertEqual(orders[3].move_decision, Outcomes.FAILS)
+        self.assertEqual(orders[4].move_decision, Outcomes.MOVES)
+        self.assertEqual(orders[6].support_decision, Outcomes.GIVEN)
+
+    def test_two_unit_in_one_area_bug_moving_by_land(self):
+        """
+        Similar to the previous test case, but now the other unit moves by
+        convoy.
+
+        England:
+        A Norway - Sweden via Convoy
+        A Denmark Supports A Norway - Sweden
+        F Baltic Sea Supports A Norway - Sweden
+        F Skagerrak Convoys A Norway - Sweden
+        F North Sea - Norway
+
+        Russia:
+        A Sweden - Norway
+        F Norwegian Sea Supports A Sweden - Norway
+
+        Sweden and Norway are swapped, while the fleet in the North Sea will bounce.
+        """
+        pieces = [
+            Army(Nations.ENGLAND, self.territories.NORWAY),
+            Fleet(Nations.ENGLAND, self.territories.DENMARK),
+            Fleet(Nations.ENGLAND, self.territories.BALTIC_SEA),
+            Fleet(Nations.ENGLAND, self.territories.SKAGERRAK),
+            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
+            Army(Nations.RUSSIA, self.territories.SWEDEN),
+            Fleet(Nations.RUSSIA, self.territories.NORWEGIAN_SEA),
+        ]
+        orders = [
+            Move(Nations.ENGLAND, self.territories.NORWAY, self.territories.SWEDEN, via_convoy=True),
+            Support(Nations.ENGLAND, self.territories.DENMARK, self.territories.NORWAY, self.territories.SWEDEN),
+            Support(Nations.ENGLAND, self.territories.BALTIC_SEA, self.territories.NORWAY, self.territories.SWEDEN),
+            Convoy(Nations.ENGLAND, self.territories.SKAGERRAK, self.territories.NORWAY, self.territories.SWEDEN),
+            Move(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.NORWAY),
+            Move(Nations.RUSSIA, self.territories.SWEDEN, self.territories.NORWAY),
+            Support(Nations.RUSSIA, self.territories.NORWEGIAN_SEA, self.territories.SWEDEN, self.territories.NORWAY),
+        ]
+        self.state.register(*pieces, *orders)
+        self.state.post_register_updates()
+        process(self.state)
+
+        self.assertEqual(orders[0].move_decision, Outcomes.MOVES)
+        self.assertEqual(orders[1].support_decision, Outcomes.GIVEN)
+        self.assertEqual(orders[2].support_decision, Outcomes.GIVEN)
+        self.assertEqual(orders[5].move_decision, Outcomes.MOVES)
+        self.assertEqual(orders[4].move_decision, Outcomes.FAILS)
+        self.assertEqual(orders[6].support_decision, Outcomes.GIVEN)
+
+    def test_two_unit_in_one_area_bug_with_double_convoy(self):
+        """
+        Similar to the previous test case, but now both units move by convoy.
+
+        England:
+        F North Sea Convoys A London - Belgium
+        A Holland Supports A London - Belgium
+        A Yorkshire - London
+        A London - Belgium
+        A Ruhr Supports A London - Belgium
+
+        France:
+        F English Channel Convoys A Belgium - London
+        A Belgium - London
+        A Wales Supports A Belgium - London
+
+        Belgium and London are swapped, while the army in Yorkshire fails to
+        move to London.
+        """
+        pieces = [
+            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
+            Army(Nations.ENGLAND, self.territories.HOLLAND),
+            Army(Nations.ENGLAND, self.territories.YORKSHIRE),
+            Army(Nations.ENGLAND, self.territories.LONDON),
+            Army(Nations.ENGLAND, self.territories.RUHR),
+            Fleet(Nations.FRANCE, self.territories.ENGLISH_CHANNEL),
+            Army(Nations.FRANCE, self.territories.BELGIUM),
+            Army(Nations.FRANCE, self.territories.WALES),
+        ]
+        orders = [
+            Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.BELGIUM),
+            Support(Nations.ENGLAND, self.territories.HOLLAND, self.territories.LONDON, self.territories.BELGIUM),
+            Move(Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.LONDON),
+            Move(Nations.ENGLAND, self.territories.LONDON, self.territories.BELGIUM, via_convoy=True),
+            Support(Nations.ENGLAND, self.territories.RUHR, self.territories.LONDON, self.territories.BELGIUM),
+            Convoy(Nations.FRANCE, self.territories.ENGLISH_CHANNEL, self.territories.BELGIUM, self.territories.LONDON),
+            Move(Nations.FRANCE, self.territories.BELGIUM, self.territories.LONDON, via_convoy=True),
+            Support(Nations.FRANCE, self.territories.WALES, self.territories.BELGIUM, self.territories.LONDON),
+        ]
+        self.state.register(*pieces, *orders)
+        self.state.post_register_updates()
+        process(self.state)
+
+        self.assertEqual(orders[1].support_decision, Outcomes.GIVEN)
+        self.assertEqual(orders[2].move_decision, Outcomes.FAILS)
+        self.assertEqual(orders[3].move_decision, Outcomes.MOVES)
+        self.assertEqual(orders[4].support_decision, Outcomes.GIVEN)
+        self.assertEqual(orders[6].move_decision, Outcomes.MOVES)
+        self.assertEqual(orders[7].support_decision, Outcomes.GIVEN)
