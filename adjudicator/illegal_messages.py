@@ -18,6 +18,10 @@ C002 = ('C002', 'Fleet can only convoy from a sea territory.')
 S001 = ('S001', 'A piece cannot support itself.')
 S002 = ('S002', 'A piece cannot support a territory which it cannot reach.')
 
+# Retreat checks - applies to retreat orders.
+R001 = ('R001', 'Piece cannot retreat to the territory from which it was attacked.')
+R005 = ('R005', 'A piece cannot retreat to a territory which was contested on the previous turn.')
+
 # Build checks - applies to all build orders.
 B001 = ('B001', 'Cannot build in a territory that is already occupied.')
 B002 = ('B002', 'Cannot build in a territory that does not have a supply center.')

@@ -1,6 +1,6 @@
 from adjudicator.convoy_chain import get_convoy_chains
 from adjudicator.named_coast import NamedCoast
-from adjudicator.order import Convoy, Order, Move, Support
+from adjudicator.order import Convoy, Order, Move, Retreat, Support
 from adjudicator.piece import Piece
 from adjudicator.territory import CoastalTerritory, Territory
 
@@ -35,6 +35,10 @@ class State:
 
             if isinstance(observer, Move):
                 self._update_territory_attacking_pieces(observer)
+
+
+            if isinstance(observer, Retreat):
+                self._update_territory_retreating_pieces(observer)
 
     def post_register_updates(self):
         self._update_order_move_support()
@@ -119,6 +123,14 @@ class State:
         for t in self.territories:
             if t == observer.target:
                 t.attacking_pieces.add(observer.piece)
+
+    def _update_territory_retreating_pieces(self, observer):
+        """
+        Update the retreating_pieces of the target the retreat order.
+        """
+        for t in self.territories:
+            if t == observer.target:
+                t.retreating_pieces.add(observer.piece)
 
     def _update_order_move_support(self):
         for s in self.supports:

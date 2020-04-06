@@ -1,14 +1,20 @@
 from adjudicator.decisions import Outcomes
 
 
+class PieceTypes:
+    ARMY = 'army'
+    FLEET = 'fleet'
+
+
 class Piece:
 
     is_army = False
     is_fleet = False
 
-    def __init__(self, nation, territory):
+    def __init__(self, nation, territory, attacker_territory=None):
         self.nation = nation
         self.territory = territory
+        self.attacker_territory = attacker_territory
         self.order = None
         self.dislodged_decision = Outcomes.UNRESOLVED
         self.dislodged_by = None

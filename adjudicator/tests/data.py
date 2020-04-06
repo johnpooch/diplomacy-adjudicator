@@ -50,7 +50,7 @@ class Territories:
         self.APULIA = CoastalTerritory(22, 'apulia', 5, [1, 11, 41, 46, 56], [41, 56])
         self.ARMENIA = CoastalTerritory(23, 'armenia', 7, [21, 21, 49, 50, 52],
                                    [49, 21])
-        self.BERLIN = CoastalTerritory(24, 'berlin', 3, [3, 35, 64, 48, 68], [35, 48])
+        self.BERLIN = CoastalTerritory(24, 'berlin', Nations.GERMANY, [3, 35, 64, 48, 68], [35, 48], supply_center=True, controlled_by=Nations.GERMANY)
         self.BELGIUM = CoastalTerritory(25, 'belgium', None, [61, 8, 34, 43, 66, 16],
                                    [34, 43])
         self.BREST = CoastalTerritory(26, 'brest', 2, [8, 32, 13, 65, 43], [32, 43])
@@ -110,7 +110,7 @@ class Territories:
         self.BURGUNDY = InlandTerritory(61, 'burgundy', 2,
                                    [26, 25, 32, 39, 64, 65, 43, 66])
         self.GALICIA = InlandTerritory(62, 'galicia', 4, [59, 60, 47, 68, 70, 71, 72])
-        self.MOSCOW = InlandTerritory(63, 'moscow', 6, [37, 47, 49, 75, 70, 72])
+        self.MOSCOW = InlandTerritory(63, 'moscow', Nations.RUSSIA, [37, 47, 49, 75, 70, 72], supply_center=True, controlled_by=Nations.RUSSIA)
         self.MUNICH = InlandTerritory(64, 'munich', 3, [24, 59, 61, 35, 68, 66, 69])
         self.PARIS = InlandTerritory(65, 'paris', 2, [26, 61, 32, 43, 68, 66, 69])
         self.RUHR = InlandTerritory(66, 'ruhr', 3, [26, 61, 34, 35, 64])

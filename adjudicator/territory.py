@@ -7,7 +7,7 @@ class Territory:
     is_inland = False
     is_sea = False
 
-    def __init__(self, id, name, neighbour_ids):
+    def __init__(self, id, name, neighbour_ids, contested=False):
         self.id = id
         self.name = name
         self.neighbour_ids = neighbour_ids
@@ -16,6 +16,8 @@ class Territory:
         self.neighbours = set()
         self.named_coasts = set()
         self.attacking_pieces = set()
+        self.retreating_pieces = set()
+        self.contested = contested
 
     def __str__(self):
         return self.name
@@ -95,6 +97,20 @@ class Territory:
             if p == piece:
                 other_attacking_pieces.remove(p)
         return other_attacking_pieces
+
+    def other_retreating_pieces(self, piece):
+        """
+        Gets all pieces which are retreating into this territory excluding the
+        given piece.
+
+        Args:
+            * `piece` - `Piece`
+
+        Returns:
+            * `list` of `Piece` instances.
+        """
+        other_retreating_pieces = list(self.retreating_pieces)
+        return [p for p in other_retreating_pieces if p != piece]
 
 
 class LandTerritory(Territory):

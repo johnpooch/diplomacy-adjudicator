@@ -2,6 +2,7 @@ from . import decisions
 from .decisions import Outcomes
 from . import illegal_messages
 from .decisions.attack_strength import AttackStrength
+from .piece import PieceTypes
 
 
 class Order:
@@ -221,6 +222,7 @@ class Move(Order):
                             return opposing_piece.order.target == self.source
         return False
 
+
 class Support(Order):
     def __init__(self, nation, source, aux, target):
         super().__init__(nation, source)
@@ -337,6 +339,53 @@ class Convoy(Order):
         return Outcomes.LEGAL
 
 
+class Retreat(Order):
+
+    def __init__(self, nation, source, target, target_coast=None):
+        super().__init__(nation, source)
+        self.target = target
+        self.target_coast = target_coast
+        self.move_decision = Outcomes.UNRESOLVED
+
+    def update_legal_decision(self):
+        if super().update_legal_decision() == Outcomes.ILLEGAL:
+            return Outcomes.ILLEGAL
+
+        piece = self.source.piece
+
+        if self.target == piece.attacker_territory:
+            return self.set_illegal(illegal_messages.R001)
+
+        if not self.source.adjacent_to(self.target):
+            return self.set_illegal(illegal_messages.R002)
+
+        if not piece.can_reach(self.target, self.target_coast):
+            return self.set_illegal(illegal_messages.R003)
+
+        if piece.is_fleet:
+            if self.source.is_coastal and self.target.is_coastal:
+                if self.source.adjacent_to(self.target) and self.target not in self.source.shared_coasts:
+                    return self.set_illegal(illegal_messages.R004)
+
+        if self.target.contested:
+            return self.set_illegal(illegal_messages.R005)
+
+
+        self.legal_decision = Outcomes.LEGAL
+
+    def set_move_decision(self, outcome):
+        self.move_decision = outcome
+        return self.move_decision
+
+    def update_move_decision(self):
+
+        piece = self.piece
+        other_retreating_pieces = self.target.other_retreating_pieces(piece)
+
+        if other_retreating_pieces:
+            self.set_move_decision(Outcomes.FAILS)
+
+
 class Build(Order):
     def __init__(self, nation, source, piece_type, named_coast=None):
         super().__init__(nation, source)
@@ -352,9 +401,9 @@ class Build(Order):
             return self.set_illegal(illegal_messages.B003)
         if not self.source.controlled_by == self.nation:
             return self.set_illegal(illegal_messages.B004)
-        if self.source.is_inland and self.piece_type == 'FLEET':
+        if self.source.is_inland and self.piece_type == PieceTypes.FLEET:
             return self.set_illegal(illegal_messages.B005)
-        if self.source.is_complex and self.piece_type == 'FLEET' and not self.named_coast:
+        if self.source.is_complex and self.piece_type == PieceTypes.FLEET and not self.named_coast:
             return self.set_illegal(illegal_messages.B006)
         self.legal_decision = Outcomes.LEGAL
 

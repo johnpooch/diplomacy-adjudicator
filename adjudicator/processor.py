@@ -12,8 +12,18 @@ def process(state):
         order.update_legal_decision()
 
     moves = [o for o in orders if o.is_move]
+    retreats = [o for o in orders if o.is_retreat]
     supports = [o for o in orders if o.is_support]
     convoys = [o for o in orders if o.is_convoy]
+
+    illegal_retreats = [r for r in retreats if r.legal_decision == Outcomes.ILLEGAL]
+    # set illegal retreats to fail.
+    for r in illegal_retreats:
+        r.move_decision = Outcomes.FAILS
+
+    unresolved_retreats = [r for r in retreats if r.move_decision == Outcomes.UNRESOLVED]
+    for r in unresolved_retreats:
+        r.update_move_decision()
 
     illegal_moves = [m for m in moves if m.legal_decision == Outcomes.ILLEGAL]
     # set illegal moves to fail.
