@@ -2,9 +2,11 @@ import json
 
 from adjudicator.convoy_chain import get_convoy_chains
 from adjudicator.named_coast import NamedCoast
-from adjudicator.order import Convoy, Order, Move, Retreat, Support
-from adjudicator.piece import Piece
-from adjudicator.territory import CoastalTerritory, Territory
+from adjudicator.order import Build, Convoy, Hold, Order, Move, Retreat, \
+    Support
+from adjudicator.piece import Army, Fleet, Piece
+from adjudicator.territory import CoastalTerritory, InlandTerritory, \
+    SeaTerritory, Territory
 
 
 class State:
@@ -199,6 +201,63 @@ def validate_json(data):
                 )
 
 
+def data_to_state(data):
+    state = State()
+    data = data
+    # instantiate and register territories
+    for territory_data in data['territories']:
+        type = territory_data.pop('type')
+        territory_class = terrtitory_type_dict[type]
+        territory = territory_class(**territory_data)
+        state.register(territory)
+    # instantiate and register named coasts
+    for named_coast_data in data['named_coasts']:
+        t_id = named_coast_data.pop('territory_id')
+        named_coast_data['parent'] = [t for t in state.territories if t.id == t_id][0]
+        n_ids = named_coast_data.pop('neighbour_ids')
+        named_coast_data['neighbours'] = [t for t in state.territories if t.id == n_ids]
+        named_coast = NamedCoast(**named_coast_data)
+        state.register(named_coast)
+    # instantiate and register pieces
+    for piece_data in data['pieces']:
+        t_id = piece_data.pop('territory_id')
+        type = piece_data.pop('type')
+        piece_data['territory'] = [t for t in state.territories if t.id == t_id][0]
+        piece_class = piece_type_dict[type]
+        piece = piece_class(**piece_data)
+        state.register(piece)
+    # instantiate and register orders
+    for order_data in data['orders']:
+        type = order_data.pop('type')
+        source_id = order_data.pop('source_id')
+        target_id = order_data.pop('target_id')
+        order_class = order_type_dict[type]
+        order_data['source'] = [t for t in state.territories if t.id == source_id][0]
+        order_data['target'] = [t for t in state.territories if t.id == target_id][0]
+        order = order_class(**order_data)
+        state.register(order)
+    return state
 
-def json_to_state(json):
-    pass
+
+terrtitory_type_dict = {
+    'sea': SeaTerritory,
+    'inland': InlandTerritory,
+    'coastal': CoastalTerritory,
+}
+
+
+piece_type_dict = {
+    'army': Army,
+    'fleet': Fleet,
+}
+
+
+order_type_dict = {
+    'hold': Hold,
+    'move': Move,
+    'support': Support,
+    'convoy': Convoy,
+    'retreat': Retreat,
+    'disband': '',
+    'build': Build,
+}
