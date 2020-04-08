@@ -1,3 +1,5 @@
+import json
+
 from adjudicator.convoy_chain import get_convoy_chains
 from adjudicator.named_coast import NamedCoast
 from adjudicator.order import Convoy, Order, Move, Retreat, Support
@@ -151,3 +153,52 @@ class State:
             eligible_convoys = [c for c in self.convoys
                                 if c.aux == source and c.target == target]
             move.convoy_chains = get_convoy_chains(source, target, eligible_convoys)
+
+
+def validate_json(data):
+    """
+    """
+    json_data = json.loads(data)
+    try:
+        phase = json_data['phase']
+        pieces = json_data['pieces']
+        territories = json_data['territories']
+        orders = json_data['orders']
+    except KeyError:
+        raise ValueError(
+            'Invalid game state - Must include "phase", "pieces", '
+            '"territories", and "orders" as keys'
+        )
+
+    if phase not in ['order', 'retreat', 'build']:
+        raise ValueError(
+            'Invalid game state - "phase" must be one of "order", "retreat", or '
+            '"build"'
+        )
+    # TODO dry
+    if phase == 'order':
+        for order in orders:
+            if not order['type'] in ['hold', 'move', 'convoy', 'support']:
+                raise ValueError(
+                    'Invalid game state - during order phase, each order must be '
+                    'one of "hold", "move", "support", or "convoy"'
+                )
+    if phase == 'retreat':
+        for order in orders:
+            if not order['type'] in ['retreat', 'disband']:
+                raise ValueError(
+                    'Invalid game state - during retreat phase, each order must be '
+                    'one of "retreat" or "disband"'
+                )
+    if phase == 'build':
+        for order in orders:
+            if not order['type'] in ['retreat', 'disband']:
+                raise ValueError(
+                    'Invalid game state - during build phase, each order must be '
+                    'one of "build" or "disband"'
+                )
+
+
+
+def json_to_state(json):
+    pass
