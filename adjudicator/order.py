@@ -7,7 +7,8 @@ from .piece import PieceTypes
 
 class Order:
 
-    def __init__(self, nation, source):
+    def __init__(self, _id, nation, source):
+        self.id = _id
         self.nation = nation
         self.source = source
         self.piece = None
@@ -49,8 +50,8 @@ class Hold(Order):
 
 
 class Move(Order):
-    def __init__(self, nation, source, target, target_coast=None, via_convoy=False):
-        super().__init__(nation, source)
+    def __init__(self, _id, nation, source, target, target_coast=None, via_convoy=False):
+        super().__init__(_id, nation, source)
         self.target = target
         self.target_coast = target_coast
         self.via_convoy = via_convoy
@@ -224,8 +225,8 @@ class Move(Order):
 
 
 class Support(Order):
-    def __init__(self, nation, source, aux, target):
-        super().__init__(nation, source)
+    def __init__(self, _id, nation, source, aux, target):
+        super().__init__(_id, nation, source)
         self.aux = aux
         self.target = target
         self.support_decision = Outcomes.UNRESOLVED
@@ -298,7 +299,6 @@ class Support(Order):
             if not aux_piece.order.is_move:
                 if self.target != self.aux:
                     return self.set_support_decision(Outcomes.CUT)
-
 
         if target_piece and aux_piece:
             if aux_piece.order.is_move and aux_piece == self.target:

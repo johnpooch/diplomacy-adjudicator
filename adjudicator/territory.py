@@ -112,6 +112,12 @@ class Territory:
         other_retreating_pieces = list(self.retreating_pieces)
         return [p for p in other_retreating_pieces if p != piece]
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'contested': self.contested,
+        }
+
 
 class LandTerritory(Territory):
 
