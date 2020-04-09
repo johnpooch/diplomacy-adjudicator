@@ -1,7 +1,7 @@
 import unittest
 
 from adjudicator.decisions import Outcomes
-from adjudicator.order import Build, Hold, Move, Support
+from adjudicator.order import Move, Support
 from adjudicator.piece import Army, Fleet
 from adjudicator.processor import process
 from adjudicator.state import State
@@ -28,9 +28,9 @@ class TestCircularMovement(unittest.TestCase):
         All three units will move.
         """
         pieces = [
-            Fleet(Nations.TURKEY, self.territories.ANKARA),
-            Army(Nations.TURKEY, self.territories.CONSTANTINOPLE),
-            Army(Nations.TURKEY, self.territories.SMYRNA)
+            Fleet(0, Nations.TURKEY, self.territories.ANKARA),
+            Army(0, Nations.TURKEY, self.territories.CONSTANTINOPLE),
+            Army(0, Nations.TURKEY, self.territories.SMYRNA)
         ]
         orders = [
             Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
@@ -59,10 +59,10 @@ class TestCircularMovement(unittest.TestCase):
         written, this can confuse the adjudicator.
         """
         pieces = [
-            Fleet(Nations.TURKEY, self.territories.ANKARA),
-            Army(Nations.TURKEY, self.territories.BULGARIA),
-            Army(Nations.TURKEY, self.territories.CONSTANTINOPLE),
-            Army(Nations.TURKEY, self.territories.SMYRNA)
+            Fleet(0, Nations.TURKEY, self.territories.ANKARA),
+            Army(0, Nations.TURKEY, self.territories.BULGARIA),
+            Army(0, Nations.TURKEY, self.territories.CONSTANTINOPLE),
+            Army(0, Nations.TURKEY, self.territories.SMYRNA)
         ]
         orders = [
             Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
@@ -92,10 +92,10 @@ class TestCircularMovement(unittest.TestCase):
         Every unit will keep its place.
         """
         pieces = [
-            Fleet(Nations.TURKEY, self.territories.ANKARA),
-            Army(Nations.TURKEY, self.territories.BULGARIA),
-            Army(Nations.TURKEY, self.territories.CONSTANTINOPLE),
-            Army(Nations.TURKEY, self.territories.SMYRNA)
+            Fleet(0, Nations.TURKEY, self.territories.ANKARA),
+            Army(0, Nations.TURKEY, self.territories.BULGARIA),
+            Army(0, Nations.TURKEY, self.territories.CONSTANTINOPLE),
+            Army(0, Nations.TURKEY, self.territories.SMYRNA)
         ]
         orders = [
             Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),

@@ -13,7 +13,7 @@ class TestOrder(unittest.TestCase):
         state = State()
         london = CoastalTerritory(1, 'London', 'England', [], [])
         wales = CoastalTerritory(2, 'Wales', 'England', [], [])
-        army = Army('England', london)
+        army = Army(0, 'England', london)
         london_move = Move('England', london, wales)
 
         to_register = [london, wales, army, london_move]
@@ -40,37 +40,37 @@ class TestCanReachArmy(unittest.TestCase):
         [self.state.register(o) for o in to_register]
 
     def test_army_inland_to_neighbouring_inland(self):
-        army = Army('England', self.munich)
+        army = Army(0, 'England', self.munich)
         self.state.register(army)
         self.assertTrue(army.can_reach(self.silesia))
 
     def test_army_inland_to_neighbouring_coastal(self):
-        army = Army('England', self.paris)
+        army = Army(0, 'England', self.paris)
         self.state.register(army)
         self.assertTrue(army.can_reach(self.brest))
 
     def test_army_coastal_to_neighbouring_inland(self):
-        army = Army('England', self.brest)
+        army = Army(0, 'England', self.brest)
         self.state.register(army)
         self.assertTrue(army.can_reach(self.paris))
 
     def test_army_coastal_to_neighbouring_coastal(self):
-        army = Army('England', self.london)
+        army = Army(0, 'England', self.london)
         self.state.register(army)
         self.assertTrue(army.can_reach(self.wales))
 
     def test_army_coastal_to_neighbouring_sea(self):
-        army = Army('England', self.wales)
+        army = Army(0, 'England', self.wales)
         self.state.register(army)
         self.assertFalse(army.can_reach(self.english_channel))
 
     def test_army_coastal_to_non_neighbouring_coastal(self):
-        army = Army('England', self.brest)
+        army = Army(0, 'England', self.brest)
         self.state.register(army)
         self.assertTrue(army.can_reach(self.london))
 
     def test_army_coastal_to_non_neighbouring_inland(self):
-        army = Army('England', self.wales)
+        army = Army(0, 'England', self.wales)
         self.state.register(army)
         self.assertFalse(army.can_reach(self.paris))
 
@@ -108,77 +108,77 @@ class TestCanReachFleet(unittest.TestCase):
         [self.state.register(o) for o in to_register]
 
     def test_fleet_coastal_to_neighbouring_inland(self):
-        fleet = Fleet('England', self.brest)
+        fleet = Fleet(0, 'England', self.brest)
         self.state.register(fleet)
         self.assertFalse(fleet.can_reach(self.paris))
 
     def test_fleet_coastal_to_neighbouring_coastal_shared_coast(self):
-        fleet = Fleet('England', self.london)
+        fleet = Fleet(0, 'England', self.london)
         self.state.register(fleet)
         self.assertTrue(fleet.can_reach(self.wales))
 
     def test_fleet_coastal_to_neighbouring_sea(self):
-        fleet = Fleet('England', self.wales)
+        fleet = Fleet(0, 'England', self.wales)
         self.state.register(fleet)
         self.assertTrue(fleet.can_reach(self.english_channel))
 
     def test_fleet_coastal_to_non_neighbouring_coastal(self):
-        fleet = Fleet('England', self.brest)
+        fleet = Fleet(0, 'England', self.brest)
         self.state.register(fleet)
         self.assertFalse(fleet.can_reach(self.london))
 
     def test_fleet_coastal_to_non_neighbouring_inland(self):
-        fleet = Fleet('England', self.wales)
+        fleet = Fleet(0, 'England', self.wales)
         self.state.register(fleet)
         self.assertFalse(fleet.can_reach(self.paris))
 
     def test_fleet_coastal_to_neighbouring_coastal_unshared_coast(self):
-        fleet = Fleet('England', self.rome)
+        fleet = Fleet(0, 'England', self.rome)
         self.state.register(fleet)
         self.assertFalse(fleet.can_reach(self.apulia))
 
     def test_named_coast_to_coastal(self):
-        fleet = Fleet('England', self.spain, self.spain_north_coast)
+        fleet = Fleet(0, 'England', self.spain, self.spain_north_coast)
         self.state.register(fleet)
         self.assertTrue(fleet.can_reach(self.gascony))
 
     def test_named_coast_to_coastal_non_neighbouring(self):
-        fleet = Fleet('England', self.spain, self.spain_north_coast)
+        fleet = Fleet(0, 'England', self.spain, self.spain_north_coast)
         self.state.register(fleet)
         self.assertFalse(fleet.can_reach(self.marseilles))
 
     def test_named_coast_to_sea(self):
-        fleet = Fleet('England', self.spain, self.spain_north_coast)
+        fleet = Fleet(0, 'England', self.spain, self.spain_north_coast)
         self.state.register(fleet)
         self.assertTrue(fleet.can_reach(self.mid_atlantic))
 
     def test_named_coast_to_sea_non_neighbouring(self):
-        fleet = Fleet('England', self.spain, self.spain_north_coast)
+        fleet = Fleet(0, 'England', self.spain, self.spain_north_coast)
         self.state.register(fleet)
         self.assertFalse(fleet.can_reach(self.gulf_of_lyon))
 
     def test_sea_to_named_coast(self):
-        fleet = Fleet('England', self.gulf_of_lyon)
+        fleet = Fleet(0, 'England', self.gulf_of_lyon)
         self.state.register(fleet)
         self.assertTrue(fleet.can_reach(self.spain, self.spain_south_coast))
 
     def test_sea_to_named_coast_non_neighbouring(self):
-        fleet = Fleet('England', self.gulf_of_lyon)
+        fleet = Fleet(0, 'England', self.gulf_of_lyon)
         self.state.register(fleet)
         self.assertFalse(fleet.can_reach(self.spain, self.spain_north_coast))
 
     def coastal_to_named_coast(self):
-        fleet = Fleet('England', self.marseilles)
+        fleet = Fleet(0, 'England', self.marseilles)
         self.state.register(fleet)
         self.assertTrue(fleet.can_reach(self.spain, self.spain_south_coast))
 
     def coastal_to_named_coast_non_neighbouring(self):
-        fleet = Fleet('England', self.marseilles)
+        fleet = Fleet(0, 'England', self.marseilles)
         self.state.register(fleet)
         self.assertFalse(fleet.can_reach(self.spain, self.spain_north_coast))
 
     def coastal_to_complex_no_named_coast(self):
-        fleet = Fleet('England', self.marseilles)
+        fleet = Fleet(0, 'England', self.marseilles)
         self.state.register(fleet)
         with self.assertRaises(ValueError):
             fleet.can_reach(self.spain)

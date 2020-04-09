@@ -113,6 +113,7 @@ class TestDataToState(unittest.TestCase):
             'orders': [],
             'pieces': [
                 {
+                    '_id': 0,
                     'type': 'army',
                     'nation': 1,
                     'territory_id': 1,

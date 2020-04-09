@@ -52,7 +52,7 @@ class TestRetreating(unittest.TestCase):
         Build fails.
         """
         pieces = [
-            Army(Nations.GERMANY, self.territories.BERLIN),
+            Army(0, Nations.GERMANY, self.territories.BERLIN),
         ]
         orders = [
             Build(Nations.GERMANY, self.territories.BERLIN, PieceTypes.ARMY),
@@ -78,7 +78,7 @@ class TestRetreating(unittest.TestCase):
         Build fails.
         """
         pieces = [
-            Fleet(Nations.RUSSIA, self.territories.ST_PETERSBURG, self.named_coasts.ST_PETERSBURG_NC),
+            Fleet(0, Nations.RUSSIA, self.territories.ST_PETERSBURG, self.named_coasts.ST_PETERSBURG_NC),
         ]
         orders = [
             Build(Nations.RUSSIA, self.territories.ST_PETERSBURG, PieceTypes.FLEET, self.named_coasts.ST_PETERSBURG_SC),

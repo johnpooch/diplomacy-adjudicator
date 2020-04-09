@@ -1,6 +1,6 @@
 import unittest
 
-from adjudicator.order import Move, Support
+from adjudicator.order import Move
 from adjudicator.piece import Army, Fleet
 from adjudicator.paradoxes import find_circular_movements
 from adjudicator.state import State
@@ -17,8 +17,8 @@ class TestCircularMovement(unittest.TestCase):
 
     def test_head_to_head(self):
         pieces = [
-            Fleet(Nations.TURKEY, self.territories.ANKARA),
-            Army(Nations.TURKEY, self.territories.CONSTANTINOPLE),
+            Fleet(0, Nations.TURKEY, self.territories.ANKARA),
+            Army(0, Nations.TURKEY, self.territories.CONSTANTINOPLE),
         ]
         orders = [
             Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
@@ -32,9 +32,9 @@ class TestCircularMovement(unittest.TestCase):
 
     def test_three_army_circular_movement(self):
         pieces = [
-            Fleet(Nations.TURKEY, self.territories.ANKARA),
-            Army(Nations.TURKEY, self.territories.CONSTANTINOPLE),
-            Army(Nations.TURKEY, self.territories.SMYRNA)
+            Fleet(0, Nations.TURKEY, self.territories.ANKARA),
+            Army(0, Nations.TURKEY, self.territories.CONSTANTINOPLE),
+            Army(0, Nations.TURKEY, self.territories.SMYRNA)
         ]
         orders = [
             Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
@@ -50,10 +50,10 @@ class TestCircularMovement(unittest.TestCase):
 
     def test_four_army_circular_movement(self):
         pieces = [
-            Fleet(Nations.TURKEY, self.territories.ANKARA),
-            Army(Nations.TURKEY, self.territories.CONSTANTINOPLE),
-            Army(Nations.TURKEY, self.territories.SMYRNA),
-            Army(Nations.TURKEY, self.territories.ARMENIA)
+            Fleet(0, Nations.TURKEY, self.territories.ANKARA),
+            Army(0, Nations.TURKEY, self.territories.CONSTANTINOPLE),
+            Army(0, Nations.TURKEY, self.territories.SMYRNA),
+            Army(0, Nations.TURKEY, self.territories.ARMENIA)
         ]
         orders = [
             Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
@@ -70,11 +70,11 @@ class TestCircularMovement(unittest.TestCase):
 
     def test_five_army_circular_movement(self):
         pieces = [
-            Fleet(Nations.TURKEY, self.territories.ANKARA),
-            Army(Nations.TURKEY, self.territories.CONSTANTINOPLE),
-            Army(Nations.TURKEY, self.territories.SMYRNA),
-            Army(Nations.TURKEY, self.territories.ARMENIA),
-            Army(Nations.TURKEY, self.territories.SYRIA),
+            Fleet(0, Nations.TURKEY, self.territories.ANKARA),
+            Army(0, Nations.TURKEY, self.territories.CONSTANTINOPLE),
+            Army(0, Nations.TURKEY, self.territories.SMYRNA),
+            Army(0, Nations.TURKEY, self.territories.ARMENIA),
+            Army(0, Nations.TURKEY, self.territories.SYRIA),
         ]
         orders = [
             Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
@@ -92,13 +92,13 @@ class TestCircularMovement(unittest.TestCase):
 
     def test_two_separate_circular_movements(self):
         pieces = [
-            Fleet(Nations.TURKEY, self.territories.ANKARA),
-            Army(Nations.TURKEY, self.territories.CONSTANTINOPLE),
-            Army(Nations.TURKEY, self.territories.SMYRNA),
+            Fleet(0, Nations.TURKEY, self.territories.ANKARA),
+            Army(0, Nations.TURKEY, self.territories.CONSTANTINOPLE),
+            Army(0, Nations.TURKEY, self.territories.SMYRNA),
 
-            Army(Nations.FRANCE, self.territories.BREST),
-            Army(Nations.FRANCE, self.territories.PICARDY),
-            Army(Nations.FRANCE, self.territories.PARIS),
+            Army(0, Nations.FRANCE, self.territories.BREST),
+            Army(0, Nations.FRANCE, self.territories.PICARDY),
+            Army(0, Nations.FRANCE, self.territories.PARIS),
         ]
         orders = [
             Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),

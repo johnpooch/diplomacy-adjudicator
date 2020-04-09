@@ -13,7 +13,7 @@ class TestPiece(unittest.TestCase):
         london = CoastalTerritory(1, 'London', 'England', [], [])
         wales = CoastalTerritory(2, 'Wales', 'England', [], [])
 
-        army = Army('England', london)
+        army = Army(0, 'England', london)
         london_hold = Hold('England', london)
         wales_hold = Hold('England', wales)
 
@@ -28,7 +28,7 @@ class TestIsOrder(unittest.TestCase):
 
     def test_hold(self):
         london = CoastalTerritory(1, 'London', 'England', [], [])
-        Army('England', london)
+        Army(0, 'England', london)
         london_hold = Hold('England', london)
 
         self.assertTrue(london_hold.is_hold)

@@ -23,7 +23,7 @@ class TestRetreating(unittest.TestCase):
         tested on this.
         """
         pieces = [
-            Army(Nations.ENGLAND, self.territories.NORWAY, attacker_territory=self.territories.SWEDEN),
+            Army(0, Nations.ENGLAND, self.territories.NORWAY, attacker_territory=self.territories.SWEDEN),
         ]
         orders = [
             Retreat(Nations.ENGLAND, self.territories.NORWAY, self.territories.SWEDEN),
@@ -42,7 +42,7 @@ class TestRetreating(unittest.TestCase):
         """
         self.territories.SWEDEN.contested = True
         pieces = [
-            Army(Nations.ENGLAND, self.territories.NORWAY, attacker_territory=self.territories.FINLAND),
+            Army(0, Nations.ENGLAND, self.territories.NORWAY, attacker_territory=self.territories.FINLAND),
         ]
         orders = [
             Retreat(Nations.ENGLAND, self.territories.NORWAY, self.territories.SWEDEN),
@@ -60,8 +60,8 @@ class TestRetreating(unittest.TestCase):
         There can only be one unit in an area.
         """
         pieces = [
-            Army(Nations.ENGLAND, self.territories.NORWAY, attacker_territory=self.territories.ST_PETERSBURG),
-            Army(Nations.ENGLAND, self.territories.FINLAND, attacker_territory=self.territories.ST_PETERSBURG),
+            Army(0, Nations.ENGLAND, self.territories.NORWAY, attacker_territory=self.territories.ST_PETERSBURG),
+            Army(0, Nations.ENGLAND, self.territories.FINLAND, attacker_territory=self.territories.ST_PETERSBURG),
         ]
         orders = [
             Retreat(Nations.ENGLAND, self.territories.NORWAY, self.territories.SWEDEN),
@@ -82,9 +82,9 @@ class TestRetreating(unittest.TestCase):
         disbanded.
         """
         pieces = [
-            Army(Nations.ENGLAND, self.territories.NORWAY, attacker_territory=self.territories.ST_PETERSBURG),
-            Army(Nations.ENGLAND, self.territories.FINLAND, attacker_territory=self.territories.ST_PETERSBURG),
-            Army(Nations.RUSSIA, self.territories.DENMARK, attacker_territory=self.territories.KIEL),
+            Army(0, Nations.ENGLAND, self.territories.NORWAY, attacker_territory=self.territories.ST_PETERSBURG),
+            Army(0, Nations.ENGLAND, self.territories.FINLAND, attacker_territory=self.territories.ST_PETERSBURG),
+            Army(0, Nations.RUSSIA, self.territories.DENMARK, attacker_territory=self.territories.KIEL),
         ]
         orders = [
             Retreat(Nations.ENGLAND, self.territories.NORWAY, self.territories.SWEDEN),

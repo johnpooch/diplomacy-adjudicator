@@ -32,10 +32,10 @@ class TestCircularMovement(unittest.TestCase):
         The army in Trieste will not move.
         """
         pieces = [
-            Fleet(Nations.AUSTRIA, self.territories.ADRIATIC_SEA),
-            Army(Nations.AUSTRIA, self.territories.TRIESTE),
-            Army(Nations.ITALY, self.territories.VENICE),
-            Army(Nations.ITALY, self.territories.TYROLIA)
+            Fleet(0, Nations.AUSTRIA, self.territories.ADRIATIC_SEA),
+            Army(0, Nations.AUSTRIA, self.territories.TRIESTE),
+            Army(0, Nations.ITALY, self.territories.VENICE),
+            Army(0, Nations.ITALY, self.territories.TYROLIA)
         ]
         orders = [
             Support(Nations.AUSTRIA, self.territories.ADRIATIC_SEA, self.territories.TRIESTE, self.territories.VENICE),
@@ -69,11 +69,11 @@ class TestCircularMovement(unittest.TestCase):
         the army in Venice is dislodged by the army from Trieste.
         """
         pieces = [
-            Fleet(Nations.AUSTRIA, self.territories.ADRIATIC_SEA),
-            Army(Nations.AUSTRIA, self.territories.TRIESTE),
-            Army(Nations.AUSTRIA, self.territories.VIENNA),
-            Army(Nations.ITALY, self.territories.VENICE),
-            Army(Nations.ITALY, self.territories.TYROLIA)
+            Fleet(0, Nations.AUSTRIA, self.territories.ADRIATIC_SEA),
+            Army(0, Nations.AUSTRIA, self.territories.TRIESTE),
+            Army(0, Nations.AUSTRIA, self.territories.VIENNA),
+            Army(0, Nations.ITALY, self.territories.VENICE),
+            Army(0, Nations.ITALY, self.territories.TYROLIA)
         ]
         orders = [
             Support(Nations.AUSTRIA, self.territories.ADRIATIC_SEA, self.territories.TRIESTE, self.territories.VENICE),
@@ -110,10 +110,10 @@ class TestCircularMovement(unittest.TestCase):
         in Trieste.
         """
         pieces = [
-            Fleet(Nations.AUSTRIA, self.territories.ADRIATIC_SEA),
-            Army(Nations.AUSTRIA, self.territories.TRIESTE),
-            Army(Nations.ITALY, self.territories.VENICE),
-            Fleet(Nations.AUSTRIA, self.territories.IONIAN_SEA),
+            Fleet(0, Nations.AUSTRIA, self.territories.ADRIATIC_SEA),
+            Army(0, Nations.AUSTRIA, self.territories.TRIESTE),
+            Army(0, Nations.ITALY, self.territories.VENICE),
+            Fleet(0, Nations.AUSTRIA, self.territories.IONIAN_SEA),
         ]
         orders = [
             Support(Nations.AUSTRIA, self.territories.ADRIATIC_SEA, self.territories.TRIESTE, self.territories.VENICE),
@@ -145,10 +145,10 @@ class TestCircularMovement(unittest.TestCase):
         The Russian move from Prussia to Berlin fails.
         """
         pieces = [
-            Army(Nations.GERMANY, self.territories.BERLIN),
-            Fleet(Nations.GERMANY, self.territories.KIEL),
-            Fleet(Nations.RUSSIA, self.territories.BALTIC_SEA),
-            Army(Nations.RUSSIA, self.territories.PRUSSIA),
+            Army(0, Nations.GERMANY, self.territories.BERLIN),
+            Fleet(0, Nations.GERMANY, self.territories.KIEL),
+            Fleet(0, Nations.RUSSIA, self.territories.BALTIC_SEA),
+            Army(0, Nations.RUSSIA, self.territories.PRUSSIA),
         ]
         orders = [
             Support(Nations.GERMANY, self.territories.BERLIN, self.territories.KIEL, self.territories.KIEL),
@@ -181,11 +181,11 @@ class TestCircularMovement(unittest.TestCase):
         The Russian move from Prussia to Berlin fails.
         """
         pieces = [
-            Army(Nations.GERMANY, self.territories.BERLIN),
-            Army(Nations.GERMANY, self.territories.KIEL),
-            Army(Nations.GERMANY, self.territories.MUNICH),
-            Fleet(Nations.RUSSIA, self.territories.BALTIC_SEA),
-            Army(Nations.RUSSIA, self.territories.PRUSSIA),
+            Army(0, Nations.GERMANY, self.territories.BERLIN),
+            Army(0, Nations.GERMANY, self.territories.KIEL),
+            Army(0, Nations.GERMANY, self.territories.MUNICH),
+            Fleet(0, Nations.RUSSIA, self.territories.BALTIC_SEA),
+            Army(0, Nations.RUSSIA, self.territories.PRUSSIA),
         ]
         orders = [
             Support(Nations.GERMANY, self.territories.BERLIN, self.territories.MUNICH, self.territories.SILESIA),
@@ -221,11 +221,11 @@ class TestCircularMovement(unittest.TestCase):
         Berlin to Sweden succeeds.
         """
         pieces = [
-            Army(Nations.GERMANY, self.territories.BERLIN),
-            Fleet(Nations.GERMANY, self.territories.BALTIC_SEA),
-            Fleet(Nations.GERMANY, self.territories.PRUSSIA),
-            Fleet(Nations.RUSSIA, self.territories.LIVONIA),
-            Fleet(Nations.RUSSIA, self.territories.GULF_OF_BOTHNIA),
+            Army(0, Nations.GERMANY, self.territories.BERLIN),
+            Fleet(0, Nations.GERMANY, self.territories.BALTIC_SEA),
+            Fleet(0, Nations.GERMANY, self.territories.PRUSSIA),
+            Fleet(0, Nations.RUSSIA, self.territories.LIVONIA),
+            Fleet(0, Nations.RUSSIA, self.territories.GULF_OF_BOTHNIA),
         ]
         orders = [
             Move(Nations.GERMANY, self.territories.BERLIN, self.territories.SWEDEN, via_convoy=True),
@@ -264,11 +264,11 @@ class TestCircularMovement(unittest.TestCase):
         Russian fleet from Livonia when it returns to the Baltic Sea.
         """
         pieces = [
-            Fleet(Nations.GERMANY, self.territories.BALTIC_SEA),
-            Fleet(Nations.GERMANY, self.territories.PRUSSIA),
-            Fleet(Nations.RUSSIA, self.territories.LIVONIA),
-            Fleet(Nations.RUSSIA, self.territories.GULF_OF_BOTHNIA),
-            Army(Nations.RUSSIA, self.territories.FINLAND),
+            Fleet(0, Nations.GERMANY, self.territories.BALTIC_SEA),
+            Fleet(0, Nations.GERMANY, self.territories.PRUSSIA),
+            Fleet(0, Nations.RUSSIA, self.territories.LIVONIA),
+            Fleet(0, Nations.RUSSIA, self.territories.GULF_OF_BOTHNIA),
+            Army(0, Nations.RUSSIA, self.territories.FINLAND),
         ]
         orders = [
             Move(Nations.GERMANY, self.territories.BALTIC_SEA, self.territories.SWEDEN),
@@ -312,11 +312,11 @@ class TestCircularMovement(unittest.TestCase):
         is dislodged by the army in Albania.
         """
         pieces = [
-            Fleet(Nations.AUSTRIA, self.territories.IONIAN_SEA),
-            Army(Nations.AUSTRIA, self.territories.SERBIA),
-            Army(Nations.AUSTRIA, self.territories.ALBANIA),
-            Army(Nations.TURKEY, self.territories.GREECE),
-            Army(Nations.TURKEY, self.territories.BULGARIA),
+            Fleet(0, Nations.AUSTRIA, self.territories.IONIAN_SEA),
+            Army(0, Nations.AUSTRIA, self.territories.SERBIA),
+            Army(0, Nations.AUSTRIA, self.territories.ALBANIA),
+            Army(0, Nations.TURKEY, self.territories.GREECE),
+            Army(0, Nations.TURKEY, self.territories.BULGARIA),
         ]
         orders = [
             Hold(Nations.AUSTRIA, self.territories.IONIAN_SEA),
@@ -352,10 +352,10 @@ class TestCircularMovement(unittest.TestCase):
         dislodged by the army from Venice.
         """
         pieces = [
-            Army(Nations.ITALY, self.territories.VENICE),
-            Army(Nations.ITALY, self.territories.TYROLIA),
-            Army(Nations.AUSTRIA, self.territories.ALBANIA),
-            Army(Nations.AUSTRIA, self.territories.TRIESTE),
+            Army(0, Nations.ITALY, self.territories.VENICE),
+            Army(0, Nations.ITALY, self.territories.TYROLIA),
+            Army(0, Nations.AUSTRIA, self.territories.ALBANIA),
+            Army(0, Nations.AUSTRIA, self.territories.TRIESTE),
         ]
         orders = [
             Move(Nations.ITALY, self.territories.VENICE, self.territories.TRIESTE),
@@ -385,9 +385,9 @@ class TestCircularMovement(unittest.TestCase):
         Move to Berlin fails.
         """
         pieces = [
-            Army(Nations.GERMANY, self.territories.BERLIN),
-            Fleet(Nations.GERMANY, self.territories.KIEL),
-            Army(Nations.GERMANY, self.territories.MUNICH),
+            Army(0, Nations.GERMANY, self.territories.BERLIN),
+            Fleet(0, Nations.GERMANY, self.territories.KIEL),
+            Army(0, Nations.GERMANY, self.territories.MUNICH),
         ]
         orders = [
             Hold(Nations.GERMANY, self.territories.BERLIN),
@@ -417,10 +417,10 @@ class TestCircularMovement(unittest.TestCase):
         Army in Berlin bounces, but is not dislodged by own unit.
         """
         pieces = [
-            Army(Nations.GERMANY, self.territories.BERLIN),
-            Fleet(Nations.GERMANY, self.territories.KIEL),
-            Army(Nations.GERMANY, self.territories.MUNICH),
-            Army(Nations.RUSSIA, self.territories.WARSAW),
+            Army(0, Nations.GERMANY, self.territories.BERLIN),
+            Fleet(0, Nations.GERMANY, self.territories.KIEL),
+            Army(0, Nations.GERMANY, self.territories.MUNICH),
+            Army(0, Nations.RUSSIA, self.territories.WARSAW),
         ]
         orders = [
             Move(Nations.GERMANY, self.territories.BERLIN, self.territories.PRUSSIA),
@@ -452,9 +452,9 @@ class TestCircularMovement(unittest.TestCase):
         No dislodgment of fleet in Trieste.
         """
         pieces = [
-            Fleet(Nations.AUSTRIA, self.territories.TRIESTE),
-            Army(Nations.AUSTRIA, self.territories.VIENNA),
-            Army(Nations.ITALY, self.territories.VENICE),
+            Fleet(0, Nations.AUSTRIA, self.territories.TRIESTE),
+            Army(0, Nations.AUSTRIA, self.territories.VIENNA),
+            Army(0, Nations.ITALY, self.territories.VENICE),
         ]
         orders = [
             Hold(Nations.AUSTRIA, self.territories.TRIESTE),
@@ -484,10 +484,10 @@ class TestCircularMovement(unittest.TestCase):
         No dislodgement of fleet in Trieste.
         """
         pieces = [
-            Fleet(Nations.AUSTRIA, self.territories.TRIESTE),
-            Army(Nations.AUSTRIA, self.territories.VIENNA),
-            Army(Nations.ITALY, self.territories.VENICE),
-            Fleet(Nations.ITALY, self.territories.APULIA),
+            Fleet(0, Nations.AUSTRIA, self.territories.TRIESTE),
+            Army(0, Nations.AUSTRIA, self.territories.VIENNA),
+            Army(0, Nations.ITALY, self.territories.VENICE),
+            Fleet(0, Nations.ITALY, self.territories.APULIA),
         ]
         orders = [
             Move(Nations.AUSTRIA, self.territories.TRIESTE, self.territories.ADRIATIC_SEA),
@@ -522,11 +522,11 @@ class TestCircularMovement(unittest.TestCase):
         The fleet in Trieste is dislodged.
         """
         pieces = [
-            Fleet(Nations.AUSTRIA, self.territories.TRIESTE),
-            Army(Nations.AUSTRIA, self.territories.VIENNA),
-            Army(Nations.ITALY, self.territories.VENICE),
-            Army(Nations.ITALY, self.territories.TYROLIA),
-            Fleet(Nations.ITALY, self.territories.ADRIATIC_SEA),
+            Fleet(0, Nations.AUSTRIA, self.territories.TRIESTE),
+            Army(0, Nations.AUSTRIA, self.territories.VIENNA),
+            Army(0, Nations.ITALY, self.territories.VENICE),
+            Army(0, Nations.ITALY, self.territories.TYROLIA),
+            Fleet(0, Nations.ITALY, self.territories.ADRIATIC_SEA),
         ]
         orders = [
             Hold(Nations.AUSTRIA, self.territories.TRIESTE),
@@ -561,9 +561,9 @@ class TestCircularMovement(unittest.TestCase):
         dislodged by the fleet in the Black Sea. a name="6.D.16">
         """
         pieces = [
-            Fleet(Nations.RUSSIA, self.territories.CONSTANTINOPLE),
-            Fleet(Nations.RUSSIA, self.territories.BLACK_SEA),
-            Fleet(Nations.TURKEY, self.territories.ANKARA),
+            Fleet(0, Nations.RUSSIA, self.territories.CONSTANTINOPLE),
+            Fleet(0, Nations.RUSSIA, self.territories.BLACK_SEA),
+            Fleet(0, Nations.TURKEY, self.territories.ANKARA),
         ]
         orders = [
             Support(Nations.RUSSIA, self.territories.CONSTANTINOPLE, self.territories.BLACK_SEA, self.territories.ANKARA),
@@ -595,10 +595,10 @@ class TestCircularMovement(unittest.TestCase):
         Belgium.
         """
         pieces = [
-            Army(Nations.ENGLAND, self.territories.LONDON),
-            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
-            Fleet(Nations.FRANCE, self.territories.ENGLISH_CHANNEL),
-            Army(Nations.FRANCE, self.territories.BELGIUM),
+            Army(0, Nations.ENGLAND, self.territories.LONDON),
+            Fleet(0, Nations.ENGLAND, self.territories.NORTH_SEA),
+            Fleet(0, Nations.FRANCE, self.territories.ENGLISH_CHANNEL),
+            Army(0, Nations.FRANCE, self.territories.BELGIUM),
         ]
         orders = [
             Hold(Nations.ENGLAND, self.territories.LONDON),
@@ -633,11 +633,11 @@ class TestCircularMovement(unittest.TestCase):
         Armenia.
         """
         pieces = [
-            Fleet(Nations.RUSSIA, self.territories.CONSTANTINOPLE),
-            Fleet(Nations.RUSSIA, self.territories.BLACK_SEA),
-            Fleet(Nations.TURKEY, self.territories.ANKARA),
-            Army(Nations.TURKEY, self.territories.SMYRNA),
-            Army(Nations.TURKEY, self.territories.ARMENIA),
+            Fleet(0, Nations.RUSSIA, self.territories.CONSTANTINOPLE),
+            Fleet(0, Nations.RUSSIA, self.territories.BLACK_SEA),
+            Fleet(0, Nations.TURKEY, self.territories.ANKARA),
+            Army(0, Nations.TURKEY, self.territories.SMYRNA),
+            Army(0, Nations.TURKEY, self.territories.ARMENIA),
         ]
         orders = [
             Support(Nations.RUSSIA, self.territories.CONSTANTINOPLE, self.territories.BLACK_SEA, self.territories.ANKARA),
@@ -675,12 +675,12 @@ class TestCircularMovement(unittest.TestCase):
         Ankara.
         """
         pieces = [
-            Fleet(Nations.RUSSIA, self.territories.CONSTANTINOPLE),
-            Fleet(Nations.RUSSIA, self.territories.BLACK_SEA),
-            Army(Nations.RUSSIA, self.territories.BULGARIA),
-            Fleet(Nations.TURKEY, self.territories.ANKARA),
-            Army(Nations.TURKEY, self.territories.SMYRNA),
-            Army(Nations.TURKEY, self.territories.ARMENIA),
+            Fleet(0, Nations.RUSSIA, self.territories.CONSTANTINOPLE),
+            Fleet(0, Nations.RUSSIA, self.territories.BLACK_SEA),
+            Army(0, Nations.RUSSIA, self.territories.BULGARIA),
+            Fleet(0, Nations.TURKEY, self.territories.ANKARA),
+            Army(0, Nations.TURKEY, self.territories.SMYRNA),
+            Army(0, Nations.TURKEY, self.territories.ARMENIA),
         ]
         orders = [
             Support(Nations.RUSSIA, self.territories.CONSTANTINOPLE, self.territories.BLACK_SEA, self.territories.ANKARA),
@@ -721,10 +721,10 @@ class TestCircularMovement(unittest.TestCase):
         will sustain and the fleet in Ankara will be dislodged.
         """
         pieces = [
-            Fleet(Nations.RUSSIA, self.territories.CONSTANTINOPLE),
-            Fleet(Nations.RUSSIA, self.territories.BLACK_SEA),
-            Army(Nations.RUSSIA, self.territories.SMYRNA),
-            Fleet(Nations.TURKEY, self.territories.ANKARA),
+            Fleet(0, Nations.RUSSIA, self.territories.CONSTANTINOPLE),
+            Fleet(0, Nations.RUSSIA, self.territories.BLACK_SEA),
+            Army(0, Nations.RUSSIA, self.territories.SMYRNA),
+            Fleet(0, Nations.TURKEY, self.territories.ANKARA),
         ]
         orders = [
             Support(Nations.RUSSIA, self.territories.CONSTANTINOPLE, self.territories.BLACK_SEA, self.territories.ANKARA),
@@ -761,10 +761,10 @@ class TestCircularMovement(unittest.TestCase):
         English Channel is dislodged by the fleet in the North Sea.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.LONDON),
-            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
-            Army(Nations.ENGLAND, self.territories.YORKSHIRE),
-            Fleet(Nations.FRANCE, self.territories.ENGLISH_CHANNEL),
+            Fleet(0, Nations.ENGLAND, self.territories.LONDON),
+            Fleet(0, Nations.ENGLAND, self.territories.NORTH_SEA),
+            Army(0, Nations.ENGLAND, self.territories.YORKSHIRE),
+            Fleet(0, Nations.FRANCE, self.territories.ENGLISH_CHANNEL),
         ]
         orders = [
             Support(Nations.ENGLAND, self.territories.LONDON, self.territories.NORTH_SEA, self.territories.ENGLISH_CHANNEL),
@@ -805,12 +805,12 @@ class TestCircularMovement(unittest.TestCase):
         support. That means that the Austrian Fleet is not dislodged.
         """
         pieces = [
-            Fleet(Nations.AUSTRIA, self.territories.TRIESTE),
-            Army(Nations.ITALY, self.territories.VENICE),
-            Army(Nations.ITALY, self.territories.TYROLIA),
-            Army(Nations.GERMANY, self.territories.MUNICH),
-            Army(Nations.RUSSIA, self.territories.SILESIA),
-            Army(Nations.RUSSIA, self.territories.BERLIN),
+            Fleet(0, Nations.AUSTRIA, self.territories.TRIESTE),
+            Army(0, Nations.ITALY, self.territories.VENICE),
+            Army(0, Nations.ITALY, self.territories.TYROLIA),
+            Army(0, Nations.GERMANY, self.territories.MUNICH),
+            Army(0, Nations.RUSSIA, self.territories.SILESIA),
+            Army(0, Nations.RUSSIA, self.territories.BERLIN),
         ]
         orders = [
             Hold(Nations.AUSTRIA, self.territories.TRIESTE),
@@ -856,10 +856,10 @@ class TestCircularMovement(unittest.TestCase):
         dislodged, but this is an incorrect interpretation.
         """
         pieces = [
-            Fleet(Nations.GERMANY, self.territories.KIEL),
-            Army(Nations.GERMANY, self.territories.BURGUNDY),
-            Army(Nations.RUSSIA, self.territories.MUNICH),
-            Army(Nations.RUSSIA, self.territories.BERLIN),
+            Fleet(0, Nations.GERMANY, self.territories.KIEL),
+            Army(0, Nations.GERMANY, self.territories.BURGUNDY),
+            Army(0, Nations.RUSSIA, self.territories.MUNICH),
+            Army(0, Nations.RUSSIA, self.territories.BERLIN),
         ]
         orders = [
             Move(Nations.GERMANY, self.territories.KIEL, self.territories.MUNICH),
@@ -895,10 +895,10 @@ class TestCircularMovement(unittest.TestCase):
         fleet in Spain is dislodged.
         """
         pieces = [
-            Fleet(Nations.ITALY, self.territories.GULF_OF_LYON),
-            Fleet(Nations.ITALY, self.territories.WESTERN_MEDITERRANEAN),
-            Fleet(Nations.FRANCE, self.territories.SPAIN, self.named_coasts.SPAIN_NC),
-            Fleet(Nations.FRANCE, self.territories.MARSEILLES),
+            Fleet(0, Nations.ITALY, self.territories.GULF_OF_LYON),
+            Fleet(0, Nations.ITALY, self.territories.WESTERN_MEDITERRANEAN),
+            Fleet(0, Nations.FRANCE, self.territories.SPAIN, self.named_coasts.SPAIN_NC),
+            Fleet(0, Nations.FRANCE, self.territories.MARSEILLES),
         ]
         orders = [
             Move(Nations.ITALY, self.territories.GULF_OF_LYON, self.territories.SPAIN, self.named_coasts.SPAIN_SC),
@@ -938,11 +938,11 @@ class TestCircularMovement(unittest.TestCase):
         Turkish fleet in the Western Mediterranean.
         """
         pieces = [
-            Army(Nations.FRANCE, self.territories.MARSEILLES),
-            Fleet(Nations.FRANCE, self.territories.SPAIN, self.named_coasts.SPAIN_NC),
-            Fleet(Nations.ITALY, self.territories.GULF_OF_LYON),
-            Fleet(Nations.TURKEY, self.territories.WESTERN_MEDITERRANEAN),
-            Fleet(Nations.TURKEY, self.territories.TYRRHENIAN_SEA),
+            Army(0, Nations.FRANCE, self.territories.MARSEILLES),
+            Fleet(0, Nations.FRANCE, self.territories.SPAIN, self.named_coasts.SPAIN_NC),
+            Fleet(0, Nations.ITALY, self.territories.GULF_OF_LYON),
+            Fleet(0, Nations.TURKEY, self.territories.WESTERN_MEDITERRANEAN),
+            Fleet(0, Nations.TURKEY, self.territories.TYRRHENIAN_SEA),
         ]
         orders = [
             Move(Nations.FRANCE, self.territories.MARSEILLES, self.territories.GULF_OF_LYON),
@@ -982,10 +982,10 @@ class TestCircularMovement(unittest.TestCase):
         not be dislodged.
         """
         pieces = [
-            Army(Nations.GERMANY, self.territories.BERLIN),
-            Fleet(Nations.GERMANY, self.territories.KIEL),
-            Fleet(Nations.RUSSIA, self.territories.BALTIC_SEA),
-            Fleet(Nations.RUSSIA, self.territories.PRUSSIA),
+            Army(0, Nations.GERMANY, self.territories.BERLIN),
+            Fleet(0, Nations.GERMANY, self.territories.KIEL),
+            Fleet(0, Nations.RUSSIA, self.territories.BALTIC_SEA),
+            Fleet(0, Nations.RUSSIA, self.territories.PRUSSIA),
         ]
         orders = [
             Support(Nations.GERMANY, self.territories.BERLIN, self.territories.PRUSSIA, self.territories.PRUSSIA),
@@ -1019,10 +1019,10 @@ class TestCircularMovement(unittest.TestCase):
         Again, Berlin will not be dislodged.
         """
         pieces = [
-            Army(Nations.GERMANY, self.territories.BERLIN),
-            Fleet(Nations.GERMANY, self.territories.KIEL),
-            Fleet(Nations.RUSSIA, self.territories.BALTIC_SEA),
-            Fleet(Nations.RUSSIA, self.territories.PRUSSIA),
+            Army(0, Nations.GERMANY, self.territories.BERLIN),
+            Fleet(0, Nations.GERMANY, self.territories.KIEL),
+            Fleet(0, Nations.RUSSIA, self.territories.BALTIC_SEA),
+            Fleet(0, Nations.RUSSIA, self.territories.PRUSSIA),
         ]
         orders = [
             Support(Nations.GERMANY, self.territories.BERLIN, self.territories.PRUSSIA, self.territories.SILESIA),
@@ -1060,11 +1060,11 @@ class TestCircularMovement(unittest.TestCase):
         the Baltic Sea is not dislodged.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.SWEDEN),
-            Fleet(Nations.ENGLAND, self.territories.DENMARK),
-            Army(Nations.GERMANY, self.territories.BERLIN),
-            Fleet(Nations.RUSSIA, self.territories.BALTIC_SEA),
-            Fleet(Nations.RUSSIA, self.territories.PRUSSIA),
+            Fleet(0, Nations.ENGLAND, self.territories.SWEDEN),
+            Fleet(0, Nations.ENGLAND, self.territories.DENMARK),
+            Army(0, Nations.GERMANY, self.territories.BERLIN),
+            Fleet(0, Nations.RUSSIA, self.territories.BALTIC_SEA),
+            Fleet(0, Nations.RUSSIA, self.territories.PRUSSIA),
         ]
         orders = [
             Move(Nations.ENGLAND, self.territories.SWEDEN, self.territories.BALTIC_SEA),
@@ -1106,10 +1106,10 @@ class TestCircularMovement(unittest.TestCase):
         Black Sea does not dislodge the supported Russian fleet.
         """
         pieces = [
-            Army(Nations.AUSTRIA, self.territories.BUDAPEST),
-            Fleet(Nations.RUSSIA, self.territories.RUMANIA),
-            Fleet(Nations.TURKEY, self.territories.BLACK_SEA),
-            Army(Nations.TURKEY, self.territories.BULGARIA),
+            Army(0, Nations.AUSTRIA, self.territories.BUDAPEST),
+            Fleet(0, Nations.RUSSIA, self.territories.RUMANIA),
+            Fleet(0, Nations.TURKEY, self.territories.BLACK_SEA),
+            Army(0, Nations.TURKEY, self.territories.BULGARIA),
         ]
         orders = [
             Support(Nations.AUSTRIA, self.territories.BUDAPEST, self.territories.RUMANIA, self.territories.RUMANIA),
@@ -1154,10 +1154,10 @@ class TestCircularMovement(unittest.TestCase):
         the supported Russian fleet.
         """
         pieces = [
-            Army(Nations.AUSTRIA, self.territories.BUDAPEST),
-            Fleet(Nations.RUSSIA, self.territories.RUMANIA),
-            Fleet(Nations.TURKEY, self.territories.BLACK_SEA),
-            Army(Nations.TURKEY, self.territories.BULGARIA),
+            Army(0, Nations.AUSTRIA, self.territories.BUDAPEST),
+            Fleet(0, Nations.RUSSIA, self.territories.RUMANIA),
+            Fleet(0, Nations.TURKEY, self.territories.BLACK_SEA),
+            Army(0, Nations.TURKEY, self.territories.BULGARIA),
         ]
         orders = [
             Support(Nations.AUSTRIA, self.territories.BUDAPEST, self.territories.RUMANIA, self.territories.RUMANIA),
@@ -1193,10 +1193,10 @@ class TestCircularMovement(unittest.TestCase):
         This enables Turkey to capture Serbia with the army in Bulgaria.
         """
         pieces = [
-            Army(Nations.AUSTRIA, self.territories.SERBIA),
-            Army(Nations.AUSTRIA, self.territories.VIENNA),
-            Army(Nations.RUSSIA, self.territories.GALICIA),
-            Army(Nations.TURKEY, self.territories.BULGARIA),
+            Army(0, Nations.AUSTRIA, self.territories.SERBIA),
+            Army(0, Nations.AUSTRIA, self.territories.VIENNA),
+            Army(0, Nations.RUSSIA, self.territories.GALICIA),
+            Army(0, Nations.TURKEY, self.territories.BULGARIA),
         ]
         orders = [
             Move(Nations.AUSTRIA, self.territories.SERBIA, self.territories.BUDAPEST),
@@ -1243,12 +1243,12 @@ class TestCircularMovement(unittest.TestCase):
         succeed, because the support of Prussia is cut by Livonia and Berlin.
         """
         pieces = [
-            Army(Nations.GERMANY, self.territories.BERLIN),
-            Army(Nations.GERMANY, self.territories.SILESIA),
-            Fleet(Nations.GERMANY, self.territories.BALTIC_SEA),
-            Army(Nations.ITALY, self.territories.PRUSSIA),
-            Army(Nations.RUSSIA, self.territories.WARSAW),
-            Army(Nations.RUSSIA, self.territories.LIVONIA),
+            Army(0, Nations.GERMANY, self.territories.BERLIN),
+            Army(0, Nations.GERMANY, self.territories.SILESIA),
+            Fleet(0, Nations.GERMANY, self.territories.BALTIC_SEA),
+            Army(0, Nations.ITALY, self.territories.PRUSSIA),
+            Army(0, Nations.RUSSIA, self.territories.WARSAW),
+            Army(0, Nations.RUSSIA, self.territories.LIVONIA),
         ]
         orders = [
             Move(Nations.GERMANY, self.territories.BERLIN, self.territories.PRUSSIA),

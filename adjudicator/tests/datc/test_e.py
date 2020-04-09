@@ -31,10 +31,10 @@ class TestHeadToHeadBattles(unittest.TestCase):
         The fleet in Kiel will move to Berlin.
         """
         pieces = [
-            Army(Nations.GERMANY, self.territories.BERLIN),
-            Fleet(Nations.GERMANY, self.territories.KIEL),
-            Army(Nations.GERMANY, self.territories.SILESIA),
-            Army(Nations.RUSSIA, self.territories.PRUSSIA),
+            Army(0, Nations.GERMANY, self.territories.BERLIN),
+            Fleet(0, Nations.GERMANY, self.territories.KIEL),
+            Army(0, Nations.GERMANY, self.territories.SILESIA),
+            Army(0, Nations.RUSSIA, self.territories.PRUSSIA),
         ]
         orders = [
             Move(Nations.GERMANY, self.territories.BERLIN, self.territories.PRUSSIA),
@@ -63,9 +63,9 @@ class TestHeadToHeadBattles(unittest.TestCase):
         No unit will move.
         """
         pieces = [
-            Army(Nations.GERMANY, self.territories.BERLIN),
-            Fleet(Nations.GERMANY, self.territories.KIEL),
-            Army(Nations.GERMANY, self.territories.MUNICH),
+            Army(0, Nations.GERMANY, self.territories.BERLIN),
+            Fleet(0, Nations.GERMANY, self.territories.KIEL),
+            Army(0, Nations.GERMANY, self.territories.MUNICH),
         ]
         orders = [
             Move(Nations.GERMANY, self.territories.BERLIN, self.territories.KIEL),
@@ -95,9 +95,9 @@ class TestHeadToHeadBattles(unittest.TestCase):
         No unit will move.
         """
         pieces = [
-            Army(Nations.GERMANY, self.territories.BERLIN),
-            Army(Nations.GERMANY, self.territories.MUNICH),
-            Fleet(Nations.ENGLAND, self.territories.KIEL),
+            Army(0, Nations.GERMANY, self.territories.BERLIN),
+            Army(0, Nations.GERMANY, self.territories.MUNICH),
+            Fleet(0, Nations.ENGLAND, self.territories.KIEL),
         ]
         orders = [
             Move(Nations.GERMANY, self.territories.BERLIN, self.territories.KIEL),
@@ -140,16 +140,16 @@ class TestHeadToHeadBattles(unittest.TestCase):
         move to Holland.
         """
         pieces = [
-            Fleet(Nations.GERMANY, self.territories.HOLLAND),
-            Fleet(Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
-            Fleet(Nations.GERMANY, self.territories.SKAGERRAK),
-            Fleet(Nations.FRANCE, self.territories.NORTH_SEA),
-            Fleet(Nations.FRANCE, self.territories.BELGIUM),
-            Fleet(Nations.ENGLAND, self.territories.EDINBURGH),
-            Fleet(Nations.ENGLAND, self.territories.YORKSHIRE),
-            Fleet(Nations.ENGLAND, self.territories.NORWEGIAN_SEA),
-            Army(Nations.AUSTRIA, self.territories.KIEL),
-            Army(Nations.AUSTRIA, self.territories.RUHR),
+            Fleet(0, Nations.GERMANY, self.territories.HOLLAND),
+            Fleet(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
+            Fleet(0, Nations.GERMANY, self.territories.SKAGERRAK),
+            Fleet(0, Nations.FRANCE, self.territories.NORTH_SEA),
+            Fleet(0, Nations.FRANCE, self.territories.BELGIUM),
+            Fleet(0, Nations.ENGLAND, self.territories.EDINBURGH),
+            Fleet(0, Nations.ENGLAND, self.territories.YORKSHIRE),
+            Fleet(0, Nations.ENGLAND, self.territories.NORWEGIAN_SEA),
+            Army(0, Nations.AUSTRIA, self.territories.KIEL),
+            Army(0, Nations.AUSTRIA, self.territories.RUHR),
         ]
         orders = [
             Move(Nations.GERMANY, self.territories.HOLLAND, self.territories.NORTH_SEA),
@@ -208,17 +208,17 @@ class TestHeadToHeadBattles(unittest.TestCase):
         in Ruhr fails and the German fleet in Holland is not dislodged.
         """
         pieces = [
-            Fleet(Nations.GERMANY, self.territories.HOLLAND),
-            Fleet(Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
-            Fleet(Nations.GERMANY, self.territories.SKAGERRAK),
-            Fleet(Nations.FRANCE, self.territories.NORTH_SEA),
-            Fleet(Nations.FRANCE, self.territories.BELGIUM),
-            Fleet(Nations.ENGLAND, self.territories.EDINBURGH),
-            Fleet(Nations.ENGLAND, self.territories.YORKSHIRE),
-            Fleet(Nations.ENGLAND, self.territories.NORWEGIAN_SEA),
-            Fleet(Nations.ENGLAND, self.territories.LONDON),
-            Army(Nations.AUSTRIA, self.territories.KIEL),
-            Army(Nations.AUSTRIA, self.territories.RUHR),
+            Fleet(0, Nations.GERMANY, self.territories.HOLLAND),
+            Fleet(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
+            Fleet(0, Nations.GERMANY, self.territories.SKAGERRAK),
+            Fleet(0, Nations.FRANCE, self.territories.NORTH_SEA),
+            Fleet(0, Nations.FRANCE, self.territories.BELGIUM),
+            Fleet(0, Nations.ENGLAND, self.territories.EDINBURGH),
+            Fleet(0, Nations.ENGLAND, self.territories.YORKSHIRE),
+            Fleet(0, Nations.ENGLAND, self.territories.NORWEGIAN_SEA),
+            Fleet(0, Nations.ENGLAND, self.territories.LONDON),
+            Army(0, Nations.AUSTRIA, self.territories.KIEL),
+            Army(0, Nations.AUSTRIA, self.territories.RUHR),
         ]
         orders = [
             Move(Nations.GERMANY, self.territories.HOLLAND, self.territories.NORTH_SEA),
@@ -275,12 +275,12 @@ class TestHeadToHeadBattles(unittest.TestCase):
         dislodged. The DPTG is incorrect in this case.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
-            Fleet(Nations.ENGLAND, self.territories.YORKSHIRE),
-            Fleet(Nations.GERMANY, self.territories.HOLLAND),
-            Fleet(Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
-            Fleet(Nations.RUSSIA, self.territories.SKAGERRAK),
-            Fleet(Nations.RUSSIA, self.territories.NORWAY),
+            Fleet(0, Nations.ENGLAND, self.territories.NORTH_SEA),
+            Fleet(0, Nations.ENGLAND, self.territories.YORKSHIRE),
+            Fleet(0, Nations.GERMANY, self.territories.HOLLAND),
+            Fleet(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
+            Fleet(0, Nations.RUSSIA, self.territories.SKAGERRAK),
+            Fleet(0, Nations.RUSSIA, self.territories.NORWAY),
         ]
         orders = [
             Hold(Nations.ENGLAND, self.territories.NORTH_SEA),
@@ -320,12 +320,12 @@ class TestHeadToHeadBattles(unittest.TestCase):
         Again, none of the fleets move.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
-            Fleet(Nations.ENGLAND, self.territories.YORKSHIRE),
-            Fleet(Nations.GERMANY, self.territories.HOLLAND),
-            Fleet(Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
-            Fleet(Nations.RUSSIA, self.territories.SKAGERRAK),
-            Fleet(Nations.RUSSIA, self.territories.NORWAY),
+            Fleet(0, Nations.ENGLAND, self.territories.NORTH_SEA),
+            Fleet(0, Nations.ENGLAND, self.territories.YORKSHIRE),
+            Fleet(0, Nations.GERMANY, self.territories.HOLLAND),
+            Fleet(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
+            Fleet(0, Nations.RUSSIA, self.territories.SKAGERRAK),
+            Fleet(0, Nations.RUSSIA, self.territories.NORWAY),
         ]
         orders = [
             Move(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.NORWAY),
@@ -365,12 +365,12 @@ class TestHeadToHeadBattles(unittest.TestCase):
         Both the fleet in the North Sea and the fleet in Norway move.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
-            Fleet(Nations.ENGLAND, self.territories.YORKSHIRE),
-            Fleet(Nations.GERMANY, self.territories.HOLLAND),
-            Fleet(Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
-            Fleet(Nations.RUSSIA, self.territories.SKAGERRAK),
-            Fleet(Nations.RUSSIA, self.territories.NORWAY),
+            Fleet(0, Nations.ENGLAND, self.territories.NORTH_SEA),
+            Fleet(0, Nations.ENGLAND, self.territories.YORKSHIRE),
+            Fleet(0, Nations.GERMANY, self.territories.HOLLAND),
+            Fleet(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
+            Fleet(0, Nations.RUSSIA, self.territories.SKAGERRAK),
+            Fleet(0, Nations.RUSSIA, self.territories.NORWAY),
         ]
         orders = [
             Move(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.NORWEGIAN_SEA),
@@ -413,13 +413,13 @@ class TestHeadToHeadBattles(unittest.TestCase):
         There is no movement of fleets.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
-            Fleet(Nations.ENGLAND, self.territories.YORKSHIRE),
-            Fleet(Nations.GERMANY, self.territories.HOLLAND),
-            Fleet(Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
-            Fleet(Nations.GERMANY, self.territories.DENMARK),
-            Fleet(Nations.RUSSIA, self.territories.SKAGERRAK),
-            Fleet(Nations.RUSSIA, self.territories.NORWAY),
+            Fleet(0, Nations.ENGLAND, self.territories.NORTH_SEA),
+            Fleet(0, Nations.ENGLAND, self.territories.YORKSHIRE),
+            Fleet(0, Nations.GERMANY, self.territories.HOLLAND),
+            Fleet(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
+            Fleet(0, Nations.GERMANY, self.territories.DENMARK),
+            Fleet(0, Nations.RUSSIA, self.territories.SKAGERRAK),
+            Fleet(0, Nations.RUSSIA, self.territories.NORWAY),
         ]
         orders = [
             Move(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.DENMARK),
@@ -467,13 +467,13 @@ class TestHeadToHeadBattles(unittest.TestCase):
         """
 
         pieces = [
-            Army(Nations.FRANCE, self.territories.SPAIN),
-            Fleet(Nations.FRANCE, self.territories.MID_ATLANTIC),
-            Fleet(Nations.FRANCE, self.territories.GULF_OF_LYON),
-            Army(Nations.GERMANY, self.territories.MARSEILLES),
-            Army(Nations.GERMANY, self.territories.GASCONY),
-            Fleet(Nations.ITALY, self.territories.PORTUGAL),
-            Fleet(Nations.ITALY, self.territories.WESTERN_MEDITERRANEAN),
+            Army(0, Nations.FRANCE, self.territories.SPAIN),
+            Fleet(0, Nations.FRANCE, self.territories.MID_ATLANTIC),
+            Fleet(0, Nations.FRANCE, self.territories.GULF_OF_LYON),
+            Army(0, Nations.GERMANY, self.territories.MARSEILLES),
+            Army(0, Nations.GERMANY, self.territories.GASCONY),
+            Fleet(0, Nations.ITALY, self.territories.PORTUGAL),
+            Fleet(0, Nations.ITALY, self.territories.WESTERN_MEDITERRANEAN),
         ]
         orders = [
             Move(Nations.FRANCE, self.territories.SPAIN, self.territories.PORTUGAL, via_convoy=True),
@@ -516,11 +516,11 @@ class TestHeadToHeadBattles(unittest.TestCase):
         army in Galicia will advance. No army will move.
         """
         pieces = [
-            Army(Nations.AUSTRIA, self.territories.BUDAPEST),
-            Army(Nations.AUSTRIA, self.territories.SERBIA),
-            Army(Nations.ITALY, self.territories.VIENNA),
-            Army(Nations.RUSSIA, self.territories.GALICIA),
-            Army(Nations.RUSSIA, self.territories.RUMANIA),
+            Army(0, Nations.AUSTRIA, self.territories.BUDAPEST),
+            Army(0, Nations.AUSTRIA, self.territories.SERBIA),
+            Army(0, Nations.ITALY, self.territories.VIENNA),
+            Army(0, Nations.RUSSIA, self.territories.GALICIA),
+            Army(0, Nations.RUSSIA, self.territories.RUMANIA),
         ]
         orders = [
             Move(Nations.AUSTRIA, self.territories.BUDAPEST, self.territories.RUMANIA),
@@ -563,13 +563,13 @@ class TestHeadToHeadBattles(unittest.TestCase):
         dislodged.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.EDINBURGH),
-            Fleet(Nations.ENGLAND, self.territories.YORKSHIRE),
-            Fleet(Nations.FRANCE, self.territories.BELGIUM),
-            Fleet(Nations.FRANCE, self.territories.ENGLISH_CHANNEL),
-            Fleet(Nations.GERMANY, self.territories.NORTH_SEA),
-            Fleet(Nations.RUSSIA, self.territories.NORWEGIAN_SEA),
-            Fleet(Nations.RUSSIA, self.territories.NORWAY),
+            Fleet(0, Nations.ENGLAND, self.territories.EDINBURGH),
+            Fleet(0, Nations.ENGLAND, self.territories.YORKSHIRE),
+            Fleet(0, Nations.FRANCE, self.territories.BELGIUM),
+            Fleet(0, Nations.FRANCE, self.territories.ENGLISH_CHANNEL),
+            Fleet(0, Nations.GERMANY, self.territories.NORTH_SEA),
+            Fleet(0, Nations.RUSSIA, self.territories.NORWEGIAN_SEA),
+            Fleet(0, Nations.RUSSIA, self.territories.NORWAY),
         ]
         orders = [
             Support(Nations.ENGLAND, self.territories.EDINBURGH, self.territories.YORKSHIRE, self.territories.NORTH_SEA),
@@ -608,8 +608,8 @@ class TestHeadToHeadBattles(unittest.TestCase):
         English army to enter Edinburgh. So, none of the units move.
         """
         pieces = [
-            Army(Nations.ENGLAND, self.territories.LIVERPOOL),
-            Fleet(Nations.RUSSIA, self.territories.EDINBURGH),
+            Army(0, Nations.ENGLAND, self.territories.LIVERPOOL),
+            Fleet(0, Nations.RUSSIA, self.territories.EDINBURGH),
         ]
         orders = [
             Move(Nations.ENGLAND, self.territories.LIVERPOOL, self.territories.EDINBURGH),
@@ -657,16 +657,16 @@ class TestHeadToHeadBattles(unittest.TestCase):
         adjudicated). This is clearly a bug in the DPTG.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.HOLLAND),
-            Army(Nations.ENGLAND, self.territories.RUHR),
-            Army(Nations.FRANCE, self.territories.KIEL),
-            Army(Nations.FRANCE, self.territories.MUNICH),
-            Army(Nations.FRANCE, self.territories.SILESIA),
-            Army(Nations.GERMANY, self.territories.BERLIN),
-            Fleet(Nations.GERMANY, self.territories.DENMARK),
-            Fleet(Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
-            Fleet(Nations.RUSSIA, self.territories.BALTIC_SEA),
-            Army(Nations.RUSSIA, self.territories.PRUSSIA),
+            Fleet(0, Nations.ENGLAND, self.territories.HOLLAND),
+            Army(0, Nations.ENGLAND, self.territories.RUHR),
+            Army(0, Nations.FRANCE, self.territories.KIEL),
+            Army(0, Nations.FRANCE, self.territories.MUNICH),
+            Army(0, Nations.FRANCE, self.territories.SILESIA),
+            Army(0, Nations.GERMANY, self.territories.BERLIN),
+            Fleet(0, Nations.GERMANY, self.territories.DENMARK),
+            Fleet(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
+            Fleet(0, Nations.RUSSIA, self.territories.BALTIC_SEA),
+            Army(0, Nations.RUSSIA, self.territories.PRUSSIA),
         ]
         orders = [
             Support(Nations.ENGLAND, self.territories.HOLLAND, self.territories.RUHR, self.territories.KIEL),

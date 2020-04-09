@@ -13,7 +13,7 @@ class TestState(unittest.TestCase):
     def test_register_piece_updates_territory(self):
         state = State()
         paris = InlandTerritory(1, 'paris', Nations.FRANCE, [])
-        army_paris = Army(Nations.FRANCE, paris)
+        army_paris = Army(0, Nations.FRANCE, paris)
 
         state.register(paris)
         state.register(army_paris)
@@ -62,7 +62,7 @@ class TestState(unittest.TestCase):
     def test_register_order_updates_piece_order(self):
         state = State()
         paris = InlandTerritory(1, 'paris', Nations.FRANCE, [])
-        army_paris = Army(Nations.FRANCE, paris)
+        army_paris = Army(0, Nations.FRANCE, paris)
         hold = Hold(Nations.FRANCE, paris)
 
         state.register(paris)

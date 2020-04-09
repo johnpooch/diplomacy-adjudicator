@@ -30,10 +30,10 @@ class TestConvoys(unittest.TestCase):
         will not move to Sevastopol.
         """
         pieces = [
-            Army(Nations.TURKEY, self.territories.GREECE),
-            Fleet(Nations.TURKEY, self.territories.AEGEAN_SEA),
-            Fleet(Nations.TURKEY, self.territories.CONSTANTINOPLE),
-            Fleet(Nations.TURKEY, self.territories.BLACK_SEA),
+            Army(0, Nations.TURKEY, self.territories.GREECE),
+            Fleet(0, Nations.TURKEY, self.territories.AEGEAN_SEA),
+            Fleet(0, Nations.TURKEY, self.territories.CONSTANTINOPLE),
+            Fleet(0, Nations.TURKEY, self.territories.BLACK_SEA),
         ]
         orders = [
             Move(Nations.TURKEY, self.territories.GREECE, self.territories.SEVASTAPOL, via_convoy=True),
@@ -66,9 +66,9 @@ class TestConvoys(unittest.TestCase):
         """
 
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.ENGLISH_CHANNEL),
-            Army(Nations.ENGLAND, self.territories.LONDON),
-            Army(Nations.FRANCE, self.territories.PARIS),
+            Fleet(0, Nations.ENGLAND, self.territories.ENGLISH_CHANNEL),
+            Army(0, Nations.ENGLAND, self.territories.LONDON),
+            Army(0, Nations.FRANCE, self.territories.PARIS),
         ]
         orders = [
             Convoy(Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.LONDON, self.territories.BREST),
@@ -100,10 +100,10 @@ class TestConvoys(unittest.TestCase):
         Paris stays in Paris.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.ENGLISH_CHANNEL),
-            Army(Nations.ENGLAND, self.territories.LONDON),
-            Fleet(Nations.ENGLAND, self.territories.MID_ATLANTIC),
-            Army(Nations.FRANCE, self.territories.PARIS),
+            Fleet(0, Nations.ENGLAND, self.territories.ENGLISH_CHANNEL),
+            Army(0, Nations.ENGLAND, self.territories.LONDON),
+            Fleet(0, Nations.ENGLAND, self.territories.MID_ATLANTIC),
+            Army(0, Nations.FRANCE, self.territories.PARIS),
         ]
         orders = [
             Convoy(Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.LONDON, self.territories.BREST),
@@ -135,9 +135,9 @@ class TestConvoys(unittest.TestCase):
         The army in London will successfully convoy and end in Holland.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
-            Army(Nations.ENGLAND, self.territories.LONDON),
-            Fleet(Nations.GERMANY, self.territories.SKAGERRAK)
+            Fleet(0, Nations.ENGLAND, self.territories.NORTH_SEA),
+            Army(0, Nations.ENGLAND, self.territories.LONDON),
+            Fleet(0, Nations.GERMANY, self.territories.SKAGERRAK)
         ]
         orders = [
             Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.HOLLAND),
@@ -171,12 +171,12 @@ class TestConvoys(unittest.TestCase):
         The army in London will successfully convoy and end in Holland.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
-            Army(Nations.ENGLAND, self.territories.LONDON),
-            Fleet(Nations.FRANCE, self.territories.ENGLISH_CHANNEL),
-            Fleet(Nations.FRANCE, self.territories.BELGIUM),
-            Fleet(Nations.GERMANY, self.territories.SKAGERRAK),
-            Fleet(Nations.GERMANY, self.territories.DENMARK)
+            Fleet(0, Nations.ENGLAND, self.territories.NORTH_SEA),
+            Army(0, Nations.ENGLAND, self.territories.LONDON),
+            Fleet(0, Nations.FRANCE, self.territories.ENGLISH_CHANNEL),
+            Fleet(0, Nations.FRANCE, self.territories.BELGIUM),
+            Fleet(0, Nations.GERMANY, self.territories.SKAGERRAK),
+            Fleet(0, Nations.GERMANY, self.territories.DENMARK)
         ]
         orders = [
             Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.HOLLAND),
@@ -220,14 +220,14 @@ class TestConvoys(unittest.TestCase):
         be dislodged by the French in Picardy.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
-            Army(Nations.ENGLAND, self.territories.LONDON),
-            Army(Nations.GERMANY, self.territories.HOLLAND),
-            Army(Nations.GERMANY, self.territories.BELGIUM),
-            Fleet(Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
-            Fleet(Nations.GERMANY, self.territories.SKAGERRAK),
-            Army(Nations.FRANCE, self.territories.PICARDY),
-            Army(Nations.FRANCE, self.territories.BURGUNDY),
+            Fleet(0, Nations.ENGLAND, self.territories.NORTH_SEA),
+            Army(0, Nations.ENGLAND, self.territories.LONDON),
+            Army(0, Nations.GERMANY, self.territories.HOLLAND),
+            Army(0, Nations.GERMANY, self.territories.BELGIUM),
+            Fleet(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
+            Fleet(0, Nations.GERMANY, self.territories.SKAGERRAK),
+            Army(0, Nations.FRANCE, self.territories.PICARDY),
+            Army(0, Nations.FRANCE, self.territories.BURGUNDY),
         ]
         orders = [
             Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.HOLLAND),
@@ -271,10 +271,10 @@ class TestConvoys(unittest.TestCase):
         The dislodged English fleet can retreat to Holland.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
-            Army(Nations.ENGLAND, self.territories.LONDON),
-            Fleet(Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
-            Fleet(Nations.GERMANY, self.territories.SKAGERRAK),
+            Fleet(0, Nations.ENGLAND, self.territories.NORTH_SEA),
+            Army(0, Nations.ENGLAND, self.territories.LONDON),
+            Fleet(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
+            Fleet(0, Nations.GERMANY, self.territories.SKAGERRAK),
         ]
         orders = [
             Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.HOLLAND),
@@ -309,11 +309,11 @@ class TestConvoys(unittest.TestCase):
         The army in Belgium will not bounce and move to Holland.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
-            Army(Nations.ENGLAND, self.territories.LONDON),
-            Fleet(Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
-            Fleet(Nations.GERMANY, self.territories.SKAGERRAK),
-            Army(Nations.GERMANY, self.territories.BELGIUM),
+            Fleet(0, Nations.ENGLAND, self.territories.NORTH_SEA),
+            Army(0, Nations.ENGLAND, self.territories.LONDON),
+            Fleet(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT),
+            Fleet(0, Nations.GERMANY, self.territories.SKAGERRAK),
+            Army(0, Nations.GERMANY, self.territories.BELGIUM),
         ]
         orders = [
             Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.HOLLAND),
@@ -355,11 +355,11 @@ class TestConvoys(unittest.TestCase):
         will end in Belgium.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.ENGLISH_CHANNEL),
-            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
-            Army(Nations.ENGLAND, self.territories.LONDON),
-            Fleet(Nations.FRANCE, self.territories.BREST),
-            Fleet(Nations.FRANCE, self.territories.MID_ATLANTIC),
+            Fleet(0, Nations.ENGLAND, self.territories.ENGLISH_CHANNEL),
+            Fleet(0, Nations.ENGLAND, self.territories.NORTH_SEA),
+            Army(0, Nations.ENGLAND, self.territories.LONDON),
+            Fleet(0, Nations.FRANCE, self.territories.BREST),
+            Fleet(0, Nations.FRANCE, self.territories.MID_ATLANTIC),
         ]
         orders = [
             Convoy(Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.LONDON, self.territories.BELGIUM),
@@ -405,11 +405,11 @@ class TestConvoys(unittest.TestCase):
         English army in London will end in Belgium. See also issue 4.A.1.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
-            Army(Nations.ENGLAND, self.territories.LONDON),
-            Fleet(Nations.GERMANY, self.territories.ENGLISH_CHANNEL),
-            Fleet(Nations.FRANCE, self.territories.BREST),
-            Fleet(Nations.FRANCE, self.territories.MID_ATLANTIC),
+            Fleet(0, Nations.ENGLAND, self.territories.NORTH_SEA),
+            Army(0, Nations.ENGLAND, self.territories.LONDON),
+            Fleet(0, Nations.GERMANY, self.territories.ENGLISH_CHANNEL),
+            Fleet(0, Nations.FRANCE, self.territories.BREST),
+            Fleet(0, Nations.FRANCE, self.territories.MID_ATLANTIC),
         ]
         orders = [
             Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.BELGIUM),
@@ -459,11 +459,11 @@ class TestConvoys(unittest.TestCase):
         will stay in London. See also issue 4.A.1.
         """
         pieces = [
-            Army(Nations.ENGLAND, self.territories.LONDON),
-            Fleet(Nations.GERMANY, self.territories.ENGLISH_CHANNEL),
-            Fleet(Nations.RUSSIA, self.territories.NORTH_SEA),
-            Fleet(Nations.FRANCE, self.territories.BREST),
-            Fleet(Nations.FRANCE, self.territories.MID_ATLANTIC),
+            Army(0, Nations.ENGLAND, self.territories.LONDON),
+            Fleet(0, Nations.GERMANY, self.territories.ENGLISH_CHANNEL),
+            Fleet(0, Nations.RUSSIA, self.territories.NORTH_SEA),
+            Fleet(0, Nations.FRANCE, self.territories.BREST),
+            Fleet(0, Nations.FRANCE, self.territories.MID_ATLANTIC),
         ]
         orders = [
             Move(Nations.ENGLAND, self.territories.LONDON, self.territories.BELGIUM, via_convoy=True),
@@ -504,11 +504,11 @@ class TestConvoys(unittest.TestCase):
         route, although it can be reached from the starting point London.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.ENGLISH_CHANNEL),
-            Army(Nations.ENGLAND, self.territories.LONDON),
-            Fleet(Nations.ENGLAND, self.territories.IRISH_SEA),
-            Fleet(Nations.FRANCE, self.territories.NORTH_ATLANTIC),
-            Fleet(Nations.FRANCE, self.territories.MID_ATLANTIC),
+            Fleet(0, Nations.ENGLAND, self.territories.ENGLISH_CHANNEL),
+            Army(0, Nations.ENGLAND, self.territories.LONDON),
+            Fleet(0, Nations.ENGLAND, self.territories.IRISH_SEA),
+            Fleet(0, Nations.FRANCE, self.territories.NORTH_ATLANTIC),
+            Fleet(0, Nations.FRANCE, self.territories.MID_ATLANTIC),
         ]
         orders = [
             Convoy(Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.LONDON, self.territories.BELGIUM),
@@ -551,10 +551,10 @@ class TestConvoys(unittest.TestCase):
         Channel is dislodged.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.LONDON),
-            Fleet(Nations.ENGLAND, self.territories.WALES),
-            Army(Nations.FRANCE, self.territories.BREST),
-            Fleet(Nations.FRANCE, self.territories.ENGLISH_CHANNEL),
+            Fleet(0, Nations.ENGLAND, self.territories.LONDON),
+            Fleet(0, Nations.ENGLAND, self.territories.WALES),
+            Army(0, Nations.FRANCE, self.territories.BREST),
+            Fleet(0, Nations.FRANCE, self.territories.ENGLISH_CHANNEL),
         ]
         orders = [
             Support(Nations.ENGLAND, self.territories.LONDON, self.territories.WALES, self.territories.ENGLISH_CHANNEL),

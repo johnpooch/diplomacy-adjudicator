@@ -65,8 +65,8 @@ class TestPiece(TerritoryTestCase):
         paris = InlandTerritory(3, 'Paris', 'France', [])
         self.state.register(london, wales, paris)
 
-        army_london = Army('England', london)
-        army_wales = Army('England', wales)
+        army_london = Army(0, 'England', london)
+        army_wales = Army(0, 'England', wales)
         self.state.register(army_london, army_wales)
 
         self.assertEqual(army_london, london.piece)
@@ -82,8 +82,8 @@ class TestFriendlyPieceExists(TerritoryTestCase):
         paris = InlandTerritory(3, 'Paris', 'France', [])
         self.state.register(london, wales, paris)
 
-        army_london = Army('England', london)
-        army_wales = Army('France', wales)
+        army_london = Army(0, 'England', london)
+        army_wales = Army(0, 'France', wales)
         self.state.register(army_london, army_wales)
 
         self.assertTrue(london.friendly_piece_exists('England'))
@@ -98,7 +98,7 @@ class TestOccupied(TerritoryTestCase):
         wales = CoastalTerritory(2, 'Wales', 'England', [], [])
         self.state.register(london, wales)
 
-        army_london = Army('England', london)
+        army_london = Army(0, 'England', london)
         self.state.register(army_london)
 
         self.assertTrue(london.occupied)
@@ -113,8 +113,8 @@ class TestOccupiedBy(TerritoryTestCase):
         paris = InlandTerritory(3, 'Paris', 'England', [])
         self.state.register(london, wales, paris)
 
-        army_london = Army('England', london)
-        army_paris = Army('France', paris)
+        army_london = Army(0, 'England', london)
+        army_paris = Army(0, 'France', paris)
         self.state.register(army_london, army_paris)
 
         self.assertTrue(london.occupied_by('England'))
@@ -130,8 +130,8 @@ class TestAccessibleByPieceType(TerritoryTestCase):
         brest = CoastalTerritory(3, 'Brest', 'France', [], [])
         self.state.register(picardy, english_channel, brest)
 
-        army = Army('England', picardy)
-        fleet = Fleet('France', english_channel)
+        army = Army(0, 'England', picardy)
+        fleet = Fleet(0, 'France', english_channel)
         self.state.register(army, fleet)
 
         self.assertTrue(brest.accessible_by_piece_type(army))
@@ -143,8 +143,8 @@ class TestAccessibleByPieceType(TerritoryTestCase):
         paris = InlandTerritory(3, 'Paris', 'France', [])
         self.state.register(picardy, english_channel, paris)
 
-        army = Army('England', picardy)
-        fleet = Fleet('France', english_channel)
+        army = Army(0, 'England', picardy)
+        fleet = Fleet(0, 'France', english_channel)
         self.state.register(army, fleet)
 
         self.assertTrue(paris.accessible_by_piece_type(army))
@@ -156,8 +156,8 @@ class TestAccessibleByPieceType(TerritoryTestCase):
         irish_sea = SeaTerritory(3, 'Irish Sea', [])
         self.state.register(picardy, english_channel, irish_sea)
 
-        army = Army('England', picardy)
-        fleet = Fleet('France', english_channel)
+        army = Army(0, 'England', picardy)
+        fleet = Fleet(0, 'France', english_channel)
         self.state.register(army, fleet)
 
         self.assertFalse(irish_sea.accessible_by_piece_type(army))
@@ -174,7 +174,7 @@ class TestAttackingPieces(TerritoryTestCase):
     def test_attacking_piece_exists(self):
         picardy = CoastalTerritory(1, 'Picardy', 'France', [2], [])
         paris = InlandTerritory(2, 'Paris', 'France', [1])
-        army_paris = Army('France', paris)
+        army_paris = Army(0, 'France', paris)
         move = Move('France', paris, picardy)
         self.state.register(picardy, paris, army_paris, move)
 
@@ -184,8 +184,8 @@ class TestAttackingPieces(TerritoryTestCase):
         picardy = CoastalTerritory(1, 'Picardy', 'France', [2, 3], [])
         paris = InlandTerritory(2, 'Paris', 'France', [1])
         brest = CoastalTerritory(3, 'Brest', 'France', [1], [])
-        army_paris = Army('France', paris)
-        fleet_brest = Fleet('France', brest)
+        army_paris = Army(0, 'France', paris)
+        fleet_brest = Fleet(0, 'France', brest)
         move_1 = Move('France', paris, picardy)
         move_2 = Move('France', brest, picardy)
         self.state.register(picardy, paris, brest, army_paris, fleet_brest,
@@ -197,7 +197,7 @@ class TestAttackingPieces(TerritoryTestCase):
         picardy = CoastalTerritory(1, 'Picardy', 'France', [2, 3], [])
         paris = InlandTerritory(2, 'Paris', 'France', [1])
         brest = CoastalTerritory(3, 'Brest', 'France', [1], [])
-        fleet_brest = Fleet('France', brest)
+        fleet_brest = Fleet(0, 'France', brest)
         support = Support('France', paris, brest, picardy)
         move = Move('France', brest, picardy)
         self.state.register(picardy, paris, brest, fleet_brest, move, support)
@@ -211,8 +211,8 @@ class TestForeignAttackingPieces(TerritoryTestCase):
         picardy = CoastalTerritory(1, 'Picardy', 'France', [2], [])
         paris = InlandTerritory(2, 'Paris', 'France', [1])
         brest = CoastalTerritory(3, 'Brest', 'France', [1], [])
-        army_paris = Army('England', paris)
-        fleet_brest = Fleet('France', brest)
+        army_paris = Army(0, 'England', paris)
+        fleet_brest = Fleet(0, 'France', brest)
         move_1 = Move('England', paris, picardy)
         move_2 = Move('France', brest, picardy)
         self.state.register(picardy, paris, brest, army_paris, fleet_brest, move_1, move_2)
@@ -229,8 +229,8 @@ class TestOtherAttackingPieces(TerritoryTestCase):
         picardy = CoastalTerritory(1, 'Picardy', 'France', [2], [])
         paris = InlandTerritory(2, 'Paris', 'France', [1])
         brest = CoastalTerritory(3, 'Brest', 'France', [1], [])
-        army_paris = Army('England', paris)
-        fleet_brest = Fleet('France', brest)
+        army_paris = Army(0, 'England', paris)
+        fleet_brest = Fleet(0, 'France', brest)
         move_1 = Move('England', paris, picardy)
         move_2 = Move('France', brest, picardy)
         self.state.register(picardy, paris, brest, army_paris, fleet_brest, move_1, move_2)

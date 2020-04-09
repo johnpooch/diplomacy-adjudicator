@@ -25,7 +25,7 @@ class TestBasicChecks(unittest.TestCase):
 
         Order should fail.
         """
-        fleet = Fleet(Nations.ENGLAND, self.territories.NORTH_SEA)
+        fleet = Fleet(0, Nations.ENGLAND, self.territories.NORTH_SEA)
         order = Move(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.PICARDY)
 
         self.state.register(fleet, order)
@@ -43,7 +43,7 @@ class TestBasicChecks(unittest.TestCase):
 
         Order should fail.
         """
-        army = Army(Nations.ENGLAND, self.territories.LIVERPOOL)
+        army = Army(0, Nations.ENGLAND, self.territories.LIVERPOOL)
         order = Move(Nations.ENGLAND, self.territories.LIVERPOOL, self.territories.IRISH_SEA)
 
         self.state.register(army, order)
@@ -61,7 +61,7 @@ class TestBasicChecks(unittest.TestCase):
 
         Order should fail.
         """
-        fleet = Fleet(Nations.GERMANY, self.territories.KIEL)
+        fleet = Fleet(0, Nations.GERMANY, self.territories.KIEL)
         order = Move(Nations.GERMANY, self.territories.KIEL, self.territories.MUNICH)
 
         self.state.register(fleet, order)
@@ -81,7 +81,7 @@ class TestBasicChecks(unittest.TestCase):
 
         Program should not crash.
         """
-        army = Army(Nations.GERMANY, self.territories.KIEL)
+        army = Army(0, Nations.GERMANY, self.territories.KIEL)
         order = Move(Nations.GERMANY, self.territories.KIEL, self.territories.KIEL)
 
         self.state.register(army, order)
@@ -111,11 +111,11 @@ class TestBasicChecks(unittest.TestCase):
         stronger force. The fleet in London dislodges the army in Yorkshire.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
-            Army(Nations.ENGLAND, self.territories.YORKSHIRE),
-            Army(Nations.ENGLAND, self.territories.LIVERPOOL),
-            Fleet(Nations.ENGLAND, self.territories.LONDON),
-            Army(Nations.ENGLAND, self.territories.WALES),
+            Fleet(0, Nations.ENGLAND, self.territories.NORTH_SEA),
+            Army(0, Nations.ENGLAND, self.territories.YORKSHIRE),
+            Army(0, Nations.ENGLAND, self.territories.LIVERPOOL),
+            Fleet(0, Nations.ENGLAND, self.territories.LONDON),
+            Army(0, Nations.ENGLAND, self.territories.WALES),
         ]
 
         fleet_north_sea_convoy = Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.YORKSHIRE, self.territories.YORKSHIRE)
@@ -144,7 +144,7 @@ class TestBasicChecks(unittest.TestCase):
 
         Order should fail.
         """
-        fleet = Fleet(Nations.ENGLAND, self.territories.LONDON)
+        fleet = Fleet(0, Nations.ENGLAND, self.territories.LONDON)
         order = Move(Nations.GERMANY, self.territories.LONDON, self.territories.NORTH_SEA)
 
         self.state.register(fleet, order)
@@ -164,8 +164,8 @@ class TestBasicChecks(unittest.TestCase):
         Move from London to Belgium should fail.
         """
         pieces = [
-            Fleet(Nations.ENGLAND, self.territories.LONDON),
-            Fleet(Nations.ENGLAND, self.territories.NORTH_SEA),
+            Fleet(0, Nations.ENGLAND, self.territories.LONDON),
+            Fleet(0, Nations.ENGLAND, self.territories.NORTH_SEA),
         ]
         fleet_london_move = Move(Nations.ENGLAND, self.territories.LONDON, self.territories.BELGIUM, via_convoy=True)
         fleet_north_sea_convoy = Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.BELGIUM)
@@ -194,9 +194,9 @@ class TestBasicChecks(unittest.TestCase):
         The fleet in Trieste should be dislodged.
         """
         pieces = [
-            Army(Nations.ITALY, self.territories.VENICE),
-            Army(Nations.ITALY, self.territories.TYROLIA),
-            Fleet(Nations.AUSTRIA, self.territories.TRIESTE)
+            Army(0, Nations.ITALY, self.territories.VENICE),
+            Army(0, Nations.ITALY, self.territories.TYROLIA),
+            Fleet(0, Nations.AUSTRIA, self.territories.TRIESTE)
         ]
 
         # TODO finish
@@ -221,7 +221,7 @@ class TestBasicChecks(unittest.TestCase):
 
         Move fails. An army can go from Rome to Venice, but a fleet can not.
         """
-        fleet = Fleet(Nations.ITALY, self.territories.ROME, self.territories.VENICE)
+        fleet = Fleet(0, Nations.ITALY, self.territories.ROME, self.territories.VENICE)
         order = Move(Nations.ITALY, self.territories.ROME, self.territories.VENICE)
 
         self.state.register(order, fleet)
@@ -246,9 +246,9 @@ class TestBasicChecks(unittest.TestCase):
         Rome by a fleet. Venice is not dislodged.
         """
         pieces = [
-            Army(Nations.AUSTRIA, self.territories.VENICE),
-            Fleet(Nations.ITALY, self.territories.ROME),
-            Army(Nations.ITALY, self.territories.APULIA)
+            Army(0, Nations.AUSTRIA, self.territories.VENICE),
+            Fleet(0, Nations.ITALY, self.territories.ROME),
+            Army(0, Nations.ITALY, self.territories.APULIA)
         ]
 
         # TODO finish
@@ -276,8 +276,8 @@ class TestBasicChecks(unittest.TestCase):
         The two units bounce.
         """
         pieces = [
-            Army(Nations.AUSTRIA, self.territories.VIENNA),
-            Army(Nations.ITALY, self.territories.VENICE),
+            Army(0, Nations.AUSTRIA, self.territories.VIENNA),
+            Army(0, Nations.ITALY, self.territories.VENICE),
         ]
 
         army_vienna_move = Move(Nations.AUSTRIA, self.territories.VIENNA, self.territories.TYROLIA)
@@ -315,9 +315,9 @@ class TestBasicChecks(unittest.TestCase):
         The three units bounce.
         """
         pieces = [
-            Army(Nations.AUSTRIA, self.territories.VIENNA),
-            Army(Nations.ITALY, self.territories.VENICE),
-            Army(Nations.GERMANY, self.territories.MUNICH)
+            Army(0, Nations.AUSTRIA, self.territories.VIENNA),
+            Army(0, Nations.ITALY, self.territories.VENICE),
+            Army(0, Nations.GERMANY, self.territories.MUNICH)
         ]
 
         army_vienna_move = Move(Nations.AUSTRIA, self.territories.VIENNA, self.territories.TYROLIA)

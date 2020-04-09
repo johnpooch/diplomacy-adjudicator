@@ -243,6 +243,13 @@ def data_to_state(data):
     return state
 
 
+def state_to_data(state):
+    state = State()
+    data = {}
+
+    return data
+
+
 terrtitory_type_dict = {
     'sea': SeaTerritory,
     'inland': InlandTerritory,
