@@ -44,6 +44,12 @@ class Order:
         return [s for s in self.hold_support_orders if
                 s.support_decision in args and s.legal_decision in legal_decisions]
 
+    def to_dict(self):
+        return {
+            'id': self._id,
+            'legal_decision': self.legal_decision,
+            'illegal_message': self.illegal_message,
+        }
 
 class Hold(Order):
     pass
@@ -223,6 +229,11 @@ class Move(Order):
                             return opposing_piece.order.target == self.source
         return False
 
+    def to_dict(self):
+        data = super().to_dict()
+        data.update({'move_decision': self.move_decision})
+        return data
+
 
 class Support(Order):
     def __init__(self, _id, nation, source, aux, target):
@@ -319,6 +330,11 @@ class Support(Order):
                      if p.territory != aux_target]):
             return self.set_support_decision(Outcomes.CUT)
 
+    def to_dict(self):
+        data = super().to_dict()
+        data.update({'support_decision': self.support_decision})
+        return data
+
 
 class Convoy(Order):
     def __init__(self, _id, nation, source, aux, target):
@@ -384,6 +400,11 @@ class Retreat(Order):
 
         if other_retreating_pieces:
             self.set_move_decision(Outcomes.FAILS)
+
+    def to_dict(self):
+        data = super().to_dict()
+        data.update({'move_decision': self.move_decision})
+        return data
 
 
 class Build(Order):

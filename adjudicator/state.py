@@ -244,10 +244,11 @@ def data_to_state(data):
 
 
 def state_to_data(state):
-    state = State()
-    data = {}
-
-    return data
+    return {
+        'territories': [t.to_dict() for t in state.territories],
+        'pieces': [p.to_dict() for p in state.pieces],
+        'orders': [o.to_dict() for o in state.orders],
+    }
 
 
 terrtitory_type_dict = {
