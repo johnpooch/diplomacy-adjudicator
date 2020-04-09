@@ -230,10 +230,14 @@ def data_to_state(data):
     for order_data in data['orders']:
         type = order_data.pop('type')
         source_id = order_data.pop('source_id')
-        target_id = order_data.pop('target_id')
-        order_class = order_type_dict[type]
         order_data['source'] = [t for t in state.territories if t.id == source_id][0]
-        order_data['target'] = [t for t in state.territories if t.id == target_id][0]
+        if order_data.get('target_id'):
+            target_id = order_data.pop('target_id')
+            order_data['target'] = [t for t in state.territories if t.id == target_id][0]
+        if order_data.get('aux_id'):
+            aux_id = order_data.pop('aux_id')
+            order_data['aux'] = [t for t in state.territories if t.id == aux_id][0]
+        order_class = order_type_dict[type]
         order = order_class(**order_data)
         state.register(order)
     return state

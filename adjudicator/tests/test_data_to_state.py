@@ -1,6 +1,7 @@
 import unittest
 
 from adjudicator.state import data_to_state
+from adjudicator import order
 from adjudicator.territory import CoastalTerritory, InlandTerritory, \
     SeaTerritory
 
@@ -136,7 +137,36 @@ class TestDataToState(unittest.TestCase):
         self.assertEqual(state.pieces[0].__class__.__name__, 'Army')
         self.assertEqual(state.pieces[0].nation, 1)
 
-    def test_order(self):
+    def test_hold(self):
+        data = {
+            'orders': [
+                {
+                    'type': 'hold',
+                    'nation': 1,
+                    'source_id': 1,
+                }
+            ],
+            'pieces': [],
+            'named_coasts': [],
+            'territories': [
+                {
+                    'id': 1,
+                    'type': 'coastal',
+                    'name': 'Spain',
+                    'nationality': None,
+                    'controlled_by': None,
+                    'supply_center': True,
+                    'neighbour_ids': [2, 3, 4, 5],
+                    'shared_coast_ids': [2, 3],
+                },
+            ]
+        }
+        state = data_to_state(data)
+        self.assertEqual(type(state.orders[0].source), CoastalTerritory)
+        self.assertEqual(type(state.orders[0]), order.Hold)
+        self.assertEqual(state.orders[0].nation, 1)
+
+    def test_move(self):
         data = {
             'orders': [
                 {
@@ -174,3 +204,91 @@ class TestDataToState(unittest.TestCase):
         state = data_to_state(data)
         self.assertEqual(type(state.orders[0].source), CoastalTerritory)
         self.assertEqual(type(state.orders[0].target), CoastalTerritory)
+        self.assertEqual(type(state.orders[0]), order.Move)
+        self.assertEqual(state.orders[0].nation, 1)
+
+    def test_support(self):
+        data = {
+            'orders': [
+                {
+                    'type': 'support',
+                    'nation': 1,
+                    'source_id': 1,
+                    'target_id': 2,
+                    'aux_id': 2,
+                }
+            ],
+            'pieces': [],
+            'named_coasts': [],
+            'territories': [
+                {
+                    'id': 1,
+                    'type': 'coastal',
+                    'name': 'Spain',
+                    'nationality': None,
+                    'controlled_by': None,
+                    'supply_center': True,
+                    'neighbour_ids': [2, 3, 4, 5],
+                    'shared_coast_ids': [2, 3],
+                },
+                {
+                    'id': 2,
+                    'type': 'coastal',
+                    'name': 'Portugal',
+                    'nationality': None,
+                    'controlled_by': None,
+                    'supply_center': True,
+                    'neighbour_ids': [1, 3, 4, 5],
+                    'shared_coast_ids': [1, 3],
+                }
+            ]
+        }
+        state = data_to_state(data)
+        self.assertEqual(type(state.orders[0].source), CoastalTerritory)
+        self.assertEqual(type(state.orders[0].target), CoastalTerritory)
+        self.assertEqual(type(state.orders[0].aux), CoastalTerritory)
+        self.assertEqual(type(state.orders[0]), order.Support)
+        self.assertEqual(state.orders[0].nation, 1)
+
+    def test_convoy(self):
+        data = {
+            'orders': [
+                {
+                    'type': 'convoy',
+                    'nation': 1,
+                    'source_id': 1,
+                    'target_id': 2,
+                    'aux_id': 2,
+                }
+            ],
+            'pieces': [],
+            'named_coasts': [],
+            'territories': [
+                {
+                    'id': 1,
+                    'type': 'coastal',
+                    'name': 'Spain',
+                    'nationality': None,
+                    'controlled_by': None,
+                    'supply_center': True,
+                    'neighbour_ids': [2, 3, 4, 5],
+                    'shared_coast_ids': [2, 3],
+                },
+                {
+                    'id': 2,
+                    'type': 'coastal',
+                    'name': 'Portugal',
+                    'nationality': None,
+                    'controlled_by': None,
+                    'supply_center': True,
+                    'neighbour_ids': [1, 3, 4, 5],
+                    'shared_coast_ids': [1, 3],
+                }
+            ]
+        }
+        state = data_to_state(data)
+        self.assertEqual(type(state.orders[0].source), CoastalTerritory)
+        self.assertEqual(type(state.orders[0].target), CoastalTerritory)
+        self.assertEqual(type(state.orders[0].aux), CoastalTerritory)
+        self.assertEqual(type(state.orders[0]), order.Convoy)
+        self.assertEqual(state.orders[0].nation, 1)
