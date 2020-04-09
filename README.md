@@ -7,7 +7,6 @@ and install dev requirements.
 
 ```shell
 virtualenv env
-env/bin/pip install -r requirements.txt
 source env/bin/activate
 pip install -r dev_requirements.txt
 ```
