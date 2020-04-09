@@ -29,7 +29,7 @@ class TestCoastalIssues(unittest.TestCase):
         I prefer that the move fails.
         """
         fleet = Fleet(0, Nations.FRANCE, self.territories.PORTUGAL)
-        order = Move(Nations.FRANCE, self.territories.PORTUGAL, self.territories.SPAIN)
+        order = Move(0, Nations.FRANCE, self.territories.PORTUGAL, self.territories.SPAIN)
 
         self.state.register(fleet, order)
 
@@ -53,7 +53,7 @@ class TestCoastalIssues(unittest.TestCase):
         coast of Spain.
         """
         fleet = Fleet(0, Nations.FRANCE, self.territories.GASCONY)
-        order = Move(Nations.FRANCE, self.territories.GASCONY, self.territories.SPAIN)
+        order = Move(0, Nations.FRANCE, self.territories.GASCONY, self.territories.SPAIN)
         self.state.register(fleet, order)
 
         with self.assertRaises(ValueError):
@@ -73,7 +73,7 @@ class TestCoastalIssues(unittest.TestCase):
         I prefer that the move fails.
         """
         fleet = Fleet(0, Nations.FRANCE, self.territories.GASCONY)
-        order = Move(Nations.FRANCE, self.territories.GASCONY, self.territories.SPAIN, self.named_coasts.SPAIN_SC)
+        order = Move(0, Nations.FRANCE, self.territories.GASCONY, self.territories.SPAIN, self.named_coasts.SPAIN_SC)
 
         self.state.register(fleet, order)
         process(self.state)
@@ -103,9 +103,9 @@ class TestCoastalIssues(unittest.TestCase):
             Fleet(0, Nations.ITALY, self.territories.WESTERN_MEDITERRANEAN)
         ]
 
-        fleet_gascony_move = Move(Nations.FRANCE, self.territories.GASCONY, self.territories.SPAIN, self.named_coasts.SPAIN_NC)
-        fleet_marseilles_support = Support(Nations.FRANCE, self.territories.MARSEILLES, self.territories.GASCONY, self.territories.SPAIN)
-        fleet_western_med_move = Move(Nations.ITALY, self.territories.WESTERN_MEDITERRANEAN, self.territories.SPAIN, self.named_coasts.SPAIN_SC)
+        fleet_gascony_move = Move(0, Nations.FRANCE, self.territories.GASCONY, self.territories.SPAIN, self.named_coasts.SPAIN_NC)
+        fleet_marseilles_support = Support(0, Nations.FRANCE, self.territories.MARSEILLES, self.territories.GASCONY, self.territories.SPAIN)
+        fleet_western_med_move = Move(0, Nations.ITALY, self.territories.WESTERN_MEDITERRANEAN, self.territories.SPAIN, self.named_coasts.SPAIN_SC)
 
         self.state.register(*pieces, fleet_gascony_move, fleet_marseilles_support, fleet_western_med_move)
         self.state.post_register_updates()
@@ -137,9 +137,9 @@ class TestCoastalIssues(unittest.TestCase):
             Fleet(0, Nations.ITALY, self.territories.GULF_OF_LYON)
         ]
 
-        fleet_marseilles_move = Move(Nations.FRANCE, self.territories.MARSEILLES, self.territories.GULF_OF_LYON)
-        fleet_spain_nc_support = Support(Nations.FRANCE, self.territories.SPAIN, self.territories.MARSEILLES, self.territories.GULF_OF_LYON)
-        fleet_gol_hold = Hold(Nations.ITALY, self.territories.GULF_OF_LYON)
+        fleet_marseilles_move = Move(0, Nations.FRANCE, self.territories.MARSEILLES, self.territories.GULF_OF_LYON)
+        fleet_spain_nc_support = Support(0, Nations.FRANCE, self.territories.SPAIN, self.territories.MARSEILLES, self.territories.GULF_OF_LYON)
+        fleet_gol_hold = Hold(0, Nations.ITALY, self.territories.GULF_OF_LYON)
 
         self.state.register(*pieces, fleet_marseilles_move, fleet_spain_nc_support, fleet_gol_hold)
         self.state.post_register_updates()
@@ -177,11 +177,11 @@ class TestCoastalIssues(unittest.TestCase):
             Fleet(0, Nations.ITALY, self.territories.GULF_OF_LYON),
         ]
         orders = [
-            Move(Nations.ENGLAND, self.territories.NORTH_ATLANTIC, self.territories.MID_ATLANTIC),
-            Support(Nations.ENGLAND, self.territories.IRISH_SEA, self.territories.NORTH_ATLANTIC, self.territories.MID_ATLANTIC),
-            Support(Nations.FRANCE, self.territories.SPAIN, self.territories.MID_ATLANTIC, self.territories.MID_ATLANTIC),
-            Hold(Nations.FRANCE, self.territories.MID_ATLANTIC),
-            Move(Nations.ITALY, self.territories.GULF_OF_LYON, self.territories.SPAIN, self.named_coasts.SPAIN_SC),
+            Move(0, Nations.ENGLAND, self.territories.NORTH_ATLANTIC, self.territories.MID_ATLANTIC),
+            Support(0, Nations.ENGLAND, self.territories.IRISH_SEA, self.territories.NORTH_ATLANTIC, self.territories.MID_ATLANTIC),
+            Support(0, Nations.FRANCE, self.territories.SPAIN, self.territories.MID_ATLANTIC, self.territories.MID_ATLANTIC),
+            Hold(0, Nations.FRANCE, self.territories.MID_ATLANTIC),
+            Move(0, Nations.ITALY, self.territories.GULF_OF_LYON, self.territories.SPAIN, self.named_coasts.SPAIN_SC),
         ]
 
         self.state.register(*pieces, *orders)
@@ -224,10 +224,10 @@ class TestCoastalIssues(unittest.TestCase):
             Fleet(0, Nations.ITALY, self.territories.WESTERN_MEDITERRANEAN),
         ]
         orders = [
-            Support(Nations.FRANCE, self.territories.PORTUGAL, self.territories.MID_ATLANTIC, self.territories.SPAIN),
-            Move(Nations.FRANCE, self.territories.MID_ATLANTIC, self.territories.SPAIN, self.named_coasts.SPAIN_NC),
-            Support(Nations.ITALY, self.territories.GULF_OF_LYON, self.territories.WESTERN_MEDITERRANEAN, self.territories.SPAIN),
-            Move(Nations.ITALY, self.territories.WESTERN_MEDITERRANEAN, self.territories.SPAIN, self.named_coasts.SPAIN_SC),
+            Support(0, Nations.FRANCE, self.territories.PORTUGAL, self.territories.MID_ATLANTIC, self.territories.SPAIN),
+            Move(0, Nations.FRANCE, self.territories.MID_ATLANTIC, self.territories.SPAIN, self.named_coasts.SPAIN_NC),
+            Support(0, Nations.ITALY, self.territories.GULF_OF_LYON, self.territories.WESTERN_MEDITERRANEAN, self.territories.SPAIN),
+            Move(0, Nations.ITALY, self.territories.WESTERN_MEDITERRANEAN, self.territories.SPAIN, self.named_coasts.SPAIN_SC),
         ]
 
         self.state.register(*pieces, *orders)
@@ -272,10 +272,10 @@ class TestCoastalIssues(unittest.TestCase):
             Fleet(0, Nations.ITALY, self.territories.WESTERN_MEDITERRANEAN),
         ]
         orders = [
-            Support(Nations.FRANCE, self.territories.PORTUGAL, self.territories.GASCONY, self.territories.SPAIN),
-            Move(Nations.FRANCE, self.territories.GASCONY, self.territories.SPAIN, self.named_coasts.SPAIN_NC),
-            Support(Nations.ITALY, self.territories.GULF_OF_LYON, self.territories.WESTERN_MEDITERRANEAN, self.territories.SPAIN),
-            Move(Nations.ITALY, self.territories.WESTERN_MEDITERRANEAN, self.territories.SPAIN, self.named_coasts.SPAIN_SC),
+            Support(0, Nations.FRANCE, self.territories.PORTUGAL, self.territories.GASCONY, self.territories.SPAIN),
+            Move(0, Nations.FRANCE, self.territories.GASCONY, self.territories.SPAIN, self.named_coasts.SPAIN_NC),
+            Support(0, Nations.ITALY, self.territories.GULF_OF_LYON, self.territories.WESTERN_MEDITERRANEAN, self.territories.SPAIN),
+            Move(0, Nations.ITALY, self.territories.WESTERN_MEDITERRANEAN, self.territories.SPAIN, self.named_coasts.SPAIN_SC),
         ]
 
         self.state.register(*pieces, *orders)
@@ -300,7 +300,7 @@ class TestCoastalIssues(unittest.TestCase):
         """
         # Not really relevant because can't specify source coast
         fleet = Fleet(0, Nations.FRANCE, self.territories.SPAIN, self.named_coasts.SPAIN_NC)
-        move = Move(Nations.FRANCE, self.territories.SPAIN, self.territories.SPAIN, self.named_coasts.SPAIN_SC)
+        move = Move(0, Nations.FRANCE, self.territories.SPAIN, self.territories.SPAIN, self.named_coasts.SPAIN_SC)
 
         self.state.register(fleet, move)
         self.state.post_register_updates()
@@ -323,7 +323,7 @@ class TestCoastalIssues(unittest.TestCase):
         I prefer that a move will be attempted.
         """
         army = Army(0, Nations.FRANCE, self.territories.GASCONY)
-        move = Move(Nations.FRANCE, self.territories.GASCONY, self.territories.SPAIN, self.named_coasts.SPAIN_NC)
+        move = Move(0, Nations.FRANCE, self.territories.GASCONY, self.territories.SPAIN, self.named_coasts.SPAIN_NC)
 
         self.state.register(army, move)
         self.state.post_register_updates()
@@ -350,8 +350,8 @@ class TestCoastalIssues(unittest.TestCase):
             Fleet(0, Nations.TURKEY, self.territories.CONSTANTINOPLE),
         ]
         orders = [
-            Move(Nations.TURKEY, self.territories.BULGARIA, self.territories.CONSTANTINOPLE),
-            Move(Nations.TURKEY, self.territories.CONSTANTINOPLE, self.territories.BULGARIA, self.named_coasts.BULGARIA_EC),
+            Move(0, Nations.TURKEY, self.territories.BULGARIA, self.territories.CONSTANTINOPLE),
+            Move(0, Nations.TURKEY, self.territories.CONSTANTINOPLE, self.territories.BULGARIA, self.named_coasts.BULGARIA_EC),
         ]
 
         self.state.register(*pieces, *orders)
@@ -371,7 +371,7 @@ class TestCoastalIssues(unittest.TestCase):
 
         I do not like default coast, so I prefer that the build fails.
         """
-        order = Build(Nations.RUSSIA, self.territories.ST_PETERSBURG, 'fleet')
+        order = Build(0, Nations.RUSSIA, self.territories.ST_PETERSBURG, 'fleet')
 
         self.state.register(order)
         self.state.post_register_updates()

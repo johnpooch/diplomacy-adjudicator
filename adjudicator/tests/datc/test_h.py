@@ -26,7 +26,7 @@ class TestRetreating(unittest.TestCase):
             Army(0, Nations.ENGLAND, self.territories.NORWAY, attacker_territory=self.territories.SWEDEN),
         ]
         orders = [
-            Retreat(Nations.ENGLAND, self.territories.NORWAY, self.territories.SWEDEN),
+            Retreat(0, Nations.ENGLAND, self.territories.NORWAY, self.territories.SWEDEN),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -45,7 +45,7 @@ class TestRetreating(unittest.TestCase):
             Army(0, Nations.ENGLAND, self.territories.NORWAY, attacker_territory=self.territories.FINLAND),
         ]
         orders = [
-            Retreat(Nations.ENGLAND, self.territories.NORWAY, self.territories.SWEDEN),
+            Retreat(0, Nations.ENGLAND, self.territories.NORWAY, self.territories.SWEDEN),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -64,8 +64,8 @@ class TestRetreating(unittest.TestCase):
             Army(0, Nations.ENGLAND, self.territories.FINLAND, attacker_territory=self.territories.ST_PETERSBURG),
         ]
         orders = [
-            Retreat(Nations.ENGLAND, self.territories.NORWAY, self.territories.SWEDEN),
-            Retreat(Nations.ENGLAND, self.territories.FINLAND, self.territories.SWEDEN),
+            Retreat(0, Nations.ENGLAND, self.territories.NORWAY, self.territories.SWEDEN),
+            Retreat(0, Nations.ENGLAND, self.territories.FINLAND, self.territories.SWEDEN),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -87,9 +87,9 @@ class TestRetreating(unittest.TestCase):
             Army(0, Nations.RUSSIA, self.territories.DENMARK, attacker_territory=self.territories.KIEL),
         ]
         orders = [
-            Retreat(Nations.ENGLAND, self.territories.NORWAY, self.territories.SWEDEN),
-            Retreat(Nations.ENGLAND, self.territories.FINLAND, self.territories.SWEDEN),
-            Retreat(Nations.RUSSIA, self.territories.DENMARK, self.territories.SWEDEN),
+            Retreat(0, Nations.ENGLAND, self.territories.NORWAY, self.territories.SWEDEN),
+            Retreat(0, Nations.ENGLAND, self.territories.FINLAND, self.territories.SWEDEN),
+            Retreat(0, Nations.RUSSIA, self.territories.DENMARK, self.territories.SWEDEN),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()

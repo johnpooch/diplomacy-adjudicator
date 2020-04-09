@@ -175,7 +175,7 @@ class TestAttackingPieces(TerritoryTestCase):
         picardy = CoastalTerritory(1, 'Picardy', 'France', [2], [])
         paris = InlandTerritory(2, 'Paris', 'France', [1])
         army_paris = Army(0, 'France', paris)
-        move = Move('France', paris, picardy)
+        move = Move(0, 'France', paris, picardy)
         self.state.register(picardy, paris, army_paris, move)
 
         self.assertEqual(picardy.attacking_pieces, {army_paris})
@@ -186,8 +186,8 @@ class TestAttackingPieces(TerritoryTestCase):
         brest = CoastalTerritory(3, 'Brest', 'France', [1], [])
         army_paris = Army(0, 'France', paris)
         fleet_brest = Fleet(0, 'France', brest)
-        move_1 = Move('France', paris, picardy)
-        move_2 = Move('France', brest, picardy)
+        move_1 = Move(0, 'France', paris, picardy)
+        move_2 = Move(0, 'France', brest, picardy)
         self.state.register(picardy, paris, brest, army_paris, fleet_brest,
                             move_1, move_2)
 
@@ -198,8 +198,8 @@ class TestAttackingPieces(TerritoryTestCase):
         paris = InlandTerritory(2, 'Paris', 'France', [1])
         brest = CoastalTerritory(3, 'Brest', 'France', [1], [])
         fleet_brest = Fleet(0, 'France', brest)
-        support = Support('France', paris, brest, picardy)
-        move = Move('France', brest, picardy)
+        support = Support(0, 'France', paris, brest, picardy)
+        move = Move(0, 'France', brest, picardy)
         self.state.register(picardy, paris, brest, fleet_brest, move, support)
 
         self.assertEqual(picardy.attacking_pieces, {fleet_brest})
@@ -213,8 +213,8 @@ class TestForeignAttackingPieces(TerritoryTestCase):
         brest = CoastalTerritory(3, 'Brest', 'France', [1], [])
         army_paris = Army(0, 'England', paris)
         fleet_brest = Fleet(0, 'France', brest)
-        move_1 = Move('England', paris, picardy)
-        move_2 = Move('France', brest, picardy)
+        move_1 = Move(0, 'England', paris, picardy)
+        move_2 = Move(0, 'France', brest, picardy)
         self.state.register(picardy, paris, brest, army_paris, fleet_brest, move_1, move_2)
 
         self.assertEqual(
@@ -231,8 +231,8 @@ class TestOtherAttackingPieces(TerritoryTestCase):
         brest = CoastalTerritory(3, 'Brest', 'France', [1], [])
         army_paris = Army(0, 'England', paris)
         fleet_brest = Fleet(0, 'France', brest)
-        move_1 = Move('England', paris, picardy)
-        move_2 = Move('France', brest, picardy)
+        move_1 = Move(0, 'England', paris, picardy)
+        move_2 = Move(0, 'France', brest, picardy)
         self.state.register(picardy, paris, brest, army_paris, fleet_brest, move_1, move_2)
 
         self.assertEqual(

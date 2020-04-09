@@ -38,10 +38,10 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.ITALY, self.territories.TYROLIA)
         ]
         orders = [
-            Support(Nations.AUSTRIA, self.territories.ADRIATIC_SEA, self.territories.TRIESTE, self.territories.VENICE),
-            Move(Nations.AUSTRIA, self.territories.TRIESTE, self.territories.VENICE),
-            Hold(Nations.ITALY, self.territories.VENICE),
-            Support(Nations.ITALY, self.territories.TYROLIA, self.territories.VENICE, self.territories.VENICE),
+            Support(0, Nations.AUSTRIA, self.territories.ADRIATIC_SEA, self.territories.TRIESTE, self.territories.VENICE),
+            Move(0, Nations.AUSTRIA, self.territories.TRIESTE, self.territories.VENICE),
+            Hold(0, Nations.ITALY, self.territories.VENICE),
+            Support(0, Nations.ITALY, self.territories.TYROLIA, self.territories.VENICE, self.territories.VENICE),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -76,11 +76,11 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.ITALY, self.territories.TYROLIA)
         ]
         orders = [
-            Support(Nations.AUSTRIA, self.territories.ADRIATIC_SEA, self.territories.TRIESTE, self.territories.VENICE),
-            Move(Nations.AUSTRIA, self.territories.TRIESTE, self.territories.VENICE),
-            Move(Nations.AUSTRIA, self.territories.VIENNA, self.territories.TYROLIA),
-            Hold(Nations.ITALY, self.territories.VENICE),
-            Support(Nations.ITALY, self.territories.TYROLIA, self.territories.VENICE, self.territories.VENICE),
+            Support(0, Nations.AUSTRIA, self.territories.ADRIATIC_SEA, self.territories.TRIESTE, self.territories.VENICE),
+            Move(0, Nations.AUSTRIA, self.territories.TRIESTE, self.territories.VENICE),
+            Move(0, Nations.AUSTRIA, self.territories.VIENNA, self.territories.TYROLIA),
+            Hold(0, Nations.ITALY, self.territories.VENICE),
+            Support(0, Nations.ITALY, self.territories.TYROLIA, self.territories.VENICE, self.territories.VENICE),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -116,10 +116,10 @@ class TestCircularMovement(unittest.TestCase):
             Fleet(0, Nations.AUSTRIA, self.territories.IONIAN_SEA),
         ]
         orders = [
-            Support(Nations.AUSTRIA, self.territories.ADRIATIC_SEA, self.territories.TRIESTE, self.territories.VENICE),
-            Move(Nations.AUSTRIA, self.territories.TRIESTE, self.territories.VENICE),
-            Hold(Nations.ITALY, self.territories.VENICE),
-            Move(Nations.ITALY, self.territories.IONIAN_SEA, self.territories.ADRIATIC_SEA),
+            Support(0, Nations.AUSTRIA, self.territories.ADRIATIC_SEA, self.territories.TRIESTE, self.territories.VENICE),
+            Move(0, Nations.AUSTRIA, self.territories.TRIESTE, self.territories.VENICE),
+            Hold(0, Nations.ITALY, self.territories.VENICE),
+            Move(0, Nations.ITALY, self.territories.IONIAN_SEA, self.territories.ADRIATIC_SEA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -151,10 +151,10 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.RUSSIA, self.territories.PRUSSIA),
         ]
         orders = [
-            Support(Nations.GERMANY, self.territories.BERLIN, self.territories.KIEL, self.territories.KIEL),
-            Support(Nations.GERMANY, self.territories.KIEL, self.territories.BERLIN, self.territories.BERLIN),
-            Support(Nations.RUSSIA, self.territories.BALTIC_SEA, self.territories.PRUSSIA, self.territories.BERLIN),
-            Move(Nations.RUSSIA, self.territories.PRUSSIA, self.territories.BERLIN),
+            Support(0, Nations.GERMANY, self.territories.BERLIN, self.territories.KIEL, self.territories.KIEL),
+            Support(0, Nations.GERMANY, self.territories.KIEL, self.territories.BERLIN, self.territories.BERLIN),
+            Support(0, Nations.RUSSIA, self.territories.BALTIC_SEA, self.territories.PRUSSIA, self.territories.BERLIN),
+            Move(0, Nations.RUSSIA, self.territories.PRUSSIA, self.territories.BERLIN),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -188,11 +188,11 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.RUSSIA, self.territories.PRUSSIA),
         ]
         orders = [
-            Support(Nations.GERMANY, self.territories.BERLIN, self.territories.MUNICH, self.territories.SILESIA),
-            Support(Nations.GERMANY, self.territories.KIEL, self.territories.BERLIN, self.territories.BERLIN),
-            Move(Nations.GERMANY, self.territories.MUNICH, self.territories.SILESIA),
-            Support(Nations.RUSSIA, self.territories.BALTIC_SEA, self.territories.PRUSSIA, self.territories.BERLIN),
-            Move(Nations.RUSSIA, self.territories.PRUSSIA, self.territories.BERLIN),
+            Support(0, Nations.GERMANY, self.territories.BERLIN, self.territories.MUNICH, self.territories.SILESIA),
+            Support(0, Nations.GERMANY, self.territories.KIEL, self.territories.BERLIN, self.territories.BERLIN),
+            Move(0, Nations.GERMANY, self.territories.MUNICH, self.territories.SILESIA),
+            Support(0, Nations.RUSSIA, self.territories.BALTIC_SEA, self.territories.PRUSSIA, self.territories.BERLIN),
+            Move(0, Nations.RUSSIA, self.territories.PRUSSIA, self.territories.BERLIN),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -228,11 +228,11 @@ class TestCircularMovement(unittest.TestCase):
             Fleet(0, Nations.RUSSIA, self.territories.GULF_OF_BOTHNIA),
         ]
         orders = [
-            Move(Nations.GERMANY, self.territories.BERLIN, self.territories.SWEDEN, via_convoy=True),
-            Convoy(Nations.GERMANY, self.territories.BALTIC_SEA, self.territories.BERLIN, self.territories.SWEDEN),
-            Support(Nations.GERMANY, self.territories.PRUSSIA, self.territories.BALTIC_SEA, self.territories.BALTIC_SEA),
-            Move(Nations.RUSSIA, self.territories.LIVONIA, self.territories.BALTIC_SEA),
-            Support(Nations.RUSSIA, self.territories.GULF_OF_BOTHNIA, self.territories.LIVONIA, self.territories.BALTIC_SEA),
+            Move(0, Nations.GERMANY, self.territories.BERLIN, self.territories.SWEDEN, via_convoy=True),
+            Convoy(0, Nations.GERMANY, self.territories.BALTIC_SEA, self.territories.BERLIN, self.territories.SWEDEN),
+            Support(0, Nations.GERMANY, self.territories.PRUSSIA, self.territories.BALTIC_SEA, self.territories.BALTIC_SEA),
+            Move(0, Nations.RUSSIA, self.territories.LIVONIA, self.territories.BALTIC_SEA),
+            Support(0, Nations.RUSSIA, self.territories.GULF_OF_BOTHNIA, self.territories.LIVONIA, self.territories.BALTIC_SEA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -271,11 +271,11 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.RUSSIA, self.territories.FINLAND),
         ]
         orders = [
-            Move(Nations.GERMANY, self.territories.BALTIC_SEA, self.territories.SWEDEN),
-            Support(Nations.GERMANY, self.territories.PRUSSIA, self.territories.BALTIC_SEA, self.territories.BALTIC_SEA),
-            Move(Nations.RUSSIA, self.territories.LIVONIA, self.territories.BALTIC_SEA),
-            Support(Nations.RUSSIA, self.territories.GULF_OF_BOTHNIA, self.territories.LIVONIA, self.territories.BALTIC_SEA),
-            Move(Nations.RUSSIA, self.territories.FINLAND, self.territories.SWEDEN),
+            Move(0, Nations.GERMANY, self.territories.BALTIC_SEA, self.territories.SWEDEN),
+            Support(0, Nations.GERMANY, self.territories.PRUSSIA, self.territories.BALTIC_SEA, self.territories.BALTIC_SEA),
+            Move(0, Nations.RUSSIA, self.territories.LIVONIA, self.territories.BALTIC_SEA),
+            Support(0, Nations.RUSSIA, self.territories.GULF_OF_BOTHNIA, self.territories.LIVONIA, self.territories.BALTIC_SEA),
+            Move(0, Nations.RUSSIA, self.territories.FINLAND, self.territories.SWEDEN),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -319,11 +319,11 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.TURKEY, self.territories.BULGARIA),
         ]
         orders = [
-            Hold(Nations.AUSTRIA, self.territories.IONIAN_SEA),
-            Support(Nations.AUSTRIA, self.territories.SERBIA, self.territories.ALBANIA, self.territories.GREECE),
-            Move(Nations.AUSTRIA, self.territories.ALBANIA, self.territories.GREECE),
-            Move(Nations.TURKEY, self.territories.GREECE, self.territories.NAPLES),
-            Support(Nations.TURKEY, self.territories.BULGARIA, self.territories.GREECE, self.territories.GREECE),
+            Hold(0, Nations.AUSTRIA, self.territories.IONIAN_SEA),
+            Support(0, Nations.AUSTRIA, self.territories.SERBIA, self.territories.ALBANIA, self.territories.GREECE),
+            Move(0, Nations.AUSTRIA, self.territories.ALBANIA, self.territories.GREECE),
+            Move(0, Nations.TURKEY, self.territories.GREECE, self.territories.NAPLES),
+            Support(0, Nations.TURKEY, self.territories.BULGARIA, self.territories.GREECE, self.territories.GREECE),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -358,10 +358,10 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.AUSTRIA, self.territories.TRIESTE),
         ]
         orders = [
-            Move(Nations.ITALY, self.territories.VENICE, self.territories.TRIESTE),
-            Support(Nations.ITALY, self.territories.TYROLIA, self.territories.VENICE, self.territories.TRIESTE),
-            Support(Nations.AUSTRIA, self.territories.ALBANIA, self.territories.TRIESTE, self.territories.SERBIA),
-            Hold(Nations.AUSTRIA, self.territories.TRIESTE),
+            Move(0, Nations.ITALY, self.territories.VENICE, self.territories.TRIESTE),
+            Support(0, Nations.ITALY, self.territories.TYROLIA, self.territories.VENICE, self.territories.TRIESTE),
+            Support(0, Nations.AUSTRIA, self.territories.ALBANIA, self.territories.TRIESTE, self.territories.SERBIA),
+            Hold(0, Nations.AUSTRIA, self.territories.TRIESTE),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -390,9 +390,9 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.GERMANY, self.territories.MUNICH),
         ]
         orders = [
-            Hold(Nations.GERMANY, self.territories.BERLIN),
-            Move(Nations.GERMANY, self.territories.KIEL, self.territories.BERLIN),
-            Support(Nations.GERMANY, self.territories.MUNICH, self.territories.KIEL, self.territories.BERLIN),
+            Hold(0, Nations.GERMANY, self.territories.BERLIN),
+            Move(0, Nations.GERMANY, self.territories.KIEL, self.territories.BERLIN),
+            Support(0, Nations.GERMANY, self.territories.MUNICH, self.territories.KIEL, self.territories.BERLIN),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -423,10 +423,10 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.RUSSIA, self.territories.WARSAW),
         ]
         orders = [
-            Move(Nations.GERMANY, self.territories.BERLIN, self.territories.PRUSSIA),
-            Move(Nations.GERMANY, self.territories.KIEL, self.territories.BERLIN),
-            Support(Nations.GERMANY, self.territories.MUNICH, self.territories.KIEL, self.territories.BERLIN),
-            Move(Nations.GERMANY, self.territories.WARSAW, self.territories.PRUSSIA),
+            Move(0, Nations.GERMANY, self.territories.BERLIN, self.territories.PRUSSIA),
+            Move(0, Nations.GERMANY, self.territories.KIEL, self.territories.BERLIN),
+            Support(0, Nations.GERMANY, self.territories.MUNICH, self.territories.KIEL, self.territories.BERLIN),
+            Move(0, Nations.GERMANY, self.territories.WARSAW, self.territories.PRUSSIA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -457,9 +457,9 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.ITALY, self.territories.VENICE),
         ]
         orders = [
-            Hold(Nations.AUSTRIA, self.territories.TRIESTE),
-            Support(Nations.AUSTRIA, self.territories.VIENNA, self.territories.VENICE, self.territories.TRIESTE),
-            Move(Nations.ITALY, self.territories.VENICE, self.territories.TRIESTE),
+            Hold(0, Nations.AUSTRIA, self.territories.TRIESTE),
+            Support(0, Nations.AUSTRIA, self.territories.VIENNA, self.territories.VENICE, self.territories.TRIESTE),
+            Move(0, Nations.ITALY, self.territories.VENICE, self.territories.TRIESTE),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -490,10 +490,10 @@ class TestCircularMovement(unittest.TestCase):
             Fleet(0, Nations.ITALY, self.territories.APULIA),
         ]
         orders = [
-            Move(Nations.AUSTRIA, self.territories.TRIESTE, self.territories.ADRIATIC_SEA),
-            Support(Nations.AUSTRIA, self.territories.VIENNA, self.territories.VENICE, self.territories.TRIESTE),
-            Move(Nations.ITALY, self.territories.VENICE, self.territories.TRIESTE),
-            Move(Nations.ITALY, self.territories.APULIA, self.territories.ADRIATIC_SEA),
+            Move(0, Nations.AUSTRIA, self.territories.TRIESTE, self.territories.ADRIATIC_SEA),
+            Support(0, Nations.AUSTRIA, self.territories.VIENNA, self.territories.VENICE, self.territories.TRIESTE),
+            Move(0, Nations.ITALY, self.territories.VENICE, self.territories.TRIESTE),
+            Move(0, Nations.ITALY, self.territories.APULIA, self.territories.ADRIATIC_SEA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -529,11 +529,11 @@ class TestCircularMovement(unittest.TestCase):
             Fleet(0, Nations.ITALY, self.territories.ADRIATIC_SEA),
         ]
         orders = [
-            Hold(Nations.AUSTRIA, self.territories.TRIESTE),
-            Support(Nations.AUSTRIA, self.territories.VIENNA, self.territories.VENICE, self.territories.TRIESTE),
-            Move(Nations.ITALY, self.territories.VENICE, self.territories.TRIESTE),
-            Support(Nations.ITALY, self.territories.TYROLIA, self.territories.VENICE, self.territories.TRIESTE),
-            Support(Nations.ITALY, self.territories.ADRIATIC_SEA, self.territories.VENICE, self.territories.TRIESTE),
+            Hold(0, Nations.AUSTRIA, self.territories.TRIESTE),
+            Support(0, Nations.AUSTRIA, self.territories.VIENNA, self.territories.VENICE, self.territories.TRIESTE),
+            Move(0, Nations.ITALY, self.territories.VENICE, self.territories.TRIESTE),
+            Support(0, Nations.ITALY, self.territories.TYROLIA, self.territories.VENICE, self.territories.TRIESTE),
+            Support(0, Nations.ITALY, self.territories.ADRIATIC_SEA, self.territories.VENICE, self.territories.TRIESTE),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -566,9 +566,9 @@ class TestCircularMovement(unittest.TestCase):
             Fleet(0, Nations.TURKEY, self.territories.ANKARA),
         ]
         orders = [
-            Support(Nations.RUSSIA, self.territories.CONSTANTINOPLE, self.territories.BLACK_SEA, self.territories.ANKARA),
-            Move(Nations.RUSSIA, self.territories.BLACK_SEA, self.territories.ANKARA),
-            Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
+            Support(0, Nations.RUSSIA, self.territories.CONSTANTINOPLE, self.territories.BLACK_SEA, self.territories.ANKARA),
+            Move(0, Nations.RUSSIA, self.territories.BLACK_SEA, self.territories.ANKARA),
+            Move(0, Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -601,10 +601,10 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.FRANCE, self.territories.BELGIUM),
         ]
         orders = [
-            Hold(Nations.ENGLAND, self.territories.LONDON),
-            Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.BELGIUM, self.territories.LONDON),
-            Support(Nations.FRANCE, self.territories.ENGLISH_CHANNEL, self.territories.BELGIUM, self.territories.LONDON),
-            Move(Nations.FRANCE, self.territories.BELGIUM, self.territories.LONDON, via_convoy=True),
+            Hold(0, Nations.ENGLAND, self.territories.LONDON),
+            Convoy(0, Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.BELGIUM, self.territories.LONDON),
+            Support(0, Nations.FRANCE, self.territories.ENGLISH_CHANNEL, self.territories.BELGIUM, self.territories.LONDON),
+            Move(0, Nations.FRANCE, self.territories.BELGIUM, self.territories.LONDON, via_convoy=True),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -640,11 +640,11 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.TURKEY, self.territories.ARMENIA),
         ]
         orders = [
-            Support(Nations.RUSSIA, self.territories.CONSTANTINOPLE, self.territories.BLACK_SEA, self.territories.ANKARA),
-            Move(Nations.RUSSIA, self.territories.BLACK_SEA, self.territories.ANKARA),
-            Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
-            Support(Nations.TURKEY, self.territories.SMYRNA, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
-            Move(Nations.TURKEY, self.territories.ARMENIA, self.territories.ANKARA),
+            Support(0, Nations.RUSSIA, self.territories.CONSTANTINOPLE, self.territories.BLACK_SEA, self.territories.ANKARA),
+            Move(0, Nations.RUSSIA, self.territories.BLACK_SEA, self.territories.ANKARA),
+            Move(0, Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
+            Support(0, Nations.TURKEY, self.territories.SMYRNA, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
+            Move(0, Nations.TURKEY, self.territories.ARMENIA, self.territories.ANKARA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -683,12 +683,12 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.TURKEY, self.territories.ARMENIA),
         ]
         orders = [
-            Support(Nations.RUSSIA, self.territories.CONSTANTINOPLE, self.territories.BLACK_SEA, self.territories.ANKARA),
-            Move(Nations.RUSSIA, self.territories.BLACK_SEA, self.territories.ANKARA),
-            Support(Nations.RUSSIA, self.territories.BULGARIA, self.territories.CONSTANTINOPLE, self.territories.CONSTANTINOPLE),
-            Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
-            Support(Nations.TURKEY, self.territories.SMYRNA, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
-            Move(Nations.TURKEY, self.territories.ARMENIA, self.territories.ANKARA),
+            Support(0, Nations.RUSSIA, self.territories.CONSTANTINOPLE, self.territories.BLACK_SEA, self.territories.ANKARA),
+            Move(0, Nations.RUSSIA, self.territories.BLACK_SEA, self.territories.ANKARA),
+            Support(0, Nations.RUSSIA, self.territories.BULGARIA, self.territories.CONSTANTINOPLE, self.territories.CONSTANTINOPLE),
+            Move(0, Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
+            Support(0, Nations.TURKEY, self.territories.SMYRNA, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
+            Move(0, Nations.TURKEY, self.territories.ARMENIA, self.territories.ANKARA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -727,10 +727,10 @@ class TestCircularMovement(unittest.TestCase):
             Fleet(0, Nations.TURKEY, self.territories.ANKARA),
         ]
         orders = [
-            Support(Nations.RUSSIA, self.territories.CONSTANTINOPLE, self.territories.BLACK_SEA, self.territories.ANKARA),
-            Move(Nations.RUSSIA, self.territories.BLACK_SEA, self.territories.ANKARA),
-            Support(Nations.RUSSIA, self.territories.SMYRNA, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
-            Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
+            Support(0, Nations.RUSSIA, self.territories.CONSTANTINOPLE, self.territories.BLACK_SEA, self.territories.ANKARA),
+            Move(0, Nations.RUSSIA, self.territories.BLACK_SEA, self.territories.ANKARA),
+            Support(0, Nations.RUSSIA, self.territories.SMYRNA, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
+            Move(0, Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -767,10 +767,10 @@ class TestCircularMovement(unittest.TestCase):
             Fleet(0, Nations.FRANCE, self.territories.ENGLISH_CHANNEL),
         ]
         orders = [
-            Support(Nations.ENGLAND, self.territories.LONDON, self.territories.NORTH_SEA, self.territories.ENGLISH_CHANNEL),
-            Move(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.ENGLISH_CHANNEL),
-            Move(Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.LONDON),
-            Hold(Nations.FRANCE, self.territories.ENGLISH_CHANNEL),
+            Support(0, Nations.ENGLAND, self.territories.LONDON, self.territories.NORTH_SEA, self.territories.ENGLISH_CHANNEL),
+            Move(0, Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.ENGLISH_CHANNEL),
+            Move(0, Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.LONDON),
+            Hold(0, Nations.FRANCE, self.territories.ENGLISH_CHANNEL),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -813,12 +813,12 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.RUSSIA, self.territories.BERLIN),
         ]
         orders = [
-            Hold(Nations.AUSTRIA, self.territories.TRIESTE),
-            Move(Nations.ITALY, self.territories.VENICE, self.territories.TRIESTE),
-            Support(Nations.ITALY, self.territories.TYROLIA, self.territories.VENICE, self.territories.TRIESTE),
-            Move(Nations.GERMANY, self.territories.MUNICH, self.territories.TYROLIA),
-            Move(Nations.RUSSIA, self.territories.SILESIA, self.territories.MUNICH),
-            Support(Nations.RUSSIA, self.territories.BERLIN, self.territories.SILESIA, self.territories.MUNICH),
+            Hold(0, Nations.AUSTRIA, self.territories.TRIESTE),
+            Move(0, Nations.ITALY, self.territories.VENICE, self.territories.TRIESTE),
+            Support(0, Nations.ITALY, self.territories.TYROLIA, self.territories.VENICE, self.territories.TRIESTE),
+            Move(0, Nations.GERMANY, self.territories.MUNICH, self.territories.TYROLIA),
+            Move(0, Nations.RUSSIA, self.territories.SILESIA, self.territories.MUNICH),
+            Support(0, Nations.RUSSIA, self.territories.BERLIN, self.territories.SILESIA, self.territories.MUNICH),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -862,10 +862,10 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.RUSSIA, self.territories.BERLIN),
         ]
         orders = [
-            Move(Nations.GERMANY, self.territories.KIEL, self.territories.MUNICH),
-            Support(Nations.GERMANY, self.territories.BURGUNDY, self.territories.KIEL, self.territories.MUNICH),
-            Move(Nations.RUSSIA, self.territories.MUNICH, self.territories.KIEL),
-            Support(Nations.RUSSIA, self.territories.BERLIN, self.territories.MUNICH, self.territories.KIEL),
+            Move(0, Nations.GERMANY, self.territories.KIEL, self.territories.MUNICH),
+            Support(0, Nations.GERMANY, self.territories.BURGUNDY, self.territories.KIEL, self.territories.MUNICH),
+            Move(0, Nations.RUSSIA, self.territories.MUNICH, self.territories.KIEL),
+            Support(0, Nations.RUSSIA, self.territories.BERLIN, self.territories.MUNICH, self.territories.KIEL),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -901,10 +901,10 @@ class TestCircularMovement(unittest.TestCase):
             Fleet(0, Nations.FRANCE, self.territories.MARSEILLES),
         ]
         orders = [
-            Move(Nations.ITALY, self.territories.GULF_OF_LYON, self.territories.SPAIN, self.named_coasts.SPAIN_SC),
-            Support(Nations.ITALY, self.territories.WESTERN_MEDITERRANEAN, self.territories.GULF_OF_LYON, self.territories.SPAIN),
-            Move(Nations.FRANCE, self.territories.SPAIN, self.territories.GULF_OF_LYON),
-            Support(Nations.FRANCE, self.territories.MARSEILLES, self.territories.SPAIN, self.territories.GULF_OF_LYON),
+            Move(0, Nations.ITALY, self.territories.GULF_OF_LYON, self.territories.SPAIN, self.named_coasts.SPAIN_SC),
+            Support(0, Nations.ITALY, self.territories.WESTERN_MEDITERRANEAN, self.territories.GULF_OF_LYON, self.territories.SPAIN),
+            Move(0, Nations.FRANCE, self.territories.SPAIN, self.territories.GULF_OF_LYON),
+            Support(0, Nations.FRANCE, self.territories.MARSEILLES, self.territories.SPAIN, self.territories.GULF_OF_LYON),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -945,11 +945,11 @@ class TestCircularMovement(unittest.TestCase):
             Fleet(0, Nations.TURKEY, self.territories.TYRRHENIAN_SEA),
         ]
         orders = [
-            Move(Nations.FRANCE, self.territories.MARSEILLES, self.territories.GULF_OF_LYON),
-            Support(Nations.FRANCE, self.territories.SPAIN,  self.territories.MARSEILLES, self.territories.GULF_OF_LYON),
-            Hold(Nations.ITALY, self.territories.GULF_OF_LYON),
-            Move(Nations.TURKEY, self.territories.WESTERN_MEDITERRANEAN, self.territories.GULF_OF_LYON),
-            Support(Nations.TURKEY, self.territories.TYRRHENIAN_SEA, self.territories.WESTERN_MEDITERRANEAN, self.territories.GULF_OF_LYON),
+            Move(0, Nations.FRANCE, self.territories.MARSEILLES, self.territories.GULF_OF_LYON),
+            Support(0, Nations.FRANCE, self.territories.SPAIN,  self.territories.MARSEILLES, self.territories.GULF_OF_LYON),
+            Hold(0, Nations.ITALY, self.territories.GULF_OF_LYON),
+            Move(0, Nations.TURKEY, self.territories.WESTERN_MEDITERRANEAN, self.territories.GULF_OF_LYON),
+            Support(0, Nations.TURKEY, self.territories.TYRRHENIAN_SEA, self.territories.WESTERN_MEDITERRANEAN, self.territories.GULF_OF_LYON),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -988,10 +988,10 @@ class TestCircularMovement(unittest.TestCase):
             Fleet(0, Nations.RUSSIA, self.territories.PRUSSIA),
         ]
         orders = [
-            Support(Nations.GERMANY, self.territories.BERLIN, self.territories.PRUSSIA, self.territories.PRUSSIA),
-            Support(Nations.GERMANY, self.territories.KIEL, self.territories.BERLIN, self.territories.BERLIN),
-            Support(Nations.RUSSIA, self.territories.BALTIC_SEA, self.territories.PRUSSIA, self.territories.BERLIN),
-            Move(Nations.RUSSIA, self.territories.PRUSSIA, self.territories.BERLIN),
+            Support(0, Nations.GERMANY, self.territories.BERLIN, self.territories.PRUSSIA, self.territories.PRUSSIA),
+            Support(0, Nations.GERMANY, self.territories.KIEL, self.territories.BERLIN, self.territories.BERLIN),
+            Support(0, Nations.RUSSIA, self.territories.BALTIC_SEA, self.territories.PRUSSIA, self.territories.BERLIN),
+            Move(0, Nations.RUSSIA, self.territories.PRUSSIA, self.territories.BERLIN),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -1025,10 +1025,10 @@ class TestCircularMovement(unittest.TestCase):
             Fleet(0, Nations.RUSSIA, self.territories.PRUSSIA),
         ]
         orders = [
-            Support(Nations.GERMANY, self.territories.BERLIN, self.territories.PRUSSIA, self.territories.SILESIA),
-            Support(Nations.GERMANY, self.territories.KIEL, self.territories.BERLIN, self.territories.BERLIN),
-            Support(Nations.RUSSIA, self.territories.BALTIC_SEA, self.territories.PRUSSIA, self.territories.BERLIN),
-            Move(Nations.RUSSIA, self.territories.PRUSSIA, self.territories.BERLIN),
+            Support(0, Nations.GERMANY, self.territories.BERLIN, self.territories.PRUSSIA, self.territories.SILESIA),
+            Support(0, Nations.GERMANY, self.territories.KIEL, self.territories.BERLIN, self.territories.BERLIN),
+            Support(0, Nations.RUSSIA, self.territories.BALTIC_SEA, self.territories.PRUSSIA, self.territories.BERLIN),
+            Move(0, Nations.RUSSIA, self.territories.PRUSSIA, self.territories.BERLIN),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -1067,11 +1067,11 @@ class TestCircularMovement(unittest.TestCase):
             Fleet(0, Nations.RUSSIA, self.territories.PRUSSIA),
         ]
         orders = [
-            Move(Nations.ENGLAND, self.territories.SWEDEN, self.territories.BALTIC_SEA),
-            Support(Nations.ENGLAND, self.territories.DENMARK, self.territories.SWEDEN, self.territories.BALTIC_SEA),
-            Hold(Nations.GERMANY, self.territories.BERLIN),
-            Convoy(Nations.RUSSIA, self.territories.BALTIC_SEA, self.territories.BERLIN, self.territories.LIVONIA),
-            Support(Nations.RUSSIA, self.territories.PRUSSIA, self.territories.BALTIC_SEA, self.territories.BALTIC_SEA),
+            Move(0, Nations.ENGLAND, self.territories.SWEDEN, self.territories.BALTIC_SEA),
+            Support(0, Nations.ENGLAND, self.territories.DENMARK, self.territories.SWEDEN, self.territories.BALTIC_SEA),
+            Hold(0, Nations.GERMANY, self.territories.BERLIN),
+            Convoy(0, Nations.RUSSIA, self.territories.BALTIC_SEA, self.territories.BERLIN, self.territories.LIVONIA),
+            Support(0, Nations.RUSSIA, self.territories.PRUSSIA, self.territories.BALTIC_SEA, self.territories.BALTIC_SEA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -1112,10 +1112,10 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.TURKEY, self.territories.BULGARIA),
         ]
         orders = [
-            Support(Nations.AUSTRIA, self.territories.BUDAPEST, self.territories.RUMANIA, self.territories.RUMANIA),
-            Move(Nations.RUSSIA, self.territories.RUMANIA, self.territories.HOLLAND),
-            Move(Nations.TURKEY, self.territories.BLACK_SEA, self.territories.RUMANIA),
-            Support(Nations.TURKEY, self.territories.BULGARIA, self.territories.BLACK_SEA, self.territories.RUMANIA),
+            Support(0, Nations.AUSTRIA, self.territories.BUDAPEST, self.territories.RUMANIA, self.territories.RUMANIA),
+            Move(0, Nations.RUSSIA, self.territories.RUMANIA, self.territories.HOLLAND),
+            Move(0, Nations.TURKEY, self.territories.BLACK_SEA, self.territories.RUMANIA),
+            Support(0, Nations.TURKEY, self.territories.BULGARIA, self.territories.BLACK_SEA, self.territories.RUMANIA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -1160,10 +1160,10 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.TURKEY, self.territories.BULGARIA),
         ]
         orders = [
-            Support(Nations.AUSTRIA, self.territories.BUDAPEST, self.territories.RUMANIA, self.territories.RUMANIA),
-            Move(Nations.RUSSIA, self.territories.RUMANIA, self.territories.BULGARIA, self.named_coasts.BULGARIA_SC),
-            Move(Nations.TURKEY, self.territories.BLACK_SEA, self.territories.RUMANIA),
-            Support(Nations.TURKEY, self.territories.BULGARIA, self.territories.BLACK_SEA, self.territories.RUMANIA),
+            Support(0, Nations.AUSTRIA, self.territories.BUDAPEST, self.territories.RUMANIA, self.territories.RUMANIA),
+            Move(0, Nations.RUSSIA, self.territories.RUMANIA, self.territories.BULGARIA, self.named_coasts.BULGARIA_SC),
+            Move(0, Nations.TURKEY, self.territories.BLACK_SEA, self.territories.RUMANIA),
+            Support(0, Nations.TURKEY, self.territories.BULGARIA, self.territories.BLACK_SEA, self.territories.RUMANIA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -1199,10 +1199,10 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.TURKEY, self.territories.BULGARIA),
         ]
         orders = [
-            Move(Nations.AUSTRIA, self.territories.SERBIA, self.territories.BUDAPEST),
-            Move(Nations.AUSTRIA, self.territories.VIENNA, self.territories.BUDAPEST),
-            Support(Nations.RUSSIA, self.territories.GALICIA, self.territories.SERBIA, self.territories.BUDAPEST),
-            Move(Nations.TURKEY, self.territories.BULGARIA, self.territories.SERBIA),
+            Move(0, Nations.AUSTRIA, self.territories.SERBIA, self.territories.BUDAPEST),
+            Move(0, Nations.AUSTRIA, self.territories.VIENNA, self.territories.BUDAPEST),
+            Support(0, Nations.RUSSIA, self.territories.GALICIA, self.territories.SERBIA, self.territories.BUDAPEST),
+            Move(0, Nations.TURKEY, self.territories.BULGARIA, self.territories.SERBIA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -1251,12 +1251,12 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.RUSSIA, self.territories.LIVONIA),
         ]
         orders = [
-            Move(Nations.GERMANY, self.territories.BERLIN, self.territories.PRUSSIA),
-            Support(Nations.GERMANY, self.territories.SILESIA, self.territories.BERLIN, self.territories.PRUSSIA),
-            Support(Nations.GERMANY, self.territories.BALTIC_SEA, self.territories.BERLIN, self.territories.PRUSSIA),
-            Support(Nations.ITALY, self.territories.PRUSSIA, self.territories.LIVONIA, self.territories.PRUSSIA),
-            Support(Nations.RUSSIA, self.territories.WARSAW, self.territories.LIVONIA, self.territories.PRUSSIA),
-            Move(Nations.RUSSIA, self.territories.LIVONIA, self.territories.PRUSSIA),
+            Move(0, Nations.GERMANY, self.territories.BERLIN, self.territories.PRUSSIA),
+            Support(0, Nations.GERMANY, self.territories.SILESIA, self.territories.BERLIN, self.territories.PRUSSIA),
+            Support(0, Nations.GERMANY, self.territories.BALTIC_SEA, self.territories.BERLIN, self.territories.PRUSSIA),
+            Support(0, Nations.ITALY, self.territories.PRUSSIA, self.territories.LIVONIA, self.territories.PRUSSIA),
+            Support(0, Nations.RUSSIA, self.territories.WARSAW, self.territories.LIVONIA, self.territories.PRUSSIA),
+            Move(0, Nations.RUSSIA, self.territories.LIVONIA, self.territories.PRUSSIA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()

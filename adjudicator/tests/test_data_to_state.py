@@ -15,7 +15,7 @@ class TestDataToState(unittest.TestCase):
             'named_coasts': [],
             'territories': [
                 {
-                    'id': 1,
+                    '_id': 1,
                     'type': 'sea',
                     'name': 'Adriatic Sea',
                     'neighbour_ids': [2, 3, 4, 5]
@@ -34,7 +34,7 @@ class TestDataToState(unittest.TestCase):
             'named_coasts': [],
             'territories': [
                 {
-                    'id': 1,
+                    '_id': 1,
                     'type': 'coastal',
                     'name': 'Brest',
                     'nationality': 1,
@@ -60,7 +60,7 @@ class TestDataToState(unittest.TestCase):
             'named_coasts': [],
             'territories': [
                 {
-                    'id': 1,
+                    '_id': 1,
                     'type': 'inland',
                     'name': 'Paris',
                     'nationality': 1,
@@ -84,7 +84,7 @@ class TestDataToState(unittest.TestCase):
             'pieces': [],
             'named_coasts': [
                 {
-                    'id': 1,
+                    '_id': 1,
                     'name': 'Spain South Coast',
                     'territory_id': 1,
                     'neighbour_ids': [2],
@@ -92,7 +92,7 @@ class TestDataToState(unittest.TestCase):
             ],
             'territories': [
                 {
-                    'id': 1,
+                    '_id': 1,
                     'type': 'coastal',
                     'name': 'Spain',
                     'nationality': None,
@@ -122,7 +122,7 @@ class TestDataToState(unittest.TestCase):
             'named_coasts': [],
             'territories': [
                 {
-                    'id': 1,
+                    '_id': 1,
                     'type': 'coastal',
                     'name': 'Spain',
                     'nationality': None,
@@ -142,6 +142,7 @@ class TestDataToState(unittest.TestCase):
         data = {
             'orders': [
                 {
+                    '_id': 1,
                     'type': 'hold',
                     'nation': 1,
                     'source_id': 1,
@@ -151,7 +152,7 @@ class TestDataToState(unittest.TestCase):
             'named_coasts': [],
             'territories': [
                 {
-                    'id': 1,
+                    '_id': 1,
                     'type': 'coastal',
                     'name': 'Spain',
                     'nationality': None,
@@ -171,6 +172,7 @@ class TestDataToState(unittest.TestCase):
         data = {
             'orders': [
                 {
+                    '_id': 1,
                     'type': 'move',
                     'nation': 1,
                     'source_id': 1,
@@ -181,7 +183,7 @@ class TestDataToState(unittest.TestCase):
             'named_coasts': [],
             'territories': [
                 {
-                    'id': 1,
+                    '_id': 1,
                     'type': 'coastal',
                     'name': 'Spain',
                     'nationality': None,
@@ -191,7 +193,7 @@ class TestDataToState(unittest.TestCase):
                     'shared_coast_ids': [2, 3],
                 },
                 {
-                    'id': 2,
+                    '_id': 2,
                     'type': 'coastal',
                     'name': 'Portugal',
                     'nationality': None,
@@ -212,6 +214,7 @@ class TestDataToState(unittest.TestCase):
         data = {
             'orders': [
                 {
+                    '_id': 1,
                     'type': 'support',
                     'nation': 1,
                     'source_id': 1,
@@ -223,7 +226,7 @@ class TestDataToState(unittest.TestCase):
             'named_coasts': [],
             'territories': [
                 {
-                    'id': 1,
+                    '_id': 1,
                     'type': 'coastal',
                     'name': 'Spain',
                     'nationality': None,
@@ -233,7 +236,7 @@ class TestDataToState(unittest.TestCase):
                     'shared_coast_ids': [2, 3],
                 },
                 {
-                    'id': 2,
+                    '_id': 2,
                     'type': 'coastal',
                     'name': 'Portugal',
                     'nationality': None,
@@ -255,6 +258,7 @@ class TestDataToState(unittest.TestCase):
         data = {
             'orders': [
                 {
+                    '_id': 1,
                     'type': 'convoy',
                     'nation': 1,
                     'source_id': 1,
@@ -266,7 +270,7 @@ class TestDataToState(unittest.TestCase):
             'named_coasts': [],
             'territories': [
                 {
-                    'id': 1,
+                    '_id': 1,
                     'type': 'coastal',
                     'name': 'Spain',
                     'nationality': None,
@@ -276,7 +280,7 @@ class TestDataToState(unittest.TestCase):
                     'shared_coast_ids': [2, 3],
                 },
                 {
-                    'id': 2,
+                    '_id': 2,
                     'type': 'coastal',
                     'name': 'Portugal',
                     'nationality': None,

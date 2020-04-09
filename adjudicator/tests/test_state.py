@@ -63,7 +63,7 @@ class TestState(unittest.TestCase):
         state = State()
         paris = InlandTerritory(1, 'paris', Nations.FRANCE, [])
         army_paris = Army(0, Nations.FRANCE, paris)
-        hold = Hold(Nations.FRANCE, paris)
+        hold = Hold(0, Nations.FRANCE, paris)
 
         state.register(paris)
         state.register(army_paris)

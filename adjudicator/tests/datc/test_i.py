@@ -31,7 +31,7 @@ class TestRetreating(unittest.TestCase):
         I prefer that the build fails.
         """
         orders = [
-            Build(Nations.RUSSIA, self.territories.MOSCOW, PieceTypes.FLEET),
+            Build(0, Nations.RUSSIA, self.territories.MOSCOW, PieceTypes.FLEET),
         ]
         self.state.register(*orders)
         self.state.post_register_updates()
@@ -55,7 +55,7 @@ class TestRetreating(unittest.TestCase):
             Army(0, Nations.GERMANY, self.territories.BERLIN),
         ]
         orders = [
-            Build(Nations.GERMANY, self.territories.BERLIN, PieceTypes.ARMY),
+            Build(0, Nations.GERMANY, self.territories.BERLIN, PieceTypes.ARMY),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -81,7 +81,7 @@ class TestRetreating(unittest.TestCase):
             Fleet(0, Nations.RUSSIA, self.territories.ST_PETERSBURG, self.named_coasts.ST_PETERSBURG_NC),
         ]
         orders = [
-            Build(Nations.RUSSIA, self.territories.ST_PETERSBURG, PieceTypes.FLEET, self.named_coasts.ST_PETERSBURG_SC),
+            Build(0, Nations.RUSSIA, self.territories.ST_PETERSBURG, PieceTypes.FLEET, self.named_coasts.ST_PETERSBURG_SC),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -97,7 +97,7 @@ class TestRetreating(unittest.TestCase):
         """
         self.territories.ST_PETERSBURG.controlled_by = Nations.GERMANY
         orders = [
-            Build(Nations.RUSSIA, self.territories.ST_PETERSBURG, PieceTypes.FLEET, self.named_coasts.ST_PETERSBURG_SC),
+            Build(0, Nations.RUSSIA, self.territories.ST_PETERSBURG, PieceTypes.FLEET, self.named_coasts.ST_PETERSBURG_SC),
         ]
         self.state.register(*orders)
         self.state.post_register_updates()
@@ -113,7 +113,7 @@ class TestRetreating(unittest.TestCase):
         """
         self.territories.ST_PETERSBURG.controlled_by = Nations.GERMANY
         orders = [
-            Build(Nations.GERMANY, self.territories.ST_PETERSBURG, PieceTypes.FLEET, self.named_coasts.ST_PETERSBURG_SC),
+            Build(0, Nations.GERMANY, self.territories.ST_PETERSBURG, PieceTypes.FLEET, self.named_coasts.ST_PETERSBURG_SC),
         ]
         self.state.register(*orders)
         self.state.post_register_updates()

@@ -1,7 +1,7 @@
 class NamedCoast:
 
-    def __init__(self, id, name, parent, neighbours):
-        self.id = id
+    def __init__(self, _id, name, parent, neighbours):
+        self.id = _id
         self.name = name
         self.parent = parent
         self.neighbours = neighbours

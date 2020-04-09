@@ -321,8 +321,8 @@ class Support(Order):
 
 
 class Convoy(Order):
-    def __init__(self, nation, source, aux, target):
-        super().__init__(nation, source)
+    def __init__(self, _id, nation, source, aux, target):
+        super().__init__(_id, nation, source)
         self.aux = aux
         self.target = target
 
@@ -341,8 +341,8 @@ class Convoy(Order):
 
 class Retreat(Order):
 
-    def __init__(self, nation, source, target, target_coast=None):
-        super().__init__(nation, source)
+    def __init__(self, _id, nation, source, target, target_coast=None):
+        super().__init__(_id, nation, source)
         self.target = target
         self.target_coast = target_coast
         self.move_decision = Outcomes.UNRESOLVED
@@ -387,8 +387,8 @@ class Retreat(Order):
 
 
 class Build(Order):
-    def __init__(self, nation, source, piece_type, named_coast=None):
-        super().__init__(nation, source)
+    def __init__(self, _id, nation, source, piece_type, named_coast=None):
+        super().__init__(_id, nation, source)
         self.piece_type = piece_type
         self.named_coast = named_coast
 

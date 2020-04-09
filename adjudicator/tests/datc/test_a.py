@@ -26,7 +26,7 @@ class TestBasicChecks(unittest.TestCase):
         Order should fail.
         """
         fleet = Fleet(0, Nations.ENGLAND, self.territories.NORTH_SEA)
-        order = Move(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.PICARDY)
+        order = Move(0, Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.PICARDY)
 
         self.state.register(fleet, order)
         process(self.state)
@@ -44,7 +44,7 @@ class TestBasicChecks(unittest.TestCase):
         Order should fail.
         """
         army = Army(0, Nations.ENGLAND, self.territories.LIVERPOOL)
-        order = Move(Nations.ENGLAND, self.territories.LIVERPOOL, self.territories.IRISH_SEA)
+        order = Move(0, Nations.ENGLAND, self.territories.LIVERPOOL, self.territories.IRISH_SEA)
 
         self.state.register(army, order)
         process(self.state)
@@ -62,7 +62,7 @@ class TestBasicChecks(unittest.TestCase):
         Order should fail.
         """
         fleet = Fleet(0, Nations.GERMANY, self.territories.KIEL)
-        order = Move(Nations.GERMANY, self.territories.KIEL, self.territories.MUNICH)
+        order = Move(0, Nations.GERMANY, self.territories.KIEL, self.territories.MUNICH)
 
         self.state.register(fleet, order)
         process(self.state)
@@ -82,7 +82,7 @@ class TestBasicChecks(unittest.TestCase):
         Program should not crash.
         """
         army = Army(0, Nations.GERMANY, self.territories.KIEL)
-        order = Move(Nations.GERMANY, self.territories.KIEL, self.territories.KIEL)
+        order = Move(0, Nations.GERMANY, self.territories.KIEL, self.territories.KIEL)
 
         self.state.register(army, order)
         process(self.state)
@@ -118,11 +118,11 @@ class TestBasicChecks(unittest.TestCase):
             Army(0, Nations.ENGLAND, self.territories.WALES),
         ]
 
-        fleet_north_sea_convoy = Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.YORKSHIRE, self.territories.YORKSHIRE)
-        army_yorkshire_move = Move(Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.YORKSHIRE)
-        army_liverpool_support = Support(Nations.ENGLAND, self.territories.LIVERPOOL, self.territories.YORKSHIRE, self.territories.YORKSHIRE)
-        fleet_london_move = Move(Nations.GERMANY, self.territories.LONDON, self.territories.YORKSHIRE)
-        army_wales_support = Support(Nations.GERMANY, self.territories.WALES, self.territories.LONDON, self.territories.YORKSHIRE)
+        fleet_north_sea_convoy = Convoy(0, Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.YORKSHIRE, self.territories.YORKSHIRE)
+        army_yorkshire_move = Move(0, Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.YORKSHIRE)
+        army_liverpool_support = Support(0, Nations.ENGLAND, self.territories.LIVERPOOL, self.territories.YORKSHIRE, self.territories.YORKSHIRE)
+        fleet_london_move = Move(0, Nations.GERMANY, self.territories.LONDON, self.territories.YORKSHIRE)
+        army_wales_support = Support(0, Nations.GERMANY, self.territories.WALES, self.territories.LONDON, self.territories.YORKSHIRE)
 
         self.state.register(
             *pieces, fleet_north_sea_convoy, army_yorkshire_move, army_liverpool_support,
@@ -145,7 +145,7 @@ class TestBasicChecks(unittest.TestCase):
         Order should fail.
         """
         fleet = Fleet(0, Nations.ENGLAND, self.territories.LONDON)
-        order = Move(Nations.GERMANY, self.territories.LONDON, self.territories.NORTH_SEA)
+        order = Move(0, Nations.GERMANY, self.territories.LONDON, self.territories.NORTH_SEA)
 
         self.state.register(fleet, order)
         process(self.state)
@@ -167,8 +167,8 @@ class TestBasicChecks(unittest.TestCase):
             Fleet(0, Nations.ENGLAND, self.territories.LONDON),
             Fleet(0, Nations.ENGLAND, self.territories.NORTH_SEA),
         ]
-        fleet_london_move = Move(Nations.ENGLAND, self.territories.LONDON, self.territories.BELGIUM, via_convoy=True)
-        fleet_north_sea_convoy = Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.BELGIUM)
+        fleet_london_move = Move(0, Nations.ENGLAND, self.territories.LONDON, self.territories.BELGIUM, via_convoy=True)
+        fleet_north_sea_convoy = Convoy(0, Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.BELGIUM)
 
         self.state.register(*pieces, fleet_london_move, fleet_north_sea_convoy)
         self.state.post_register_updates()
@@ -200,9 +200,9 @@ class TestBasicChecks(unittest.TestCase):
         ]
 
         # TODO finish
-        army_venice_move = Move(Nations.ITALY, self.territories.VENICE, self.territories.TRIESTE)
-        army_tyrolia_support = Support(Nations.ITALY, self.territories.TYROLIA, self.territories.VENICE, self.territories.TRIESTE)
-        fleet_trieste_support = Support(Nations.AUSTRIA, self.territories.TRIESTE, self.territories.TRIESTE, self.territories.TRIESTE)
+        army_venice_move = Move(0, Nations.ITALY, self.territories.VENICE, self.territories.TRIESTE)
+        army_tyrolia_support = Support(0, Nations.ITALY, self.territories.TYROLIA, self.territories.VENICE, self.territories.TRIESTE)
+        fleet_trieste_support = Support(0, Nations.AUSTRIA, self.territories.TRIESTE, self.territories.TRIESTE, self.territories.TRIESTE)
 
         self.state.register(*pieces, army_venice_move, army_tyrolia_support, fleet_trieste_support)
         process(self.state)
@@ -222,7 +222,7 @@ class TestBasicChecks(unittest.TestCase):
         Move fails. An army can go from Rome to Venice, but a fleet can not.
         """
         fleet = Fleet(0, Nations.ITALY, self.territories.ROME, self.territories.VENICE)
-        order = Move(Nations.ITALY, self.territories.ROME, self.territories.VENICE)
+        order = Move(0, Nations.ITALY, self.territories.ROME, self.territories.VENICE)
 
         self.state.register(order, fleet)
         process(self.state)
@@ -252,9 +252,9 @@ class TestBasicChecks(unittest.TestCase):
         ]
 
         # TODO finish
-        army_austria_hold = Hold(Nations.AUSTRIA, self.territories.VENICE)
-        fleet_rome_support = Support(Nations.ITALY, self.territories.ROME, self.territories.APULIA, self.territories.VENICE)
-        army_apulia_move = Move(Nations.ITALY, self.territories.APULIA, self.territories.VENICE)
+        army_austria_hold = Hold(0, Nations.AUSTRIA, self.territories.VENICE)
+        fleet_rome_support = Support(0, Nations.ITALY, self.territories.ROME, self.territories.APULIA, self.territories.VENICE)
+        army_apulia_move = Move(0, Nations.ITALY, self.territories.APULIA, self.territories.VENICE)
 
         self.state.register(*pieces, army_austria_hold, fleet_rome_support, army_apulia_move)
         self.state.post_register_updates()
@@ -280,8 +280,8 @@ class TestBasicChecks(unittest.TestCase):
             Army(0, Nations.ITALY, self.territories.VENICE),
         ]
 
-        army_vienna_move = Move(Nations.AUSTRIA, self.territories.VIENNA, self.territories.TYROLIA)
-        army_venice_move = Move(Nations.ITALY, self.territories.VENICE, self.territories.TYROLIA)
+        army_vienna_move = Move(0, Nations.AUSTRIA, self.territories.VIENNA, self.territories.TYROLIA)
+        army_venice_move = Move(0, Nations.ITALY, self.territories.VENICE, self.territories.TYROLIA)
 
         self.state.register(*pieces, army_venice_move, army_vienna_move)
         self.state.post_register_updates()
@@ -320,9 +320,9 @@ class TestBasicChecks(unittest.TestCase):
             Army(0, Nations.GERMANY, self.territories.MUNICH)
         ]
 
-        army_vienna_move = Move(Nations.AUSTRIA, self.territories.VIENNA, self.territories.TYROLIA)
-        army_venice_move = Move(Nations.ITALY, self.territories.VENICE, self.territories.TYROLIA)
-        army_munich_move = Move(Nations.GERMANY, self.territories.MUNICH, self.territories.TYROLIA)
+        army_vienna_move = Move(0, Nations.AUSTRIA, self.territories.VIENNA, self.territories.TYROLIA)
+        army_venice_move = Move(0, Nations.ITALY, self.territories.VENICE, self.territories.TYROLIA)
+        army_munich_move = Move(0, Nations.GERMANY, self.territories.MUNICH, self.territories.TYROLIA)
 
         self.state.register(*pieces, army_venice_move, army_vienna_move, army_munich_move)
         process(self.state)

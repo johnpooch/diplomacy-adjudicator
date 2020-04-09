@@ -21,8 +21,8 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.TURKEY, self.territories.CONSTANTINOPLE),
         ]
         orders = [
-            Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
-            Move(Nations.TURKEY, self.territories.CONSTANTINOPLE, self.territories.ANKARA),
+            Move(0, Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
+            Move(0, Nations.TURKEY, self.territories.CONSTANTINOPLE, self.territories.ANKARA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -37,9 +37,9 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.TURKEY, self.territories.SMYRNA)
         ]
         orders = [
-            Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
-            Move(Nations.TURKEY, self.territories.CONSTANTINOPLE, self.territories.SMYRNA),
-            Move(Nations.TURKEY, self.territories.SMYRNA, self.territories.ANKARA),
+            Move(0, Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
+            Move(0, Nations.TURKEY, self.territories.CONSTANTINOPLE, self.territories.SMYRNA),
+            Move(0, Nations.TURKEY, self.territories.SMYRNA, self.territories.ANKARA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -56,10 +56,10 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.TURKEY, self.territories.ARMENIA)
         ]
         orders = [
-            Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
-            Move(Nations.TURKEY, self.territories.CONSTANTINOPLE, self.territories.SMYRNA),
-            Move(Nations.TURKEY, self.territories.SMYRNA, self.territories.ARMENIA),
-            Move(Nations.TURKEY, self.territories.ARMENIA, self.territories.ANKARA),
+            Move(0, Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
+            Move(0, Nations.TURKEY, self.territories.CONSTANTINOPLE, self.territories.SMYRNA),
+            Move(0, Nations.TURKEY, self.territories.SMYRNA, self.territories.ARMENIA),
+            Move(0, Nations.TURKEY, self.territories.ARMENIA, self.territories.ANKARA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -77,11 +77,11 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.TURKEY, self.territories.SYRIA),
         ]
         orders = [
-            Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
-            Move(Nations.TURKEY, self.territories.CONSTANTINOPLE, self.territories.SMYRNA),
-            Move(Nations.TURKEY, self.territories.SMYRNA, self.territories.SYRIA),
-            Move(Nations.TURKEY, self.territories.SYRIA, self.territories.ARMENIA),
-            Move(Nations.TURKEY, self.territories.ARMENIA, self.territories.ANKARA),
+            Move(0, Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
+            Move(0, Nations.TURKEY, self.territories.CONSTANTINOPLE, self.territories.SMYRNA),
+            Move(0, Nations.TURKEY, self.territories.SMYRNA, self.territories.SYRIA),
+            Move(0, Nations.TURKEY, self.territories.SYRIA, self.territories.ARMENIA),
+            Move(0, Nations.TURKEY, self.territories.ARMENIA, self.territories.ANKARA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -101,13 +101,13 @@ class TestCircularMovement(unittest.TestCase):
             Army(0, Nations.FRANCE, self.territories.PARIS),
         ]
         orders = [
-            Move(Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
-            Move(Nations.TURKEY, self.territories.CONSTANTINOPLE, self.territories.SMYRNA),
-            Move(Nations.TURKEY, self.territories.SMYRNA, self.territories.ANKARA),
+            Move(0, Nations.TURKEY, self.territories.ANKARA, self.territories.CONSTANTINOPLE),
+            Move(0, Nations.TURKEY, self.territories.CONSTANTINOPLE, self.territories.SMYRNA),
+            Move(0, Nations.TURKEY, self.territories.SMYRNA, self.territories.ANKARA),
 
-            Move(Nations.FRANCE, self.territories.BREST, self.territories.PICARDY),
-            Move(Nations.FRANCE, self.territories.PICARDY, self.territories.PARIS),
-            Move(Nations.FRANCE, self.territories.PARIS, self.territories.BREST),
+            Move(0, Nations.FRANCE, self.territories.BREST, self.territories.PICARDY),
+            Move(0, Nations.FRANCE, self.territories.PICARDY, self.territories.PARIS),
+            Move(0, Nations.FRANCE, self.territories.PARIS, self.territories.BREST),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()

@@ -37,10 +37,10 @@ class TestHeadToHeadBattles(unittest.TestCase):
             Army(0, Nations.RUSSIA, self.territories.PRUSSIA),
         ]
         orders = [
-            Move(Nations.GERMANY, self.territories.BERLIN, self.territories.PRUSSIA),
-            Move(Nations.GERMANY, self.territories.KIEL, self.territories.BERLIN),
-            Support(Nations.GERMANY, self.territories.SILESIA, self.territories.BERLIN, self.territories.PRUSSIA),
-            Move(Nations.RUSSIA, self.territories.PRUSSIA, self.territories.BERLIN),
+            Move(0, Nations.GERMANY, self.territories.BERLIN, self.territories.PRUSSIA),
+            Move(0, Nations.GERMANY, self.territories.KIEL, self.territories.BERLIN),
+            Support(0, Nations.GERMANY, self.territories.SILESIA, self.territories.BERLIN, self.territories.PRUSSIA),
+            Move(0, Nations.RUSSIA, self.territories.PRUSSIA, self.territories.BERLIN),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -68,9 +68,9 @@ class TestHeadToHeadBattles(unittest.TestCase):
             Army(0, Nations.GERMANY, self.territories.MUNICH),
         ]
         orders = [
-            Move(Nations.GERMANY, self.territories.BERLIN, self.territories.KIEL),
-            Move(Nations.GERMANY, self.territories.KIEL, self.territories.BERLIN),
-            Support(Nations.GERMANY, self.territories.MUNICH, self.territories.BERLIN, self.territories.KIEL),
+            Move(0, Nations.GERMANY, self.territories.BERLIN, self.territories.KIEL),
+            Move(0, Nations.GERMANY, self.territories.KIEL, self.territories.BERLIN),
+            Support(0, Nations.GERMANY, self.territories.MUNICH, self.territories.BERLIN, self.territories.KIEL),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -100,9 +100,9 @@ class TestHeadToHeadBattles(unittest.TestCase):
             Fleet(0, Nations.ENGLAND, self.territories.KIEL),
         ]
         orders = [
-            Move(Nations.GERMANY, self.territories.BERLIN, self.territories.KIEL),
-            Support(Nations.GERMANY, self.territories.MUNICH, self.territories.KIEL, self.territories.BERLIN),
-            Move(Nations.ENGLAND, self.territories.KIEL, self.territories.BERLIN),
+            Move(0, Nations.GERMANY, self.territories.BERLIN, self.territories.KIEL),
+            Support(0, Nations.GERMANY, self.territories.MUNICH, self.territories.KIEL, self.territories.BERLIN),
+            Move(0, Nations.ENGLAND, self.territories.KIEL, self.territories.BERLIN),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -152,16 +152,16 @@ class TestHeadToHeadBattles(unittest.TestCase):
             Army(0, Nations.AUSTRIA, self.territories.RUHR),
         ]
         orders = [
-            Move(Nations.GERMANY, self.territories.HOLLAND, self.territories.NORTH_SEA),
-            Support(Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.HOLLAND, self.territories.NORTH_SEA),
-            Support(Nations.GERMANY, self.territories.SKAGERRAK, self.territories.HOLLAND, self.territories.NORTH_SEA),
-            Move(Nations.FRANCE, self.territories.NORTH_SEA, self.territories.HOLLAND),
-            Support(Nations.FRANCE, self.territories.BELGIUM, self.territories.NORTH_SEA, self.territories.HOLLAND),
-            Support(Nations.ENGLAND, self.territories.EDINBURGH, self.territories.NORWEGIAN_SEA, self.territories.NORTH_SEA),
-            Support(Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.NORWEGIAN_SEA, self.territories.NORTH_SEA),
-            Move(Nations.ENGLAND, self.territories.NORWEGIAN_SEA, self.territories.NORTH_SEA),
-            Support(Nations.AUSTRIA, self.territories.KIEL, self.territories.RUHR, self.territories.HOLLAND),
-            Move(Nations.AUSTRIA, self.territories.RUHR, self.territories.HOLLAND),
+            Move(0, Nations.GERMANY, self.territories.HOLLAND, self.territories.NORTH_SEA),
+            Support(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.HOLLAND, self.territories.NORTH_SEA),
+            Support(0, Nations.GERMANY, self.territories.SKAGERRAK, self.territories.HOLLAND, self.territories.NORTH_SEA),
+            Move(0, Nations.FRANCE, self.territories.NORTH_SEA, self.territories.HOLLAND),
+            Support(0, Nations.FRANCE, self.territories.BELGIUM, self.territories.NORTH_SEA, self.territories.HOLLAND),
+            Support(0, Nations.ENGLAND, self.territories.EDINBURGH, self.territories.NORWEGIAN_SEA, self.territories.NORTH_SEA),
+            Support(0, Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.NORWEGIAN_SEA, self.territories.NORTH_SEA),
+            Move(0, Nations.ENGLAND, self.territories.NORWEGIAN_SEA, self.territories.NORTH_SEA),
+            Support(0, Nations.AUSTRIA, self.territories.KIEL, self.territories.RUHR, self.territories.HOLLAND),
+            Move(0, Nations.AUSTRIA, self.territories.RUHR, self.territories.HOLLAND),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -221,17 +221,17 @@ class TestHeadToHeadBattles(unittest.TestCase):
             Army(0, Nations.AUSTRIA, self.territories.RUHR),
         ]
         orders = [
-            Move(Nations.GERMANY, self.territories.HOLLAND, self.territories.NORTH_SEA),
-            Support(Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.HOLLAND, self.territories.NORTH_SEA),
-            Support(Nations.GERMANY, self.territories.SKAGERRAK, self.territories.HOLLAND, self.territories.NORTH_SEA),
-            Move(Nations.FRANCE, self.territories.NORTH_SEA, self.territories.HOLLAND),
-            Support(Nations.FRANCE, self.territories.BELGIUM, self.territories.NORTH_SEA, self.territories.HOLLAND),
-            Support(Nations.ENGLAND, self.territories.EDINBURGH, self.territories.NORWEGIAN_SEA, self.territories.NORTH_SEA),
-            Support(Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.NORWEGIAN_SEA, self.territories.NORTH_SEA),
-            Move(Nations.ENGLAND, self.territories.NORWEGIAN_SEA, self.territories.NORTH_SEA),
-            Support(Nations.ENGLAND, self.territories.LONDON, self.territories.NORWEGIAN_SEA, self.territories.NORTH_SEA),
-            Support(Nations.AUSTRIA, self.territories.KIEL, self.territories.RUHR, self.territories.HOLLAND),
-            Move(Nations.AUSTRIA, self.territories.RUHR, self.territories.HOLLAND),
+            Move(0, Nations.GERMANY, self.territories.HOLLAND, self.territories.NORTH_SEA),
+            Support(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.HOLLAND, self.territories.NORTH_SEA),
+            Support(0, Nations.GERMANY, self.territories.SKAGERRAK, self.territories.HOLLAND, self.territories.NORTH_SEA),
+            Move(0, Nations.FRANCE, self.territories.NORTH_SEA, self.territories.HOLLAND),
+            Support(0, Nations.FRANCE, self.territories.BELGIUM, self.territories.NORTH_SEA, self.territories.HOLLAND),
+            Support(0, Nations.ENGLAND, self.territories.EDINBURGH, self.territories.NORWEGIAN_SEA, self.territories.NORTH_SEA),
+            Support(0, Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.NORWEGIAN_SEA, self.territories.NORTH_SEA),
+            Move(0, Nations.ENGLAND, self.territories.NORWEGIAN_SEA, self.territories.NORTH_SEA),
+            Support(0, Nations.ENGLAND, self.territories.LONDON, self.territories.NORWEGIAN_SEA, self.territories.NORTH_SEA),
+            Support(0, Nations.AUSTRIA, self.territories.KIEL, self.territories.RUHR, self.territories.HOLLAND),
+            Move(0, Nations.AUSTRIA, self.territories.RUHR, self.territories.HOLLAND),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -283,12 +283,12 @@ class TestHeadToHeadBattles(unittest.TestCase):
             Fleet(0, Nations.RUSSIA, self.territories.NORWAY),
         ]
         orders = [
-            Hold(Nations.ENGLAND, self.territories.NORTH_SEA),
-            Support(Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.NORWAY, self.territories.NORTH_SEA),
-            Support(Nations.GERMANY, self.territories.HOLLAND, self.territories.HELGOLAND_BIGHT, self.territories.NORTH_SEA),
-            Move(Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.NORTH_SEA),
-            Support(Nations.RUSSIA, self.territories.SKAGERRAK, self.territories.NORWAY, self.territories.NORTH_SEA),
-            Move(Nations.RUSSIA, self.territories.NORWAY, self.territories.NORTH_SEA),
+            Hold(0, Nations.ENGLAND, self.territories.NORTH_SEA),
+            Support(0, Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.NORWAY, self.territories.NORTH_SEA),
+            Support(0, Nations.GERMANY, self.territories.HOLLAND, self.territories.HELGOLAND_BIGHT, self.territories.NORTH_SEA),
+            Move(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.NORTH_SEA),
+            Support(0, Nations.RUSSIA, self.territories.SKAGERRAK, self.territories.NORWAY, self.territories.NORTH_SEA),
+            Move(0, Nations.RUSSIA, self.territories.NORWAY, self.territories.NORTH_SEA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -328,12 +328,12 @@ class TestHeadToHeadBattles(unittest.TestCase):
             Fleet(0, Nations.RUSSIA, self.territories.NORWAY),
         ]
         orders = [
-            Move(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.NORWAY),
-            Support(Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.NORWAY, self.territories.NORTH_SEA),
-            Support(Nations.GERMANY, self.territories.HOLLAND, self.territories.HELGOLAND_BIGHT, self.territories.NORTH_SEA),
-            Move(Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.NORTH_SEA),
-            Support(Nations.RUSSIA, self.territories.SKAGERRAK, self.territories.NORWAY, self.territories.NORTH_SEA),
-            Move(Nations.RUSSIA, self.territories.NORWAY, self.territories.NORTH_SEA),
+            Move(0, Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.NORWAY),
+            Support(0, Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.NORWAY, self.territories.NORTH_SEA),
+            Support(0, Nations.GERMANY, self.territories.HOLLAND, self.territories.HELGOLAND_BIGHT, self.territories.NORTH_SEA),
+            Move(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.NORTH_SEA),
+            Support(0, Nations.RUSSIA, self.territories.SKAGERRAK, self.territories.NORWAY, self.territories.NORTH_SEA),
+            Move(0, Nations.RUSSIA, self.territories.NORWAY, self.territories.NORTH_SEA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -373,12 +373,12 @@ class TestHeadToHeadBattles(unittest.TestCase):
             Fleet(0, Nations.RUSSIA, self.territories.NORWAY),
         ]
         orders = [
-            Move(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.NORWEGIAN_SEA),
-            Support(Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.NORWAY, self.territories.NORTH_SEA),
-            Support(Nations.GERMANY, self.territories.HOLLAND, self.territories.HELGOLAND_BIGHT, self.territories.NORTH_SEA),
-            Move(Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.NORTH_SEA),
-            Support(Nations.RUSSIA, self.territories.SKAGERRAK, self.territories.NORWAY, self.territories.NORTH_SEA),
-            Move(Nations.RUSSIA, self.territories.NORWAY, self.territories.NORTH_SEA),
+            Move(0, Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.NORWEGIAN_SEA),
+            Support(0, Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.NORWAY, self.territories.NORTH_SEA),
+            Support(0, Nations.GERMANY, self.territories.HOLLAND, self.territories.HELGOLAND_BIGHT, self.territories.NORTH_SEA),
+            Move(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.NORTH_SEA),
+            Support(0, Nations.RUSSIA, self.territories.SKAGERRAK, self.territories.NORWAY, self.territories.NORTH_SEA),
+            Move(0, Nations.RUSSIA, self.territories.NORWAY, self.territories.NORTH_SEA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -422,13 +422,13 @@ class TestHeadToHeadBattles(unittest.TestCase):
             Fleet(0, Nations.RUSSIA, self.territories.NORWAY),
         ]
         orders = [
-            Move(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.DENMARK),
-            Support(Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.NORWAY, self.territories.NORTH_SEA),
-            Support(Nations.GERMANY, self.territories.HOLLAND, self.territories.HELGOLAND_BIGHT, self.territories.NORTH_SEA),
-            Move(Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.NORTH_SEA),
-            Move(Nations.GERMANY, self.territories.DENMARK, self.territories.HELGOLAND_BIGHT),
-            Support(Nations.RUSSIA, self.territories.SKAGERRAK, self.territories.NORWAY, self.territories.NORTH_SEA),
-            Move(Nations.RUSSIA, self.territories.NORWAY, self.territories.NORTH_SEA),
+            Move(0, Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.DENMARK),
+            Support(0, Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.NORWAY, self.territories.NORTH_SEA),
+            Support(0, Nations.GERMANY, self.territories.HOLLAND, self.territories.HELGOLAND_BIGHT, self.territories.NORTH_SEA),
+            Move(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.NORTH_SEA),
+            Move(0, Nations.GERMANY, self.territories.DENMARK, self.territories.HELGOLAND_BIGHT),
+            Support(0, Nations.RUSSIA, self.territories.SKAGERRAK, self.territories.NORWAY, self.territories.NORTH_SEA),
+            Move(0, Nations.RUSSIA, self.territories.NORWAY, self.territories.NORTH_SEA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -476,13 +476,13 @@ class TestHeadToHeadBattles(unittest.TestCase):
             Fleet(0, Nations.ITALY, self.territories.WESTERN_MEDITERRANEAN),
         ]
         orders = [
-            Move(Nations.FRANCE, self.territories.SPAIN, self.territories.PORTUGAL, via_convoy=True),
-            Convoy(Nations.FRANCE, self.territories.MID_ATLANTIC, self.territories.SPAIN, self.territories.PORTUGAL),
-            Support(Nations.FRANCE, self.territories.GULF_OF_LYON, self.territories.SPAIN, self.territories.PORTUGAL),
-            Support(Nations.GERMANY, self.territories.MARSEILLES, self.territories.GASCONY, self.territories.SPAIN),
-            Move(Nations.GERMANY, self.territories.GASCONY, self.territories.SPAIN),
-            Move(Nations.ITALY, self.territories.PORTUGAL, self.territories.SPAIN, self.named_coasts.SPAIN_NC),
-            Support(Nations.ITALY, self.territories.WESTERN_MEDITERRANEAN, self.territories.PORTUGAL, self.territories.SPAIN),
+            Move(0, Nations.FRANCE, self.territories.SPAIN, self.territories.PORTUGAL, via_convoy=True),
+            Convoy(0, Nations.FRANCE, self.territories.MID_ATLANTIC, self.territories.SPAIN, self.territories.PORTUGAL),
+            Support(0, Nations.FRANCE, self.territories.GULF_OF_LYON, self.territories.SPAIN, self.territories.PORTUGAL),
+            Support(0, Nations.GERMANY, self.territories.MARSEILLES, self.territories.GASCONY, self.territories.SPAIN),
+            Move(0, Nations.GERMANY, self.territories.GASCONY, self.territories.SPAIN),
+            Move(0, Nations.ITALY, self.territories.PORTUGAL, self.territories.SPAIN, self.named_coasts.SPAIN_NC),
+            Support(0, Nations.ITALY, self.territories.WESTERN_MEDITERRANEAN, self.territories.PORTUGAL, self.territories.SPAIN),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -523,11 +523,11 @@ class TestHeadToHeadBattles(unittest.TestCase):
             Army(0, Nations.RUSSIA, self.territories.RUMANIA),
         ]
         orders = [
-            Move(Nations.AUSTRIA, self.territories.BUDAPEST, self.territories.RUMANIA),
-            Support(Nations.AUSTRIA, self.territories.SERBIA, self.territories.VIENNA, self.territories.BUDAPEST),
-            Move(Nations.ITALY, self.territories.VIENNA, self.territories.BUDAPEST),
-            Move(Nations.RUSSIA, self.territories.GALICIA, self.territories.BUDAPEST),
-            Support(Nations.RUSSIA, self.territories.RUMANIA, self.territories.GALICIA, self.territories.BUDAPEST),
+            Move(0, Nations.AUSTRIA, self.territories.BUDAPEST, self.territories.RUMANIA),
+            Support(0, Nations.AUSTRIA, self.territories.SERBIA, self.territories.VIENNA, self.territories.BUDAPEST),
+            Move(0, Nations.ITALY, self.territories.VIENNA, self.territories.BUDAPEST),
+            Move(0, Nations.RUSSIA, self.territories.GALICIA, self.territories.BUDAPEST),
+            Support(0, Nations.RUSSIA, self.territories.RUMANIA, self.territories.GALICIA, self.territories.BUDAPEST),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -572,13 +572,13 @@ class TestHeadToHeadBattles(unittest.TestCase):
             Fleet(0, Nations.RUSSIA, self.territories.NORWAY),
         ]
         orders = [
-            Support(Nations.ENGLAND, self.territories.EDINBURGH, self.territories.YORKSHIRE, self.territories.NORTH_SEA),
-            Move(Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.NORTH_SEA),
-            Move(Nations.FRANCE, self.territories.BELGIUM, self.territories.NORTH_SEA),
-            Support(Nations.FRANCE, self.territories.ENGLISH_CHANNEL, self.territories.BELGIUM, self.territories.NORTH_SEA),
-            Hold(Nations.GERMANY, self.territories.NORTH_SEA),
-            Move(Nations.RUSSIA, self.territories.NORWEGIAN_SEA, self.territories.NORTH_SEA),
-            Support(Nations.RUSSIA, self.territories.NORWAY, self.territories.NORWEGIAN_SEA, self.territories.NORTH_SEA),
+            Support(0, Nations.ENGLAND, self.territories.EDINBURGH, self.territories.YORKSHIRE, self.territories.NORTH_SEA),
+            Move(0, Nations.ENGLAND, self.territories.YORKSHIRE, self.territories.NORTH_SEA),
+            Move(0, Nations.FRANCE, self.territories.BELGIUM, self.territories.NORTH_SEA),
+            Support(0, Nations.FRANCE, self.territories.ENGLISH_CHANNEL, self.territories.BELGIUM, self.territories.NORTH_SEA),
+            Hold(0, Nations.GERMANY, self.territories.NORTH_SEA),
+            Move(0, Nations.RUSSIA, self.territories.NORWEGIAN_SEA, self.territories.NORTH_SEA),
+            Support(0, Nations.RUSSIA, self.territories.NORWAY, self.territories.NORWEGIAN_SEA, self.territories.NORTH_SEA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -612,8 +612,8 @@ class TestHeadToHeadBattles(unittest.TestCase):
             Fleet(0, Nations.RUSSIA, self.territories.EDINBURGH),
         ]
         orders = [
-            Move(Nations.ENGLAND, self.territories.LIVERPOOL, self.territories.EDINBURGH),
-            Move(Nations.RUSSIA, self.territories.EDINBURGH, self.territories.LIVERPOOL),
+            Move(0, Nations.ENGLAND, self.territories.LIVERPOOL, self.territories.EDINBURGH),
+            Move(0, Nations.RUSSIA, self.territories.EDINBURGH, self.territories.LIVERPOOL),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -669,16 +669,16 @@ class TestHeadToHeadBattles(unittest.TestCase):
             Army(0, Nations.RUSSIA, self.territories.PRUSSIA),
         ]
         orders = [
-            Support(Nations.ENGLAND, self.territories.HOLLAND, self.territories.RUHR, self.territories.KIEL),
-            Move(Nations.ENGLAND, self.territories.RUHR, self.territories.KIEL),
-            Move(Nations.FRANCE, self.territories.KIEL, self.territories.BERLIN),
-            Support(Nations.FRANCE, self.territories.MUNICH, self.territories.KIEL, self.territories.BERLIN),
-            Support(Nations.FRANCE, self.territories.SILESIA, self.territories.KIEL, self.territories.BERLIN),
-            Move(Nations.GERMANY, self.territories.BERLIN, self.territories.KIEL),
-            Support(Nations.GERMANY, self.territories.DENMARK, self.territories.BERLIN, self.territories.KIEL),
-            Support(Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.BERLIN, self.territories.KIEL),
-            Support(Nations.RUSSIA, self.territories.BALTIC_SEA, self.territories.PRUSSIA, self.territories.BERLIN),
-            Move(Nations.RUSSIA, self.territories.PRUSSIA, self.territories.BERLIN),
+            Support(0, Nations.ENGLAND, self.territories.HOLLAND, self.territories.RUHR, self.territories.KIEL),
+            Move(0, Nations.ENGLAND, self.territories.RUHR, self.territories.KIEL),
+            Move(0, Nations.FRANCE, self.territories.KIEL, self.territories.BERLIN),
+            Support(0, Nations.FRANCE, self.territories.MUNICH, self.territories.KIEL, self.territories.BERLIN),
+            Support(0, Nations.FRANCE, self.territories.SILESIA, self.territories.KIEL, self.territories.BERLIN),
+            Move(0, Nations.GERMANY, self.territories.BERLIN, self.territories.KIEL),
+            Support(0, Nations.GERMANY, self.territories.DENMARK, self.territories.BERLIN, self.territories.KIEL),
+            Support(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.BERLIN, self.territories.KIEL),
+            Support(0, Nations.RUSSIA, self.territories.BALTIC_SEA, self.territories.PRUSSIA, self.territories.BERLIN),
+            Move(0, Nations.RUSSIA, self.territories.PRUSSIA, self.territories.BERLIN),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()

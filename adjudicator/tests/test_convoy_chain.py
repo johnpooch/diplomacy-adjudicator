@@ -16,7 +16,7 @@ class TestConvoyChain(unittest.TestCase):
 
     def test_one_fleet_chain(self):
         orders = [
-            Convoy(Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.BREST, self.territories.LONDON),
+            Convoy(0, Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.BREST, self.territories.LONDON),
         ]
         source = self.territories.BREST
         target = self.territories.LONDON
@@ -25,8 +25,8 @@ class TestConvoyChain(unittest.TestCase):
 
     def test_two_fleet_chain(self):
         orders = [
-            Convoy(Nations.ENGLAND, self.territories.MID_ATLANTIC, self.territories.PORTUGAL, self.territories.LONDON),
-            Convoy(Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.PORTUGAL, self.territories.LONDON),
+            Convoy(0, Nations.ENGLAND, self.territories.MID_ATLANTIC, self.territories.PORTUGAL, self.territories.LONDON),
+            Convoy(0, Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.PORTUGAL, self.territories.LONDON),
         ]
         source = self.territories.PORTUGAL
         target = self.territories.LONDON
@@ -38,9 +38,9 @@ class TestConvoyChain(unittest.TestCase):
 
     def test_three_fleet_chain(self):
         orders = [
-            Convoy(Nations.ENGLAND, self.territories.MID_ATLANTIC, self.territories.PORTUGAL, self.territories.NORWAY),
-            Convoy(Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.PORTUGAL, self.territories.NORWAY),
-            Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.PORTUGAL, self.territories.NORWAY),
+            Convoy(0, Nations.ENGLAND, self.territories.MID_ATLANTIC, self.territories.PORTUGAL, self.territories.NORWAY),
+            Convoy(0, Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.PORTUGAL, self.territories.NORWAY),
+            Convoy(0, Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.PORTUGAL, self.territories.NORWAY),
         ]
         source = self.territories.PORTUGAL
         target = self.territories.NORWAY
@@ -51,8 +51,8 @@ class TestConvoyChain(unittest.TestCase):
 
     def test_two_one_fleet_chains(self):
         orders = [
-            Convoy(Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.BELGIUM, self.territories.LONDON),
-            Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.BELGIUM, self.territories.LONDON),
+            Convoy(0, Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.BELGIUM, self.territories.LONDON),
+            Convoy(0, Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.BELGIUM, self.territories.LONDON),
         ]
         source = self.territories.BELGIUM
         target = self.territories.LONDON
@@ -63,9 +63,9 @@ class TestConvoyChain(unittest.TestCase):
 
     def test_two_two_fleet_chains(self):
         orders = [
-            Convoy(Nations.ENGLAND, self.territories.MID_ATLANTIC, self.territories.PORTUGAL, self.territories.WALES),
-            Convoy(Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.PORTUGAL, self.territories.WALES),
-            Convoy(Nations.ENGLAND, self.territories.IRISH_SEA, self.territories.PORTUGAL, self.territories.WALES),
+            Convoy(0, Nations.ENGLAND, self.territories.MID_ATLANTIC, self.territories.PORTUGAL, self.territories.WALES),
+            Convoy(0, Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.PORTUGAL, self.territories.WALES),
+            Convoy(0, Nations.ENGLAND, self.territories.IRISH_SEA, self.territories.PORTUGAL, self.territories.WALES),
         ]
         source = self.territories.PORTUGAL
         target = self.territories.WALES

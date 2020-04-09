@@ -36,10 +36,10 @@ class TestConvoys(unittest.TestCase):
             Fleet(0, Nations.TURKEY, self.territories.BLACK_SEA),
         ]
         orders = [
-            Move(Nations.TURKEY, self.territories.GREECE, self.territories.SEVASTAPOL, via_convoy=True),
-            Convoy(Nations.TURKEY, self.territories.AEGEAN_SEA, self.territories.GREECE, self.territories.SEVASTAPOL),
-            Convoy(Nations.TURKEY, self.territories.CONSTANTINOPLE, self.territories.GREECE, self.territories.SEVASTAPOL),
-            Convoy(Nations.TURKEY, self.territories.BLACK_SEA, self.territories.GREECE, self.territories.SEVASTAPOL),
+            Move(0, Nations.TURKEY, self.territories.GREECE, self.territories.SEVASTAPOL, via_convoy=True),
+            Convoy(0, Nations.TURKEY, self.territories.AEGEAN_SEA, self.territories.GREECE, self.territories.SEVASTAPOL),
+            Convoy(0, Nations.TURKEY, self.territories.CONSTANTINOPLE, self.territories.GREECE, self.territories.SEVASTAPOL),
+            Convoy(0, Nations.TURKEY, self.territories.BLACK_SEA, self.territories.GREECE, self.territories.SEVASTAPOL),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -71,9 +71,9 @@ class TestConvoys(unittest.TestCase):
             Army(0, Nations.FRANCE, self.territories.PARIS),
         ]
         orders = [
-            Convoy(Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.LONDON, self.territories.BREST),
-            Move(Nations.ENGLAND, self.territories.LONDON, self.territories.BREST, via_convoy=True),
-            Move(Nations.FRANCE, self.territories.PARIS, self.territories.BREST),
+            Convoy(0, Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.LONDON, self.territories.BREST),
+            Move(0, Nations.ENGLAND, self.territories.LONDON, self.territories.BREST, via_convoy=True),
+            Move(0, Nations.FRANCE, self.territories.PARIS, self.territories.BREST),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -106,10 +106,10 @@ class TestConvoys(unittest.TestCase):
             Army(0, Nations.FRANCE, self.territories.PARIS),
         ]
         orders = [
-            Convoy(Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.LONDON, self.territories.BREST),
-            Move(Nations.ENGLAND, self.territories.LONDON, self.territories.BREST, via_convoy=True),
-            Support(Nations.ENGLAND, self.territories.MID_ATLANTIC, self.territories.LONDON, self.territories.BREST),
-            Move(Nations.FRANCE, self.territories.PARIS, self.territories.BREST),
+            Convoy(0, Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.LONDON, self.territories.BREST),
+            Move(0, Nations.ENGLAND, self.territories.LONDON, self.territories.BREST, via_convoy=True),
+            Support(0, Nations.ENGLAND, self.territories.MID_ATLANTIC, self.territories.LONDON, self.territories.BREST),
+            Move(0, Nations.FRANCE, self.territories.PARIS, self.territories.BREST),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -140,9 +140,9 @@ class TestConvoys(unittest.TestCase):
             Fleet(0, Nations.GERMANY, self.territories.SKAGERRAK)
         ]
         orders = [
-            Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.HOLLAND),
-            Move(Nations.ENGLAND, self.territories.LONDON, self.territories.HOLLAND, via_convoy=True),
-            Move(Nations.GERMANY, self.territories.SKAGERRAK, self.territories.NORTH_SEA),
+            Convoy(0, Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.HOLLAND),
+            Move(0, Nations.ENGLAND, self.territories.LONDON, self.territories.HOLLAND, via_convoy=True),
+            Move(0, Nations.GERMANY, self.territories.SKAGERRAK, self.territories.NORTH_SEA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -179,12 +179,12 @@ class TestConvoys(unittest.TestCase):
             Fleet(0, Nations.GERMANY, self.territories.DENMARK)
         ]
         orders = [
-            Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.HOLLAND),
-            Move(Nations.ENGLAND, self.territories.LONDON, self.territories.HOLLAND, via_convoy=True),
-            Move(Nations.FRANCE, self.territories.ENGLISH_CHANNEL, self.territories.NORTH_SEA),
-            Support(Nations.FRANCE, self.territories.BELGIUM, self.territories.ENGLISH_CHANNEL, self.territories.NORTH_SEA),
-            Move(Nations.GERMANY, self.territories.SKAGERRAK, self.territories.NORTH_SEA),
-            Support(Nations.GERMANY, self.territories.DENMARK, self.territories.SKAGERRAK, self.territories.NORTH_SEA),
+            Convoy(0, Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.HOLLAND),
+            Move(0, Nations.ENGLAND, self.territories.LONDON, self.territories.HOLLAND, via_convoy=True),
+            Move(0, Nations.FRANCE, self.territories.ENGLISH_CHANNEL, self.territories.NORTH_SEA),
+            Support(0, Nations.FRANCE, self.territories.BELGIUM, self.territories.ENGLISH_CHANNEL, self.territories.NORTH_SEA),
+            Move(0, Nations.GERMANY, self.territories.SKAGERRAK, self.territories.NORTH_SEA),
+            Support(0, Nations.GERMANY, self.territories.DENMARK, self.territories.SKAGERRAK, self.territories.NORTH_SEA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -230,14 +230,14 @@ class TestConvoys(unittest.TestCase):
             Army(0, Nations.FRANCE, self.territories.BURGUNDY),
         ]
         orders = [
-            Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.HOLLAND),
-            Move(Nations.ENGLAND, self.territories.LONDON, self.territories.HOLLAND, via_convoy=True),
-            Support(Nations.GERMANY, self.territories.HOLLAND, self.territories.BELGIUM, self.territories.BELGIUM),
-            Support(Nations.GERMANY, self.territories.BELGIUM, self.territories.HOLLAND, self.territories.HOLLAND),
-            Support(Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.SKAGERRAK, self.territories.NORTH_SEA),
-            Move(Nations.GERMANY, self.territories.SKAGERRAK, self.territories.NORTH_SEA),
-            Move(Nations.FRANCE, self.territories.PICARDY, self.territories.BELGIUM),
-            Support(Nations.FRANCE, self.territories.BURGUNDY, self.territories.PICARDY, self.territories.BELGIUM),
+            Convoy(0, Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.HOLLAND),
+            Move(0, Nations.ENGLAND, self.territories.LONDON, self.territories.HOLLAND, via_convoy=True),
+            Support(0, Nations.GERMANY, self.territories.HOLLAND, self.territories.BELGIUM, self.territories.BELGIUM),
+            Support(0, Nations.GERMANY, self.territories.BELGIUM, self.territories.HOLLAND, self.territories.HOLLAND),
+            Support(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.SKAGERRAK, self.territories.NORTH_SEA),
+            Move(0, Nations.GERMANY, self.territories.SKAGERRAK, self.territories.NORTH_SEA),
+            Move(0, Nations.FRANCE, self.territories.PICARDY, self.territories.BELGIUM),
+            Support(0, Nations.FRANCE, self.territories.BURGUNDY, self.territories.PICARDY, self.territories.BELGIUM),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -277,10 +277,10 @@ class TestConvoys(unittest.TestCase):
             Fleet(0, Nations.GERMANY, self.territories.SKAGERRAK),
         ]
         orders = [
-            Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.HOLLAND),
-            Move(Nations.ENGLAND, self.territories.LONDON, self.territories.HOLLAND, via_convoy=True),
-            Support(Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.SKAGERRAK, self.territories.NORTH_SEA),
-            Move(Nations.GERMANY, self.territories.SKAGERRAK, self.territories.NORTH_SEA),
+            Convoy(0, Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.HOLLAND),
+            Move(0, Nations.ENGLAND, self.territories.LONDON, self.territories.HOLLAND, via_convoy=True),
+            Support(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.SKAGERRAK, self.territories.NORTH_SEA),
+            Move(0, Nations.GERMANY, self.territories.SKAGERRAK, self.territories.NORTH_SEA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -316,11 +316,11 @@ class TestConvoys(unittest.TestCase):
             Army(0, Nations.GERMANY, self.territories.BELGIUM),
         ]
         orders = [
-            Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.HOLLAND),
-            Move(Nations.ENGLAND, self.territories.LONDON, self.territories.HOLLAND, via_convoy=True),
-            Support(Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.SKAGERRAK, self.territories.NORTH_SEA),
-            Move(Nations.GERMANY, self.territories.SKAGERRAK, self.territories.NORTH_SEA),
-            Move(Nations.GERMANY, self.territories.BELGIUM, self.territories.HOLLAND),
+            Convoy(0, Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.HOLLAND),
+            Move(0, Nations.ENGLAND, self.territories.LONDON, self.territories.HOLLAND, via_convoy=True),
+            Support(0, Nations.GERMANY, self.territories.HELGOLAND_BIGHT, self.territories.SKAGERRAK, self.territories.NORTH_SEA),
+            Move(0, Nations.GERMANY, self.territories.SKAGERRAK, self.territories.NORTH_SEA),
+            Move(0, Nations.GERMANY, self.territories.BELGIUM, self.territories.HOLLAND),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -362,11 +362,11 @@ class TestConvoys(unittest.TestCase):
             Fleet(0, Nations.FRANCE, self.territories.MID_ATLANTIC),
         ]
         orders = [
-            Convoy(Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.LONDON, self.territories.BELGIUM),
-            Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.BELGIUM),
-            Move(Nations.ENGLAND, self.territories.LONDON, self.territories.BELGIUM, via_convoy=True),
-            Support(Nations.FRANCE, self.territories.BREST, self.territories.MID_ATLANTIC, self.territories.ENGLISH_CHANNEL),
-            Move(Nations.FRANCE, self.territories.MID_ATLANTIC, self.territories.ENGLISH_CHANNEL),
+            Convoy(0, Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.LONDON, self.territories.BELGIUM),
+            Convoy(0, Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.BELGIUM),
+            Move(0, Nations.ENGLAND, self.territories.LONDON, self.territories.BELGIUM, via_convoy=True),
+            Support(0, Nations.FRANCE, self.territories.BREST, self.territories.MID_ATLANTIC, self.territories.ENGLISH_CHANNEL),
+            Move(0, Nations.FRANCE, self.territories.MID_ATLANTIC, self.territories.ENGLISH_CHANNEL),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -412,11 +412,11 @@ class TestConvoys(unittest.TestCase):
             Fleet(0, Nations.FRANCE, self.territories.MID_ATLANTIC),
         ]
         orders = [
-            Convoy(Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.BELGIUM),
-            Move(Nations.ENGLAND, self.territories.LONDON, self.territories.BELGIUM, via_convoy=True),
-            Convoy(Nations.GERMANY, self.territories.ENGLISH_CHANNEL, self.territories.LONDON, self.territories.BELGIUM),
-            Support(Nations.FRANCE, self.territories.BREST, self.territories.MID_ATLANTIC, self.territories.ENGLISH_CHANNEL),
-            Move(Nations.FRANCE, self.territories.MID_ATLANTIC, self.territories.ENGLISH_CHANNEL),
+            Convoy(0, Nations.ENGLAND, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.BELGIUM),
+            Move(0, Nations.ENGLAND, self.territories.LONDON, self.territories.BELGIUM, via_convoy=True),
+            Convoy(0, Nations.GERMANY, self.territories.ENGLISH_CHANNEL, self.territories.LONDON, self.territories.BELGIUM),
+            Support(0, Nations.FRANCE, self.territories.BREST, self.territories.MID_ATLANTIC, self.territories.ENGLISH_CHANNEL),
+            Move(0, Nations.FRANCE, self.territories.MID_ATLANTIC, self.territories.ENGLISH_CHANNEL),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -466,11 +466,11 @@ class TestConvoys(unittest.TestCase):
             Fleet(0, Nations.FRANCE, self.territories.MID_ATLANTIC),
         ]
         orders = [
-            Move(Nations.ENGLAND, self.territories.LONDON, self.territories.BELGIUM, via_convoy=True),
-            Convoy(Nations.GERMANY, self.territories.ENGLISH_CHANNEL, self.territories.LONDON, self.territories.BELGIUM),
-            Convoy(Nations.RUSSIA, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.BELGIUM),
-            Support(Nations.FRANCE, self.territories.BREST, self.territories.MID_ATLANTIC, self.territories.ENGLISH_CHANNEL),
-            Move(Nations.FRANCE, self.territories.MID_ATLANTIC, self.territories.ENGLISH_CHANNEL),
+            Move(0, Nations.ENGLAND, self.territories.LONDON, self.territories.BELGIUM, via_convoy=True),
+            Convoy(0, Nations.GERMANY, self.territories.ENGLISH_CHANNEL, self.territories.LONDON, self.territories.BELGIUM),
+            Convoy(0, Nations.RUSSIA, self.territories.NORTH_SEA, self.territories.LONDON, self.territories.BELGIUM),
+            Support(0, Nations.FRANCE, self.territories.BREST, self.territories.MID_ATLANTIC, self.territories.ENGLISH_CHANNEL),
+            Move(0, Nations.FRANCE, self.territories.MID_ATLANTIC, self.territories.ENGLISH_CHANNEL),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -511,11 +511,11 @@ class TestConvoys(unittest.TestCase):
             Fleet(0, Nations.FRANCE, self.territories.MID_ATLANTIC),
         ]
         orders = [
-            Convoy(Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.LONDON, self.territories.BELGIUM),
-            Move(Nations.ENGLAND, self.territories.LONDON, self.territories.BELGIUM, via_convoy=True),
-            Convoy(Nations.ENGLAND, self.territories.IRISH_SEA, self.territories.LONDON, self.territories.BELGIUM),
-            Support(Nations.FRANCE, self.territories.NORTH_ATLANTIC, self.territories.MID_ATLANTIC, self.territories.IRISH_SEA),
-            Move(Nations.FRANCE, self.territories.MID_ATLANTIC, self.territories.IRISH_SEA),
+            Convoy(0, Nations.ENGLAND, self.territories.ENGLISH_CHANNEL, self.territories.LONDON, self.territories.BELGIUM),
+            Move(0, Nations.ENGLAND, self.territories.LONDON, self.territories.BELGIUM, via_convoy=True),
+            Convoy(0, Nations.ENGLAND, self.territories.IRISH_SEA, self.territories.LONDON, self.territories.BELGIUM),
+            Support(0, Nations.FRANCE, self.territories.NORTH_ATLANTIC, self.territories.MID_ATLANTIC, self.territories.IRISH_SEA),
+            Move(0, Nations.FRANCE, self.territories.MID_ATLANTIC, self.territories.IRISH_SEA),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()
@@ -557,10 +557,10 @@ class TestConvoys(unittest.TestCase):
             Fleet(0, Nations.FRANCE, self.territories.ENGLISH_CHANNEL),
         ]
         orders = [
-            Support(Nations.ENGLAND, self.territories.LONDON, self.territories.WALES, self.territories.ENGLISH_CHANNEL),
-            Move(Nations.ENGLAND, self.territories.WALES, self.territories.ENGLISH_CHANNEL),
-            Move(Nations.FRANCE, self.territories.BREST, self.territories.LONDON),
-            Convoy(Nations.FRANCE, self.territories.ENGLISH_CHANNEL, self.territories.BREST, self.territories.LONDON),
+            Support(0, Nations.ENGLAND, self.territories.LONDON, self.territories.WALES, self.territories.ENGLISH_CHANNEL),
+            Move(0, Nations.ENGLAND, self.territories.WALES, self.territories.ENGLISH_CHANNEL),
+            Move(0, Nations.FRANCE, self.territories.BREST, self.territories.LONDON),
+            Convoy(0, Nations.FRANCE, self.territories.ENGLISH_CHANNEL, self.territories.BREST, self.territories.LONDON),
         ]
         self.state.register(*pieces, *orders)
         self.state.post_register_updates()

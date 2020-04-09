@@ -15,7 +15,7 @@ class TestOrder(unittest.TestCase):
         london = CoastalTerritory(1, 'London', 'England', [], [])
         wales = CoastalTerritory(2, 'Wales', 'England', [], [])
         army = Army(0, 'England', london)
-        london_move = Move('England', london, wales)
+        london_move = Move(0, 'England', london, wales)
 
         to_register = [london, wales, army, london_move]
         [state.register(o) for o in to_register]
