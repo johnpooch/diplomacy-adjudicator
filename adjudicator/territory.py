@@ -7,8 +7,8 @@ class Territory:
     is_inland = False
     is_sea = False
 
-    def __init__(self, id, name, neighbour_ids, contested=False):
-        self.id = id
+    def __init__(self, _id, name, neighbour_ids, contested=False):
+        self.id = _id
         self.name = name
         self.neighbour_ids = neighbour_ids
 

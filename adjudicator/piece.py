@@ -15,10 +15,10 @@ class Piece:
         self.id = _id
         self.nation = nation
         self.territory = territory
-        self.attacker_territory = attacker_territory
         self.order = None
         self.dislodged_decision = Outcomes.UNRESOLVED
         self.dislodged_by = None
+        self.attacker_territory = attacker_territory
 
     # TODO test
     def __str__(self):
@@ -43,6 +43,9 @@ class Piece:
     def set_dislodged_decision(self, outcome, dislodged_by=None):
         self.dislodged_decision = outcome
         self.dislodged_by = dislodged_by
+        if dislodged_by:
+            if not dislodged_by.order.via_convoy:
+                self.attacker_territory = dislodged_by.territory
         return self.dislodged_decision
 
     def update_dislodged_decision(self):
@@ -73,11 +76,17 @@ class Piece:
                 return self.set_dislodged_decision(Outcomes.DISLODGED, piece)
 
     def to_dict(self):
-        return {
+        data = {
             'id': self.id,
             'dislodged_decision': self.dislodged_decision,
-            'dislodged_by': self.dislodged_by.id,
+            'dislodged_by': None,
+            'attacker_territory': None,
         }
+        if self.dislodged_by:
+            data['dislodged_by'] = self.dislodged_by.id
+        if self.attacker_territory:
+            data['attacker_territory'] = self.attacker_territory.id
+        return data
 
 
 class Army(Piece):

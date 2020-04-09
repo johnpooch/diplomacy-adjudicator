@@ -1,6 +1,7 @@
 import unittest
 
 from adjudicator.named_coast import NamedCoast
+from adjudicator.decisions import Outcomes
 from adjudicator.order import Move
 from adjudicator.piece import Army, Fleet
 from adjudicator.state import State
@@ -182,3 +183,46 @@ class TestCanReachFleet(unittest.TestCase):
         self.state.register(fleet)
         with self.assertRaises(ValueError):
             fleet.can_reach(self.spain)
+
+
+class TestToDict(unittest.TestCase):
+
+    def setUp(self):
+        self.state = State()
+        self.portugal = CoastalTerritory(11, 'Portugal', None, [], [])
+        self.spain = CoastalTerritory(10, 'Spain', None, [], [])
+        self.spain_south_coast = NamedCoast(2, 'South Coast', self.spain, [])
+
+        to_register = [self.spain, self.spain_south_coast]
+        [self.state.register(o) for o in to_register]
+
+    def test_to_dict_dislodged(self):
+        fleet = Fleet(1, 'England', self.spain, self.spain_south_coast)
+        attacking_fleet = Fleet(2, 'France', self.portugal)
+        fleet.dislodged_decision = Outcomes.DISLODGED
+        fleet.dislodged_by = attacking_fleet
+        fleet.attacker_territory = self.portugal
+
+        self.assertEqual(
+            fleet.to_dict(),
+            {
+                'id': 1,
+                'dislodged_decision': 'dislodged',
+                'dislodged_by': 2,
+                'attacker_territory': 11,
+            }
+        )
+
+    def test_to_dict_not_dislodged(self):
+        fleet = Fleet(1, 'England', self.spain, self.spain_south_coast)
+        fleet.dislodged_decision = Outcomes.SUSTAINS
+
+        self.assertEqual(
+            fleet.to_dict(),
+            {
+                'id': 1,
+                'dislodged_decision': 'sustains',
+                'dislodged_by': None,
+                'attacker_territory': None,
+            }
+        )
