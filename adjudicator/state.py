@@ -208,7 +208,10 @@ def data_to_state(data):
     for territory_data in data['territories']:
         type = territory_data.pop('type')
         territory_class = terrtitory_type_dict[type]
+        if not type == 'coastal':
+            territory_data.pop('shared_coast_ids')
         territory = territory_class(**territory_data)
+
         state.register(territory)
     # instantiate and register named coasts
     for named_coast_data in data['named_coasts']:
@@ -237,6 +240,8 @@ def data_to_state(data):
         if order_data.get('aux_id'):
             aux_id = order_data.pop('aux_id')
             order_data['aux'] = [t for t in state.territories if t.id == aux_id][0]
+        if not type == 'build':
+            order_data.pop('piece_type')
         order_class = order_type_dict[type]
         order = order_class(**order_data)
         state.register(order)

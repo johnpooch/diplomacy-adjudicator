@@ -46,7 +46,7 @@ class Order:
 
     def to_dict(self):
         return {
-            'id': self._id,
+            'id': self.id,
             'legal_decision': self.legal_decision,
             'illegal_message': self.illegal_message,
         }
@@ -231,7 +231,7 @@ class Move(Order):
 
     def to_dict(self):
         data = super().to_dict()
-        data.update({'move_decision': self.move_decision})
+        data.update({'outcome': self.move_decision})
         return data
 
 
@@ -332,7 +332,7 @@ class Support(Order):
 
     def to_dict(self):
         data = super().to_dict()
-        data.update({'support_decision': self.support_decision})
+        data.update({'outcome': self.support_decision})
         return data
 
 
@@ -403,7 +403,7 @@ class Retreat(Order):
 
     def to_dict(self):
         data = super().to_dict()
-        data.update({'move_decision': self.move_decision})
+        data.update({'outcome': self.move_decision})
         return data
 
 
