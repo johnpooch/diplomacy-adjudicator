@@ -18,7 +18,8 @@ class TestDataToState(unittest.TestCase):
                     '_id': 1,
                     'type': 'sea',
                     'name': 'Adriatic Sea',
-                    'neighbour_ids': [2, 3, 4, 5]
+                    'neighbour_ids': [2, 3, 4, 5],
+                    'shared_coast_ids': None,
                 }
             ]
         }
@@ -67,6 +68,7 @@ class TestDataToState(unittest.TestCase):
                     'controlled_by': 1,
                     'supply_center': True,
                     'neighbour_ids': [2, 3, 4, 5],
+                    'shared_coast_ids': None,
                 }
             ]
         }
@@ -146,6 +148,7 @@ class TestDataToState(unittest.TestCase):
                     'type': 'hold',
                     'nation': 1,
                     'source_id': 1,
+                    'piece_type': None,
                 }
             ],
             'pieces': [],
@@ -177,6 +180,7 @@ class TestDataToState(unittest.TestCase):
                     'nation': 1,
                     'source_id': 1,
                     'target_id': 2,
+                    'piece_type': None,
                 }
             ],
             'pieces': [],
@@ -220,6 +224,7 @@ class TestDataToState(unittest.TestCase):
                     'source_id': 1,
                     'target_id': 2,
                     'aux_id': 2,
+                    'piece_type': None,
                 }
             ],
             'pieces': [],
@@ -264,6 +269,7 @@ class TestDataToState(unittest.TestCase):
                     'source_id': 1,
                     'target_id': 2,
                     'aux_id': 2,
+                    'piece_type': None,
                 }
             ],
             'pieces': [],
